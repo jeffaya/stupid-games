@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://flush.seignemorte.com/sitemap.xml
