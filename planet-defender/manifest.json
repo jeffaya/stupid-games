@@ -1,0 +1,19 @@
+{
+  "name": "Planet Defender",
+  "short_name": "Planet Defender",
+  "description": "Slice asteroids, protect Earth and survive.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#020611",
+  "theme_color": "#020611",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

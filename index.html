@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+  <title>Stupid Games — Free Retro Browser Games | Play Planet Defender</title>
+  <meta name="description" content="Play Stupid Games: free browser games with big pixels, arcade vibes and zero nonsense. Play Planet Defender, ÇaMatch and Guitare Hero Penta instantly online.">
+  <meta name="keywords" content="free browser games, retro browser games, arcade games online, free online games, indie browser games, HTML5 games, web games, retro arcade games, pixel games, casual games, space arcade game, asteroid game, guitar game, pentatonic game, music game, Planet Defender, ÇaMatch, Guitare Hero Penta, Stupid Games">
+  <meta name="author" content="Jean-François Seignemorte">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="googlebot" content="index,follow">
+
+  <link rel="canonical" href="https://stupid-games.seignemorte.com/">
+<meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stupid Games">
+  <meta property="og:title" content="Stupid Games — Free Retro Browser Games">
+  <meta property="og:description" content="Tiny games. Big pixels. Play Planet Defender, ÇaMatch, Guitare Hero Penta and more free browser games.">
+  <meta property="og:url" content="https://stupid-games.seignemorte.com/">
+  <meta property="og:image" content="https://stupid-games.seignemorte.com/og-stupid-games.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Stupid Games browser game collection featuring Planet Defender, ÇaMatch and Guitare Hero Penta">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stupid Games — Free Retro Browser Games">
+  <meta name="twitter:description" content="Tiny games. Big pixels. Play Planet Defender, ÇaMatch and Guitare Hero Penta online for free.">
+  <meta name="twitter:image" content="https://stupid-games.seignemorte.com/og-stupid-games.jpg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{fontFamily:{pixel:['"Press Start 2P"','monospace'],mono:['"Space Mono"','monospace']},colors:{arcade:{yellow:'#FFE600',pink:'#FF3CAC',cyan:'#29F2FF',red:'#FF4D4D'}},boxShadow:{pink:'0 0 20px rgba(255,60,172,.55),0 0 55px rgba(255,60,172,.22)',cyan:'0 0 20px rgba(41,242,255,.55),0 0 55px rgba(41,242,255,.18)'},animation:{blink:'blink 1s steps(2,end) infinite',floaty:'floaty 3s ease-in-out infinite',chompTop:'chompTop .30s ease-in-out infinite alternate',chompBottom:'chompBottom .30s ease-in-out infinite alternate'},keyframes:{blink:{'0%,49%':{opacity:'1'},'50%,100%':{opacity:'.25'}},floaty:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}},chompTop:{'0%':{transform:'rotate(0deg)'},'100%':{transform:'rotate(-34deg)'}},chompBottom:{'0%':{transform:'rotate(0deg)'},'100%':{transform:'rotate(34deg)'}}}}}}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{background:radial-gradient(circle at 18% 8%,rgba(255,60,172,.11),transparent 25%),radial-gradient(circle at 84% 18%,rgba(41,242,255,.10),transparent 30%),#050505}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.22;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 1px,transparent 4px);mix-blend-mode:screen}.noise{background-image:radial-gradient(rgba(255,255,255,.18) .7px,transparent .7px);background-size:7px 7px;opacity:.06}.arcade-grid{background-image:linear-gradient(rgba(41,242,255,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(41,242,255,.11) 1px,transparent 1px);background-size:44px 44px;transform:perspective(420px) rotateX(60deg);transform-origin:center top;mask-image:linear-gradient(to bottom,#000 20%,transparent 86%)}.pixel-shadow{text-shadow:4px 4px 0 #ff3cac,8px 8px 0 rgba(41,242,255,.35)}.pixel-card{box-shadow:8px 8px 0 #161616,12px 12px 0 rgba(255,60,172,.30)}.pacman-body{clip-path:polygon(0 0,100% 0,100% 32%,55% 50%,100% 68%,100% 100%,0 100%);animation:pacChomp .32s ease-in-out infinite alternate}@keyframes pacChomp{from{clip-path:polygon(0 0,100% 0,100% 44%,55% 50%,100% 56%,100% 100%,0 100%)}to{clip-path:polygon(0 0,100% 0,100% 25%,55% 50%,100% 75%,100% 100%,0 100%)}}.ticker-track{display:flex;width:max-content;animation:ticker 24s linear infinite;will-change:transform}.ticker-group{display:flex;align-items:center;justify-content:center;flex-shrink:0}.ticker-group span{display:inline-flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:0 3rem;white-space:nowrap}.ticker-group span::before{content:"★";position:absolute;left:0;transform:translateX(-50%)}@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media (prefers-reduced-motion:reduce){.ticker-track{animation-duration:60s}}
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"WebSite",
+        "@id":"https://stupid-games.seignemorte.com/#website",
+        "url":"https://stupid-games.seignemorte.com/",
+        "name":"Stupid Games",
+        "description":"Free retro browser games with arcade vibes, pixel art and instant play.",
+        "inLanguage":"en",
+        "creator":{"@id":"https://stupid-games.seignemorte.com/#creator"}
+      },
+      {
+        "@type":"Person",
+        "@id":"https://stupid-games.seignemorte.com/#creator",
+        "name":"Jean-François Seignemorte",
+        "url":"https://seignemorte.com/"
+      },
+      {
+        "@type":"ItemList",
+        "name":"Stupid Games",
+        "itemListElement":[
+          {
+            "@type":"ListItem",
+            "position":1,
+            "item":{
+              "@type":"VideoGame",
+              "name":"Planet Defender",
+              "url":"https://planet-defender.seignemorte.com/",
+              "description":"A fast free browser arcade game where you slice incoming asteroids and protect Earth.",
+              "gamePlatform":"Web browser",
+              "applicationCategory":"Game",
+              "operatingSystem":"Any",
+              "isAccessibleForFree":true,
+              "genre":["Arcade","Space","Casual","Retro"]
+            }
+          },
+          {
+            "@type":"ListItem",
+            "position":2,
+            "item":{
+              "@type":"VideoGame",
+              "name":"ÇaMatch",
+              "url":"https://camatch.seignemorte.com/",
+              "description":"A daily social guessing game where you answer a prompt and try to match the internet's most common response.",
+              "gamePlatform":"Web browser",
+              "applicationCategory":"Game",
+              "operatingSystem":"Any",
+              "isAccessibleForFree":true,
+              "genre":["Daily","Social","Guessing","Casual"]
+            }
+          },
+          {
+            "@type":"ListItem",
+            "position":3,
+            "item":{
+              "@type":"VideoGame",
+              "name":"Guitare Hero Penta",
+              "url":"https://guitare-hero-penta.seignemorte.com/",
+              "description":"A browser guitar game for practicing pentatonic notes with a fast, game-like rhythm challenge.",
+              "image":"https://guitare-hero-penta.seignemorte.com/og.jpg",
+              "gamePlatform":"Web browser",
+              "applicationCategory":"Game",
+              "operatingSystem":"Any",
+              "isAccessibleForFree":true,
+              "genre":["Music","Guitar","Educational","Casual"]
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+
+
+  <meta name="theme-color" content="#050505">
+  <meta name="application-name" content="Stupid Games">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Stupid Games">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+</head>
+
+<body class="min-h-screen overflow-x-hidden text-white font-mono selection:bg-arcade-pink selection:text-white">
+  <div class="fixed inset-0 noise pointer-events-none z-0" aria-hidden="true"></div>
+
+  <header class="relative z-20 max-w-7xl mx-auto px-5 md:px-8 py-6 flex items-center justify-between">
+    <a href="/" aria-label="Stupid Games home" class="font-pixel text-[10px] md:text-xs tracking-widest text-arcade-yellow">STUPID GAMES™</a>
+    <div class="hidden md:flex items-center gap-2 font-pixel text-[9px] text-zinc-500" aria-hidden="true">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-blink"></span>
+      SYSTEM ONLINE / PROBABLY
+    </div>
+  </header>
+
+  <main class="relative z-10">
+    <section class="relative min-h-[78vh] flex items-center justify-center px-5 overflow-hidden">
+      <div class="absolute inset-x-[-20%] bottom-[-55%] h-[75%] arcade-grid" aria-hidden="true"></div>
+
+      <div class="max-w-5xl mx-auto text-center relative">
+        <div class="inline-flex items-center gap-3 mb-7 px-4 py-3 border border-zinc-800 bg-black/50">
+          <span class="font-pixel text-[9px] md:text-[10px] text-arcade-cyan">WELCOME, HUMAN</span>
+          <span class="text-arcade-pink">★</span>
+          <span class="font-pixel text-[9px] md:text-[10px] text-zinc-500">INSERT ZERO COINS</span>
+        </div>
+
+        <div class="relative inline-block">
+          <h1 class="font-pixel text-[clamp(3rem,10vw,8rem)] leading-[.92] tracking-[-.08em] text-arcade-yellow pixel-shadow">
+            STUPID<br><span class="text-white">GAMES</span>
+          </h1>
+          <div class="absolute -right-7 md:-right-20 top-2 md:top-6 w-14 h-14 md:w-20 md:h-20 animate-floaty" aria-hidden="true">
+            <div class="pacman-body absolute inset-0 bg-arcade-yellow rounded-full"></div>
+            <span class="absolute w-2 h-2 md:w-3 md:h-3 rounded-full bg-black top-[18%] left-[52%]"></span>
+          </div>
+        </div>
+
+        <p class="mt-8 md:mt-10 text-sm md:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+          Free retro browser games. Big pixels. Arcade vibes. Questionable life choices.<br class="hidden md:block">
+          Instant web games made for fun — no install, no account, no nonsense.
+        </p>
+
+        <a href="#games" class="mt-9 inline-flex items-center justify-center gap-4 text-center bg-arcade-pink hover:bg-arcade-yellow hover:text-black transition-colors px-7 py-5 font-pixel text-[10px] md:text-xs shadow-pink">
+          <span aria-hidden="true">▶</span><span>PLAY MY GAMES</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="border-y border-zinc-800 bg-arcade-yellow text-black overflow-hidden" aria-hidden="true">
+      <div class="ticker-track py-3 font-pixel text-[9px] tracking-widest">
+        <div class="ticker-group">
+          <span>FREE BROWSER GAMES</span>
+          <span>NO LOGIN</span>
+          <span>NO LOOT BOXES</span>
+          <span>NO BATTLE PASS</span>
+          <span>NO PAY TO WIN</span>
+          <span>NO INSTALL</span>
+          <span>NO ACCOUNT</span>
+          <span>NO ADS</span>
+          <span>NO DOWNLOAD</span>
+          <span>NO NONSENSE</span>
+          <span>JUST STUPID GAMES</span>
+          <span>PURE FUN</span>
+        </div>
+        <div class="ticker-group" aria-hidden="true">
+          <span>FREE BROWSER GAMES</span>
+          <span>NO LOGIN</span>
+          <span>NO LOOT BOXES</span>
+          <span>NO BATTLE PASS</span>
+          <span>NO PAY TO WIN</span>
+          <span>NO INSTALL</span>
+          <span>NO ACCOUNT</span>
+          <span>NO ADS</span>
+          <span>NO DOWNLOAD</span>
+          <span>NO NONSENSE</span>
+          <span>JUST STUPID GAMES</span>
+          <span>PURE FUN</span>
+        </div>
+      </div>
+    </div>
+
+    <section id="games" class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+      <script id="games-config" type="application/json">{"site":{"gamesSectionLabel":"ARCADE GAME","defaultPrice":"Free. Obviously."},"games":[{"number":"001","type":"ARCADE GAME","name":"Planet Defender","displayName":"PLANET<br>DEFENDER","tagline":"SAVE EARTH OR DON'T. WHATEVER.","url":"https://planet-defender.seignemorte.com/","ogImage":"https://planet-defender.seignemorte.com/og.jpg","alt":"Planet Defender free retro space arcade browser game","accent":"cyan","tags":["ARCADE","SPACE","BROWSER GAME"],"description":"Planet Defender is a free space arcade browser game built for quick, instant play. Asteroids are coming. Earth is in the way. Slice incoming threats, protect the planet, trigger the Nova and chase a higher score. No download, no account — just a fast retro web game.","mission":"Protect Earth","price":"Free. Obviously.","button":"PLAY PLANET DEFENDER"},{"number":"002","type":"DAILY GAME","name":"ÇaMatch","displayName":"ÇA<br>MATCH","tagline":"DO YOU THINK LIKE THE INTERNET?","url":"https://camatch.seignemorte.com/","ogImage":"https://camatch.seignemorte.com/og.jpg","alt":"ÇaMatch daily social guessing browser game","accent":"pink","tags":["DAILY","SOCIAL","GUESSING"],"description":"ÇaMatch is a daily social guessing game. Answer the daily prompt, then try to guess the answer the internet chose most. See how well your brain matches everyone else's — one question at a time.","mission":"Think like the internet","price":"Free. Obviously.","button":"PLAY ÇAMATCH"},{"number":"003","type":"MUSIC GAME","name":"Guitare Hero Penta","displayName":"GUITARE HERO<br>PENTA","tagline":"TRAIN YOUR PENTA. MISS WITH STYLE.","url":"https://guitare-hero-penta.seignemorte.com/","ogImage":"https://guitare-hero-penta.seignemorte.com/og.jpg","alt":"Guitare Hero Penta guitar pentatonic browser game","accent":"cyan","tags":["GUITAR","PENTA","RHYTHM"],"description":"Guitare Hero Penta turns pentatonic practice into a fast browser game. Follow the notes, react in rhythm and train your guitar reflexes without making practice feel like homework.","mission":"Master the pentatonic","price":"Free. Obviously.","button":"PLAY GUITARE HERO PENTA"}],"_note":"Add/edit games here only. The card design is locked in index.html. accent must be cyan or pink."}</script>
+      <div id="games-list" aria-live="polite"></div>
+      <noscript>
+        <div class="border-2 border-arcade-red p-6 text-center text-sm text-zinc-300">
+          JavaScript is required to load the game list.
+        </div>
+      </noscript>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-5 md:px-8 pb-20 text-center">
+      <div class="border-2 border-arcade-yellow bg-[#080808] px-6 py-10 md:px-12 md:py-12">
+        <div class="text-4xl mb-5" aria-hidden="true">☕</div>
+        <h2 class="font-pixel text-sm md:text-lg text-arcade-yellow">WANT MORE MINI-GAMES?</h2>
+        <p class="mt-5 text-sm md:text-base leading-relaxed text-zinc-400 max-w-2xl mx-auto">
+          If you enjoy these games and want to see more, buy me a coffee and help me keep building.
+        </p>
+        <a href="https://ko-fi.com/jeffseignemorte" target="_blank" rel="noopener noreferrer"
+           class="mt-7 inline-flex items-center justify-center gap-3 bg-arcade-pink hover:bg-arcade-yellow hover:text-black transition-colors px-7 py-5 font-pixel text-[10px] md:text-xs shadow-pink">
+          ☕ BUY ME A COFFEE
+        </a>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-5 md:px-8 pb-20 text-center">
+      <h2 class="font-pixel text-sm md:text-lg text-white">WHAT IS STUPID GAMES?</h2>
+      <p class="mt-5 text-sm md:text-base leading-relaxed text-zinc-500">
+        Stupid Games is a tiny collection of free indie browser games inspired by retro arcades, pixel games and the simple joy of pressing PLAY.
+        Every game is designed to launch instantly in a modern web browser.
+      </p>
+    </section>
+
+    <footer class="border-t border-zinc-800">
+      <div class="max-w-7xl mx-auto px-5 md:px-8 py-10 flex flex-col md:flex-row gap-5 md:items-center md:justify-between">
+        <div>
+          <div class="font-pixel text-[9px] text-arcade-yellow">STUPID GAMES™</div>
+          <div class="mt-2 text-xs text-zinc-600">Made with voice, code and caffeine.</div>
+        </div>
+        <a href="https://seignemorte.com/" target="_blank" rel="noopener"
+           class="font-pixel text-[8px] text-zinc-500 hover:text-arcade-cyan transition">
+          BY JEAN-FRANÇOIS SEIGNEMORTE ↗
+        </a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const GAME_STYLES = {
+      cyan: {
+        label: 'text-arcade-cyan',
+        badge: 'bg-arcade-red text-white',
+        tag1: 'text-arcade-cyan',
+        tag2: 'text-arcade-pink',
+        tag3: 'text-arcade-yellow',
+        button: 'bg-arcade-cyan text-black hover:bg-arcade-yellow shadow-cyan',
+        bg: 'bg-[#020611]'
+      },
+      pink: {
+        label: 'text-arcade-pink',
+        badge: 'bg-arcade-pink text-white',
+        tag1: 'text-arcade-pink',
+        tag2: 'text-arcade-cyan',
+        tag3: 'text-arcade-yellow',
+        button: 'bg-arcade-pink text-white hover:bg-arcade-yellow hover:text-black shadow-pink',
+        bg: 'bg-[#08020b]'
+      }
+    };
+
+    const escapeHtml = (value='') => String(value)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+
+    function renderGame(game, index) {
+      const s = GAME_STYLES[game.accent] || GAME_STYLES.cyan;
+      const tags = (game.tags || []).slice(0,3);
+      while (tags.length < 3) tags.push('WEB GAME');
+      const margin = index === 0 ? '' : 'mt-14';
+
+      return `
+        <div class="${margin} mb-5 md:mb-7">
+          <p class="font-pixel text-[9px] ${s.label}">${escapeHtml(game.type)} / ${escapeHtml(game.number)}</p>
+        </div>
+
+        <article class="pixel-card border-4 border-white bg-[#0a0a0a] overflow-hidden">
+          <div class="grid lg:grid-cols-[1.35fr_.85fr]">
+            <a href="${escapeHtml(game.url)}" target="_blank" rel="noopener" aria-label="Play ${escapeHtml(game.name)}"
+               class="group relative min-h-[440px] md:min-h-[600px] overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-white ${s.bg}">
+              <img
+                src="${escapeHtml(game.ogImage)}"
+                alt="${escapeHtml(game.alt)}"
+                width="1200"
+                height="630"
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                class="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-[1.025] group-hover:opacity-90 transition duration-500"
+              >
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black/20" aria-hidden="true"></div>
+              <div class="absolute left-5 right-5 bottom-5 md:left-8 md:right-8 md:bottom-8">
+                <p class="font-pixel text-[8px] md:text-[10px] text-arcade-yellow mb-3">${escapeHtml(game.tagline)}</p>
+                <h3 class="font-pixel text-2xl md:text-5xl leading-tight text-white">${game.displayName}</h3>
+              </div>
+            </a>
+
+            <div class="p-7 md:p-10 lg:p-12 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap gap-2 mb-8">
+                  <span class="border border-zinc-700 px-3 py-2 font-pixel text-[7px] ${s.tag1}">${escapeHtml(tags[0])}</span>
+                  <span class="border border-zinc-700 px-3 py-2 font-pixel text-[7px] ${s.tag2}">${escapeHtml(tags[1])}</span>
+                  <span class="border border-zinc-700 px-3 py-2 font-pixel text-[7px] ${s.tag3}">${escapeHtml(tags[2])}</span>
+                </div>
+
+                <p class="text-zinc-400 leading-relaxed text-sm md:text-base">${escapeHtml(game.description)}</p>
+
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                  <div class="border border-zinc-800 p-4">
+                    <div class="font-pixel text-[7px] text-zinc-600 mb-2">MISSION</div>
+                    <div class="text-sm">${escapeHtml(game.mission)}</div>
+                  </div>
+                  <div class="border border-zinc-800 p-4">
+                    <div class="font-pixel text-[7px] text-zinc-600 mb-2">PRICE</div>
+                    <div class="text-sm">${escapeHtml(game.price)}</div>
+                  </div>
+                </div>
+              </div>
+
+              <a href="${escapeHtml(game.url)}" target="_blank" rel="noopener"
+                 class="mt-10 ${s.button} transition-colors px-6 py-5 font-pixel text-[10px] text-center flex items-center justify-center gap-3">
+                <span aria-hidden="true">▶</span><span>${escapeHtml(game.button)}</span>
+              </a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    try {
+      const config = JSON.parse(document.getElementById('games-config').textContent);
+      document.getElementById('games-list').innerHTML =
+        (config.games || []).map(renderGame).join('');
+    } catch (err) {
+      console.error(err);
+      document.getElementById('games-list').innerHTML =
+        '<div class="border-2 border-arcade-red p-6 text-center text-sm text-zinc-300">Game list unavailable. Please reload.</div>';
+    }
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
+      });
+    }
+  </script>
+</body>
+</html>

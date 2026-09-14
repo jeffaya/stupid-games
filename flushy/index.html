@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<title>FLUSHY — Get the Fish Home!</title>
+<meta name="description" content="FLUSHY est un mini-jeu d'aventure et de puzzle : aide Flushy the Fish à traverser les égouts, des toilettes jusqu'à la rivière.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://flush.seignemorte.com/">
+<meta name="theme-color" content="#06111b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FLUSHY">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FLUSHY">
+<meta property="og:title" content="FLUSHY — Get the Fish Home!">
+<meta property="og:description" content="Des toilettes à la rivière : aide Flushy the Fish à retrouver sa liberté.">
+<meta property="og:url" content="https://flush.seignemorte.com/">
+<meta property="og:image" content="https://flush.seignemorte.com/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FLUSHY — Get the Fish Home!">
+<meta name="twitter:description" content="Des toilettes à la rivière. Sauve Flushy !">
+<meta name="twitter:image" content="https://flush.seignemorte.com/og.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"VideoGame","name":"FLUSHY","alternateName":"Flushy the Fish","url":"https://flush.seignemorte.com/","image":"https://flush.seignemorte.com/og.jpg","description":"Aide Flushy the Fish à traverser les canalisations et les égouts pour atteindre la rivière.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any"}
+</script>
+<style>
+:root{
+ --ink:#04101a;--panel:#071d2e;--cyan:#77e8ff;--cyan2:#11a8ec;--green:#41d74c;--gold:#ffc83d;
+ --safeT:max(8px,env(safe-area-inset-top));--safeB:max(10px,env(safe-area-inset-bottom));
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:var(--ink);overflow:hidden}
+body{font-family:Inter,ui-rounded,"Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;color:white;user-select:none;-webkit-user-select:none}
+button,a{font:inherit}
+button{cursor:pointer}
+.screen{position:fixed;inset:0;display:none}
+.screen.active{display:flex}
+
+/* HOME */
+#home{align-items:center;justify-content:center;background:#03101a;overflow:hidden}
+#home .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.homeShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.02) 54%,rgba(0,7,12,.58) 78%,#03101a 100%)}
+.homeHit{position:absolute;left:50%;bottom:max(11%,calc(var(--safeB) + 42px));transform:translateX(-50%);width:min(44vw,320px);height:86px;border:0;background:transparent;border-radius:30px;box-shadow:0 0 0 0 rgba(99,255,115,.0);animation:homePulse 1.65s ease-in-out infinite}
+@keyframes homePulse{50%{box-shadow:0 0 35px 6px rgba(85,255,120,.34)}}
+.homePortal{position:absolute;bottom:calc(var(--safeB) + 7px);left:50%;transform:translateX(-50%);color:#d8f7ff;text-decoration:none;font-size:12px;font-weight:900;text-shadow:0 2px 10px #000;opacity:.83}
+
+/* JOURNEY */
+#journey{flex-direction:column;background:#03101a;padding:var(--safeT) 7px var(--safeB);gap:6px}
+.journeyHud{height:51px;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chapter{
+ border:1px solid rgba(127,229,255,.24);border-radius:16px;padding:6px 11px;min-width:145px;
+ background:linear-gradient(180deg,rgba(8,48,73,.96),rgba(3,20,32,.95));box-shadow:0 8px 22px rgba(0,0,0,.28)
+}
+.chapter small{display:block;font-size:9px;font-weight:1000;letter-spacing:.15em;color:#91dbef;text-transform:uppercase}
+.chapter strong{font-size:14px}
+.route{display:flex;align-items:center;gap:5px;padding-right:4px}
+.route i{display:block;width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.18);transition:.35s}
+.route i.done{background:#65ea6b}.route i.now{width:25px;background:#70e7ff;box-shadow:0 0 16px rgba(95,229,255,.72)}
+
+.stage{
+ position:relative;flex:1;min-height:0;overflow:hidden;border-radius:25px;border:1px solid rgba(111,223,255,.28);
+ box-shadow:0 22px 60px rgba(0,0,0,.53),inset 0 0 0 1px rgba(255,255,255,.035);background:#05131f
+}
+.stageArt{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .38s,transform 1.2s cubic-bezier(.2,.8,.2,1);will-change:transform,opacity}
+.sceneShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,10,18,.05),transparent 35%,rgba(1,11,19,.14) 68%,rgba(1,9,15,.38))}
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.goal{
+ position:absolute;z-index:4;display:none;align-items:center;gap:7px;padding:7px 10px 7px 8px;border-radius:999px;
+ background:rgba(3,24,39,.8);border:1px solid rgba(148,238,255,.5);backdrop-filter:blur(8px);
+ font-size:10px;font-weight:1000;letter-spacing:.06em;box-shadow:0 0 22px rgba(69,215,255,.2)
+}
+.goal.show{display:flex;animation:goalFloat 1.4s ease-in-out infinite}
+.goalRing{width:28px;height:28px;border-radius:99px;border:3px solid #b7f6ff;box-shadow:0 0 15px #4ee4ff,inset 0 0 10px rgba(107,231,255,.45)}
+@keyframes goalFloat{50%{transform:translateY(-4px)}}
+.objective{
+ position:absolute;left:10px;top:10px;z-index:4;max-width:min(69%,290px);padding:9px 11px;border-radius:15px;
+ background:rgba(3,24,39,.82);border:1px solid rgba(130,230,255,.21);backdrop-filter:blur(8px);
+ box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:11px;color:#d9f8ff
+}
+.objective b{display:block;color:white;font-size:12px;margin-bottom:2px}
+.emotion{position:absolute;z-index:6;font-size:38px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));pointer-events:none;opacity:0}
+.emotion.pop{animation:emotion .75s ease both}
+@keyframes emotion{0%{opacity:0;transform:translateY(8px) scale(.55)}35%{opacity:1;transform:translateY(-8px) scale(1.15)}100%{opacity:0;transform:translateY(-23px) scale(.9)}}
+
+.tools{height:80px;flex:0 0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tool{
+ position:relative;border:1px solid rgba(131,230,255,.25);border-radius:17px;color:white;background:linear-gradient(#0869a5,#063957);
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.16),0 7px 18px rgba(0,0,0,.28);font-weight:1000;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;transition:.18s
+}
+.tool[data-power=weed]{background:linear-gradient(#0b8354,#075035)}
+.tool:active{transform:scale(.97) translateY(2px)}
+.tool:disabled{opacity:.24;filter:grayscale(.7)}
+.tool svg{width:27px;height:27px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.tool span{font-size:9px;margin-top:3px}
+.tool .count{position:absolute;right:5px;top:4px;width:22px;height:22px;border-radius:99px;background:#087fd1;border:2px solid #a7eeff;display:grid;place-items:center;font-size:10px;margin:0}
+.restart{height:29px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.62);font-size:10px;font-weight:900}
+
+/* cinematic intro + transitions */
+.introOverlay,.transition,.end{
+ position:absolute;inset:0;z-index:20;display:none;place-items:center;background:rgba(1,8,13,.14)
+}
+.introOverlay.show,.transition.show,.end.show{display:grid}
+.introCopy{
+ position:absolute;left:16px;right:16px;bottom:24px;padding:14px 16px;border-radius:20px;background:rgba(2,19,31,.82);
+ border:1px solid rgba(119,228,255,.25);backdrop-filter:blur(9px);text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35)
+}
+.introCopy b{font-size:22px}.introCopy p{margin:5px 0 0;color:#c9edf5;font-size:12px}
+.pipeIris{position:absolute;width:80px;height:80px;border-radius:50%;border:11px solid #152a34;box-shadow:0 0 0 5px #40535a,0 0 45px rgba(0,0,0,.75),inset 0 0 20px #000;background:#020609;opacity:0;transform:scale(.3)}
+.transition.show .pipeIris{animation:pipeZoom 1.05s cubic-bezier(.5,0,.2,1) forwards}
+@keyframes pipeZoom{0%{opacity:0;transform:scale(.25)}15%{opacity:1}100%{opacity:1;transform:scale(18)}}
+.transitionLabel{position:absolute;z-index:2;font-weight:1000;letter-spacing:.06em;text-shadow:0 3px 14px #000;opacity:0}
+.transition.show .transitionLabel{animation:labelFade .8s ease .1s both}
+@keyframes labelFade{30%,65%{opacity:1}100%{opacity:0}}
+
+.end{background:radial-gradient(circle at 50% 25%,rgba(70,215,255,.13),rgba(1,10,17,.92) 65%);backdrop-filter:blur(7px);padding:18px}
+.endCard{width:min(94%,460px);padding:22px;border-radius:28px;background:linear-gradient(180deg,rgba(7,44,67,.96),rgba(3,19,30,.96));border:1px solid rgba(121,231,255,.26);text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.endCard h2{font-size:31px;margin:4px 0 6px}.endCard p{font-size:12px;color:#caedf5;margin:0 auto 14px;max-width:330px}
+.trophy{font-size:53px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.stat{padding:8px 5px;border-radius:13px;background:rgba(0,0,0,.2)}.stat small{display:block;font-size:9px;color:#91bdca}.stat b{font-size:17px}
+.primary,.secondary{display:block;width:100%;padding:13px 15px;border-radius:15px;color:white;text-decoration:none;font-weight:1000;border:0}
+.primary{background:linear-gradient(#3bb4f4,#0871d1);box-shadow:0 9px 24px rgba(0,126,255,.27)}
+.secondary{margin-top:7px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12)}
+.support{display:inline-block;margin-top:11px;color:#ffda95;font-size:11px;text-decoration:none;font-weight:800}
+
+.toast{position:absolute;z-index:14;left:50%;top:13%;transform:translateX(-50%) translateY(-10px);padding:7px 11px;border-radius:999px;background:rgba(3,23,37,.88);border:1px solid rgba(130,230,255,.22);font-size:10px;font-weight:1000;opacity:0;pointer-events:none}
+.toast.show{animation:toast 1.35s ease both}
+@keyframes toast{15%,70%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(-8px)}}
+
+@media (orientation:landscape) and (max-height:720px){
+ #journey{padding:4px 7px}.journeyHud{height:42px}.tools{height:62px}.tool svg{width:22px;height:22px}.restart{height:24px}.objective{font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<section id="home" class="screen active" aria-label="Écran d'accueil FLUSHY">
+ <img class="art" src="./cover.webp" alt="FLUSHY — Flushy the Fish dans les égouts">
+ <div class="homeShade"></div>
+ <button class="homeHit" id="startBtn" aria-label="Jouer à FLUSHY"></button>
+ <a class="homePortal" href="https://stupid-games.seignemorte.com/">Voir les autres Stupid Games</a>
+</section>
+
+<section id="journey" class="screen">
+ <header class="journeyHud">
+   <div class="chapter"><small>Le voyage de Flushy</small><strong id="stepTitle">Les toilettes</strong></div>
+   <div class="route" id="route"></div>
+ </header>
+
+ <main class="stage" id="stage">
+   <img id="stageArt" class="stageArt" src="./toilet.webp" alt="">
+   <div class="sceneShade"></div>
+   <canvas id="fx"></canvas>
+
+   <div class="objective" id="objective"><b id="objectiveTitle">Oh non...</b><span id="objectiveText">Flushy vient de tomber dans les toilettes.</span></div>
+   <div class="goal" id="goal"><i class="goalRing"></i><span>TUYAU SUIVANT →</span></div>
+   <div class="emotion" id="emotion">❓</div>
+   <div class="toast" id="toast">Bien joué !</div>
+
+   <div class="introOverlay show" id="introOverlay">
+     <div class="introCopy"><b>Flushy ?! 😳</b><p>Une chasse d'eau plus tard, son grand voyage commence...</p></div>
+   </div>
+
+   <div class="transition" id="transition">
+     <div class="transitionLabel">WHOOSH! 💦</div>
+     <div class="pipeIris"></div>
+   </div>
+
+   <div class="end" id="end">
+     <div class="endCard">
+       <div class="trophy">🐟💙🌊</div>
+       <h2>Flushy est libre !</h2>
+       <p>Des toilettes jusqu'à la rivière. Tu as réussi à ramener Flushy the Fish chez lui.</p>
+       <div class="stats">
+         <div class="stat"><small>Étapes</small><b>4/4</b></div>
+         <div class="stat"><small>Pouvoirs</small><b id="powerStat">0</b></div>
+         <div class="stat"><small>Temps</small><b id="timeStat">0:00</b></div>
+       </div>
+       <button class="primary" id="shareBtn">↗ Partager ma réussite</button>
+       <button class="secondary" id="replayBtn">↻ Rejouer</button>
+       <a class="secondary" href="https://stupid-games.seignemorte.com/">🎮 Voir les autres jeux</a>
+       <a class="support" href="https://ko-fi.com/jeffseignemorte">☕ Soutenir Stupid Games</a>
+       <div id="shareMsg" style="height:15px;margin-top:5px;font-size:10px;color:#9eeaff"></div>
+     </div>
+   </div>
+ </main>
+
+ <section class="tools" id="tools">
+   <button class="tool" data-power="water" aria-label="Ajouter de l'eau">
+     <svg viewBox="0 0 64 64"><defs><linearGradient id="wd" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bdf7ff"/><stop offset=".45" stop-color="#37c8ff"/><stop offset="1" stop-color="#0879df"/></linearGradient></defs><path fill="url(#wd)" d="M32 4C24 17 12 29 12 41a20 20 0 0 0 40 0C52 29 40 17 32 4Z"/><path d="M22 43c1 7 7 10 12 10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".75"/></svg>
+     <span>EAU</span><i class="count">0</i>
+   </button>
+   <button class="tool" data-power="current" aria-label="Créer un courant">
+     <svg viewBox="0 0 64 64"><path d="M10 21c10-10 28-10 38 0 8 8 4 21-6 25-9 4-20-1-21-10-1-7 5-12 11-11 6 0 9 7 5 11" fill="none" stroke="#9cecff" stroke-width="7" stroke-linecap="round"/><path d="M43 12 55 19 46 30" fill="none" stroke="#37c8ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     <span>COURANT</span><i class="count">0</i>
+   </button>
+   <button class="tool" data-power="air" aria-label="Injecter de l'air">
+     <svg viewBox="0 0 64 64"><circle cx="26" cy="35" r="13" fill="#58d8ff" fill-opacity=".5" stroke="#d9faff" stroke-width="4"/><circle cx="44" cy="21" r="8" fill="#58d8ff" fill-opacity=".45" stroke="#d9faff" stroke-width="3"/><circle cx="48" cy="45" r="6" fill="#58d8ff" fill-opacity=".45" stroke="#d9faff" stroke-width="3"/></svg>
+     <span>AIR</span><i class="count">0</i>
+   </button>
+   <button class="tool" data-power="weed" aria-label="Faire pousser les algues">
+     <svg viewBox="0 0 64 64"><path d="M17 55c-2-17 4-29 11-42 2 15-2 28-6 42M33 55c-1-14 5-25 14-34-1 14-4 24-8 34M44 55c1-10 5-17 12-24-1 11-3 18-7 24" fill="none" stroke="#7ee741" stroke-width="7" stroke-linecap="round"/></svg>
+     <span>ALGUES</span><i class="count">0</i>
+   </button>
+ </section>
+
+ <button class="restart" id="restartBtn">↻ Recommencer cette étape</button>
+</section>
+
+<script>
+(()=>{
+'use strict';
+
+const STEPS=[
+ {title:'La cuve',art:'scene-1.webp',promptTitle:'Trop bas !',prompt:"Flushy ne peut pas atteindre le tuyau supérieur.",inv:{water:2,current:0,air:0,weed:0},need:{water:2},fish:[.29,.63],goal:[.80,.31],emotion:'❓'},
+ {title:'La remontée',art:'scene-2.webp',promptTitle:'Ça tourne...',prompt:"Un courant puis des bulles peuvent l'aider à prendre de la hauteur.",inv:{water:0,current:1,air:1,weed:0},need:{current:1,air:1},fish:[.63,.48],goal:[.83,.68],emotion:'😵'},
+ {title:'Le vortex',art:'scene-3.webp',promptTitle:'Mauvais courant !',prompt:"Crée un courant assez fort pour dépasser le vortex.",inv:{water:0,current:2,air:0,weed:1},need:{current:2},fish:[.22,.47],goal:[.82,.36],emotion:'😰'},
+ {title:'La rivière',art:'scene-4.webp',promptTitle:'La lumière !',prompt:"Un dernier courant et Flushy sera enfin libre.",inv:{water:0,current:1,air:0,weed:0},need:{current:1},fish:[.55,.52],goal:null,emotion:'😍'}
+];
+
+const home=document.getElementById('home'),journey=document.getElementById('journey');
+const art=document.getElementById('stageArt'),canvas=document.getElementById('fx'),ctx=canvas.getContext('2d',{alpha:true});
+const stage=document.getElementById('stage'),objectiveTitle=document.getElementById('objectiveTitle'),objectiveText=document.getElementById('objectiveText');
+const stepTitle=document.getElementById('stepTitle'),route=document.getElementById('route'),goal=document.getElementById('goal');
+const emotion=document.getElementById('emotion'),transition=document.getElementById('transition'),intro=document.getElementById('introOverlay'),end=document.getElementById('end');
+const toast=document.getElementById('toast'),buttons=[...document.querySelectorAll('.tool')];
+
+let step=-1,inv={},used={},totalUses=0,startedAt=0,particles=[],waves=[],plants=[],dpr=1,W=1,H=1,last=performance.now(),transitioning=false,finale=false;
+let fishPos=[.5,.5],breath=0;
+
+function resize(){
+ const r=canvas.getBoundingClientRect();dpr=Math.min(2,devicePixelRatio||1);
+ canvas.width=Math.max(1,Math.floor(r.width*dpr));canvas.height=Math.max(1,Math.floor(r.height*dpr));
+ W=canvas.width/dpr;H=canvas.height/dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+new ResizeObserver(resize).observe(canvas);addEventListener('resize',resize);
+
+function buildRoute(){
+ route.innerHTML='';
+ for(let i=0;i<STEPS.length;i++){const e=document.createElement('i');if(i<step)e.className='done';if(i===step)e.className='now';route.appendChild(e)}
+}
+function sync(){
+ buttons.forEach(b=>{
+   const p=b.dataset.power,n=inv[p]||0;b.querySelector('.count').textContent=n;
+   b.disabled=n<=0||transitioning||finale;
+ });
+}
+function popEmotion(txt){
+ const r=stage.getBoundingClientRect();emotion.textContent=txt;
+ emotion.style.left=(fishPos[0]*r.width)+'px';emotion.style.top=(fishPos[1]*r.height-55)+'px';
+ emotion.classList.remove('pop');void emotion.offsetWidth;emotion.classList.add('pop');
+}
+function showToast(t){
+ toast.textContent=t;toast.classList.remove('show');void toast.offsetWidth;toast.classList.add('show');
+}
+function spawn(type,n=18,x=fishPos[0],y=fishPos[1]){
+ for(let i=0;i<n;i++)particles.push({
+   type,x:x*W+(Math.random()-.5)*44,y:y*H+(Math.random()-.5)*34,
+   vx:(Math.random()-.5)*(type==='current'?150:40),
+   vy:type==='bubble'?-45-Math.random()*75:(Math.random()-.5)*80,
+   life:.7+Math.random()*1.2,r:2+Math.random()*6
+ });
+}
+function met(){
+ const s=STEPS[step];return Object.entries(s.need).every(([k,n])=>(used[k]||0)>=n);
+}
+function loadStep(i){
+ step=i;const s=STEPS[i];transitioning=false;finale=false;particles=[];waves=[];plants=[];
+ inv={...s.inv};used={water:0,current:0,air:0,weed:0};fishPos=[...s.fish];
+ art.style.opacity=0;art.src='./'+s.art;art.onload=()=>{art.style.opacity=1;art.style.transform='scale(1.02)';setTimeout(()=>art.style.transform='scale(1)',80)};
+ stepTitle.textContent=s.title;objectiveTitle.textContent=s.promptTitle;objectiveText.textContent=s.prompt;
+ goal.classList.remove('show');
+ if(s.goal){
+   goal.style.left=(s.goal[0]*100-10)+'%';goal.style.top=(s.goal[1]*100-4)+'%';
+   setTimeout(()=>goal.classList.add('show'),450);
+ }
+ buildRoute();sync();setTimeout(()=>popEmotion(s.emotion),450);
+}
+function pipeTransition(next){
+ if(transitioning)return;transitioning=true;sync();goal.classList.remove('show');transition.classList.add('show');
+ setTimeout(()=>{
+   transition.classList.remove('show');
+   if(next<STEPS.length)loadStep(next);
+ },1030);
+}
+function usePower(p){
+ if(step<0||transitioning||finale||!inv[p])return;
+ inv[p]--;used[p]++;totalUses++;sync();
+
+ if(p==='water'){
+   waves.push({life:1.5,amp:22});
+   spawn('bubble',20);popEmotion('😯');showToast("L'eau monte !");
+ }
+ if(p==='current'){
+   waves.push({life:1.2,amp:38,current:true});
+   spawn('current',22);popEmotion(step===2?'😨':'😲');showToast("WHOOSH !");
+ }
+ if(p==='air'){
+   spawn('bubble',35);popEmotion('😮');showToast("Ça remonte !");
+ }
+ if(p==='weed'){
+   plants.push({life:1.8,grow:0});popEmotion('🤔');showToast("Ça pousse !");
+ }
+
+ if(met()){
+   setTimeout(()=>{
+     if(step===STEPS.length-1){startFinale()}
+     else{popEmotion('😍');spawn('bubble',26);setTimeout(()=>pipeTransition(step+1),550)}
+   },650);
+ }
+}
+function startFinale(){
+ transitioning=true;finale=true;sync();goal.classList.remove('show');
+ popEmotion('🥳');spawn('bubble',45,.58,.55);waves.push({life:2.2,amp:46,current:true});
+ art.style.transform='scale(1.08)';
+ setTimeout(()=>{
+   const sec=Math.max(1,Math.round((performance.now()-startedAt)/1000));
+   document.getElementById('powerStat').textContent=totalUses;
+   document.getElementById('timeStat').textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
+   end.classList.add('show');
+ },1350);
+}
+
+function drawAnimatedPatch(){
+ if(step<0)return;
+ const img=art;
+ if(!img.complete||!img.naturalWidth)return;
+ const fx=fishPos[0]*W,fy=fishPos[1]*H;
+ const rx=Math.min(W,H)*.13,ry=rx*.9;
+ const s=1+Math.sin(performance.now()/420)*.008;
+ ctx.save();
+ ctx.beginPath();ctx.ellipse(fx,fy,rx,ry,0,0,Math.PI*2);ctx.clip();
+ ctx.translate(fx,fy);ctx.scale(s,s);ctx.translate(-fx,-fy);
+ // draw same scene image according to object-fit: cover
+ const iw=img.naturalWidth,ih=img.naturalHeight,scale=Math.max(W/iw,H/ih);
+ const dw=iw*scale,dh=ih*scale,dx=(W-dw)/2,dy=(H-dh)/2;
+ ctx.globalAlpha=.98;ctx.drawImage(img,dx,dy,dw,dh);
+ ctx.restore();
+}
+function drawFx(dt){
+ ctx.clearRect(0,0,W,H);
+ drawAnimatedPatch();
+
+ waves.forEach(w=>{
+   w.life-=dt;
+   ctx.save();ctx.globalAlpha=Math.min(.55,w.life*.6);ctx.strokeStyle=w.current?'#b5f6ff':'#8eeaff';ctx.lineWidth=w.current?5:3;ctx.lineCap='round';
+   const base=H*(.64+Math.sin(performance.now()/900)*.01);
+   for(let j=0;j<4;j++){
+     ctx.beginPath();
+     for(let x=0;x<=W;x+=12){
+       const y=base+j*18+Math.sin(x*.035+performance.now()*.008+j)*w.amp*.22;
+       x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+     }ctx.stroke();
+   }ctx.restore();
+ });
+ waves=waves.filter(w=>w.life>0);
+
+ plants.forEach(p=>{
+   p.life-=dt;p.grow=Math.min(1,p.grow+dt*2.2);
+   const x=fishPos[0]*W+70,y=H*.82;
+   ctx.save();ctx.strokeStyle='#7cf454';ctx.lineWidth=9;ctx.lineCap='round';ctx.shadowBlur=12;ctx.shadowColor='#55e534';
+   [-18,0,18].forEach((d,i)=>{ctx.beginPath();ctx.moveTo(x+d,y);ctx.bezierCurveTo(x+d-18,y-35*p.grow,x+d+18,y-75*p.grow,x+d+(i-1)*16,y-110*p.grow);ctx.stroke()});
+   ctx.restore();
+ });
+ plants=plants.filter(p=>p.life>0);
+
+ particles.forEach(p=>{
+   p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;
+   if(p.type==='bubble'){
+     p.vy-=14*dt;ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,p.life));ctx.strokeStyle='rgba(225,250,255,.9)';ctx.lineWidth=2;ctx.shadowBlur=8;ctx.shadowColor='#5be6ff';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.stroke();ctx.restore();
+   } else {
+     ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,p.life));ctx.strokeStyle='#c3f8ff';ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+26,p.y);ctx.stroke();ctx.restore();
+   }
+ });
+ particles=particles.filter(p=>p.life>0);
+}
+
+function loop(now){
+ const dt=Math.min(.033,(now-last)/1000);last=now;
+ drawFx(dt);requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+document.getElementById('startBtn').onclick=()=>{
+ home.classList.remove('active');journey.classList.add('active');resize();startedAt=performance.now();totalUses=0;
+ step=-1;stepTitle.textContent='Les toilettes';buildRoute();sync();
+ art.src='./toilet.webp';fishPos=[.68,.37];
+ objectiveTitle.textContent='Oh non...';objectiveText.textContent="Flushy vient de tomber dans les toilettes.";
+ setTimeout(()=>popEmotion('❓'),300);
+ setTimeout(()=>{
+   popEmotion('😱');spawn('bubble',40,.55,.48);art.style.transform='scale(1.08) rotate(-.5deg)';
+ },1050);
+ setTimeout(()=>{
+   intro.classList.remove('show');transition.classList.add('show');
+ },1800);
+ setTimeout(()=>{transition.classList.remove('show');loadStep(0)},2820);
+};
+
+buttons.forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();usePower(b.dataset.power)}));
+document.getElementById('restartBtn').onclick=()=>{if(step>=0)loadStep(step)};
+document.getElementById('replayBtn').onclick=()=>{
+ end.classList.remove('show');startedAt=performance.now();totalUses=0;loadStep(0);
+};
+document.getElementById('shareBtn').onclick=async()=>{
+ const data={title:'FLUSHY — Get the Fish Home!',text:"J'ai sauvé Flushy the Fish 🐟🌊 Des toilettes jusqu'à la rivière !",url:'https://flush.seignemorte.com/'};
+ const msg=document.getElementById('shareMsg');
+ try{
+   if(navigator.share)await navigator.share(data);
+   else{await navigator.clipboard.writeText(data.text+' '+data.url);msg.textContent='Lien copié !';}
+ }catch(e){}
+};
+
+resize();
+})();
+</script>
+</body>
+</html>

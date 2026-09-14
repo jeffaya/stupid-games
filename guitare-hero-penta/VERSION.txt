@@ -1,0 +1,9 @@
+Guitare Hero Penta V7
+Final visual identity package:
+- refreshed app/iPad/iPhone icons
+- Apple Touch icon
+- Android/PWA icons
+- multi-size favicon.ico + PNG favicons
+- standalone logo.png
+- og.jpg 1200x630
+- manifest/index updated
