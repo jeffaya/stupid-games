@@ -307,3 +307,351 @@ a:active{
 @media (max-width:760px){
   .mobile-menu-btn{display:inline-flex;}
 }
+
+
+/* ===== V3.6 — responsive/layout + consistent learning controls ===== */
+.legend.fourth{background:#ff8b3d;color:#351304;box-shadow:0 0 14px #ff8b3d}
+.legend-filter.filter-dimmed,
+.pattern-controls button.filter-dimmed{
+  opacity:.28!important;
+  filter:saturate(.45) brightness(.72)!important;
+  box-shadow:none!important;
+}
+
+/* Hint and legend are one visual block: hint immediately left of legend. */
+.practice-legend-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  padding:7px 18px max(10px,env(safe-area-inset-bottom));
+}
+.practice-legend-row .practice-hint{
+  padding:0;
+  margin:0;
+  flex:0 1 auto;
+  text-align:right;
+  white-space:nowrap;
+}
+.practice-legend-row .practice-legend{
+  padding:0;
+  margin:0;
+  flex:0 0 auto;
+}
+
+/* All setup menus use the same borderless treatment.
+   Layout/placement inside the hamburger drawer is intentionally unchanged. */
+.control-group{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.map-toolbar,
+.map-controls,
+.map-note-filter,
+.pattern-controls,
+.fret-count-controls{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* From iPad landscape upward, home fits in one viewport. */
+@media (min-width:768px) and (orientation:landscape){
+  html,body{height:100%;overflow:hidden}
+  .home-screen{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    max-height:100dvh!important;
+    overflow:hidden!important;
+    justify-content:center!important;
+    padding-top:max(12px,env(safe-area-inset-top))!important;
+    padding-bottom:max(10px,env(safe-area-inset-bottom))!important;
+  }
+  .home-topline{margin-bottom:8px!important}
+  .hero-logo span{line-height:.76}
+  .hero-guitar{font-size:clamp(44px,8.5vh,78px)!important}
+  .hero-fret{font-size:clamp(38px,7.3vh,68px)!important}
+  .hero-hero{font-size:clamp(40px,7.8vh,72px)!important}
+  .tagline{margin:10px 0!important}
+  .home-actions{gap:8px!important}
+  .hero-btn{min-height:64px!important;padding:9px 14px!important}
+  .hero-btn .hero-icon{width:34px;height:34px}
+  .hero-btn strong{font-size:16px}
+  .hero-btn small{font-size:12px}
+  .ecosystem-link{margin-top:8px!important;padding:2px!important}
+}
+
+/* Compact setup toolbar from iPad landscape and desktop. */
+@media (min-width:768px) and (orientation:landscape){
+  .practice-drawer{display:block!important}
+  .practice-screen .control-panel{
+    display:flex!important;
+    align-items:flex-end!important;
+    gap:8px!important;
+    padding:2px 12px 4px!important;
+  }
+  .practice-screen .control-group{
+    padding:2px 0!important;
+    margin:0!important;
+    min-width:0!important;
+  }
+  .practice-screen .root-group{flex:1 1 470px}
+  .practice-screen .quality-group{flex:0 0 auto}
+  .practice-screen .mode-group{flex:0 0 auto}
+  .practice-screen .control-group label,
+  .practice-screen .pattern-controls label,
+  .practice-screen .fret-count-controls label{
+    margin-bottom:4px!important;
+    font-size:9px!important;
+  }
+  .practice-screen .segmented,
+  .practice-screen .note-strip{gap:4px!important;flex-wrap:nowrap!important}
+  .practice-screen .segmented button,
+  .practice-screen .note-strip button,
+  .practice-screen .pattern-controls button,
+  .practice-screen .fret-count-controls button{
+    min-height:28px!important;
+    height:28px!important;
+    min-width:0!important;
+    padding:0 8px!important;
+    font-size:10px!important;
+    line-height:26px!important;
+  }
+  .practice-screen .pattern-controls,
+  .practice-screen .fret-count-controls{
+    display:flex!important;
+    align-items:center!important;
+    gap:4px!important;
+    padding:2px 12px 4px!important;
+    flex-wrap:nowrap!important;
+  }
+  .practice-screen .practice-board{min-height:0!important}
+}
+
+/* Fretboard Map controls stay on one horizontal line from iPad upward. */
+@media (min-width:768px){
+  .fretmap-screen .map-toolbar{
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:10px!important;
+    padding:2px 12px 6px!important;
+    min-width:0;
+  }
+  .fretmap-screen .map-controls,
+  .fretmap-screen .map-note-filter{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:5px!important;
+    padding:0!important;
+    min-width:0;
+  }
+  .fretmap-screen .map-note-strip{
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    justify-content:flex-start!important;
+    scrollbar-width:none;
+  }
+  .fretmap-screen .map-note-strip::-webkit-scrollbar{display:none}
+  .fretmap-screen .map-note-strip button{
+    flex:0 0 auto;
+    min-width:38px!important;
+    padding:6px 8px!important;
+  }
+}
+
+/* iPad portrait deliberately behaves like mobile, without altering drawer order. */
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
+  .practice-screen{height:100dvh;min-height:100dvh;overflow:hidden}
+  .practice-screen .topbar{flex:0 0 auto;padding-bottom:7px}
+  .desktop-back{display:none!important}
+  .mobile-menu-btn{display:inline-flex!important;flex-direction:column;gap:4px;padding:0!important}
+  .practice-drawer{
+    display:block!important;position:fixed;left:0;top:0;bottom:0;width:min(88vw,410px);
+    z-index:40;background:linear-gradient(180deg,#09111d 0%,#04070b 100%);
+    border-right:2px solid #2d4b63;box-shadow:22px 0 55px #000c;
+    transform:translateX(-104%);transition:transform .22s ease;
+    padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));overflow-y:auto
+  }
+  .practice-drawer.open{transform:translateX(0)}
+  .drawer-head{display:flex!important;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px}
+  .drawer-backdrop{display:block!important;position:fixed;inset:0;z-index:35;background:#020407b8;opacity:0;pointer-events:none;transition:opacity .22s}
+  .drawer-backdrop.show{opacity:1;pointer-events:auto}
+  .practice-drawer .control-panel{display:block!important;padding:0!important}
+  .practice-drawer .control-group{margin-bottom:10px!important;padding:11px!important}
+  .practice-drawer .note-strip{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:7px!important;overflow:visible!important}
+  .practice-drawer .segmented{display:grid!important;grid-template-columns:repeat(3,1fr)!important}
+  .practice-drawer #qualityControls{grid-template-columns:1fr 1fr!important}
+  .practice-drawer .pattern-controls,.practice-drawer .fret-count-controls{
+    position:static!important;background:none!important;padding:8px 0 0!important;display:flex!important;gap:7px!important;flex-wrap:wrap!important
+  }
+  .practice-drawer .pattern-controls label,.practice-drawer .fret-count-controls label{width:100%;margin:0 0 2px!important}
+  .practice-board{flex:1 1 auto!important;min-height:0!important;margin:0 10px 6px!important}
+  .practice-legend-row{padding:4px 10px max(8px,env(safe-area-inset-bottom));gap:6px}
+  .practice-legend-row .practice-hint{display:none!important}
+  .practice-legend-row .practice-legend{width:100%;overflow-x:auto;justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
+  .practice-legend-row .practice-legend::-webkit-scrollbar{display:none}
+}
+
+
+/* ===== V3.6.1 — Practice mobile drawer alignment =====
+   Keep menu order/placement unchanged; normalize horizontal gutters only. */
+@media (max-width:800px){
+  .practice-drawer .control-panel{
+    padding:0!important;
+    margin:0!important;
+  }
+
+  .practice-drawer .control-group,
+  .practice-drawer .pattern-controls,
+  .practice-drawer .fret-count-controls{
+    width:100%!important;
+    box-sizing:border-box!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  /* ROOT / QUALITY / MODE use the exact same left/right gutter as
+     POSITIONS and FRETBOARD. */
+  .practice-drawer .control-group{
+    padding:8px 0!important;
+    margin-bottom:4px!important;
+  }
+
+  .practice-drawer .control-group label,
+  .practice-drawer .pattern-controls label,
+  .practice-drawer .fret-count-controls label{
+    margin-left:0!important;
+    padding-left:0!important;
+    text-align:left!important;
+  }
+
+  .practice-drawer .note-strip,
+  .practice-drawer .segmented,
+  .practice-drawer .pattern-controls,
+  .practice-drawer .fret-count-controls{
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+
+  .practice-drawer .pattern-controls,
+  .practice-drawer .fret-count-controls{
+    margin-top:0!important;
+  }
+}
+
+/* Same mobile-like drawer alignment for iPad portrait. */
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
+  .practice-drawer .control-panel{
+    padding:0!important;
+    margin:0!important;
+  }
+  .practice-drawer .control-group,
+  .practice-drawer .pattern-controls,
+  .practice-drawer .fret-count-controls{
+    width:100%!important;
+    box-sizing:border-box!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  .practice-drawer .control-group{
+    padding:8px 0!important;
+    margin-bottom:4px!important;
+  }
+  .practice-drawer .control-group label,
+  .practice-drawer .pattern-controls label,
+  .practice-drawer .fret-count-controls label{
+    margin-left:0!important;
+    padding-left:0!important;
+    text-align:left!important;
+  }
+  .practice-drawer .note-strip,
+  .practice-drawer .segmented,
+  .practice-drawer .pattern-controls,
+  .practice-drawer .fret-count-controls{
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
+
+
+/* ===== V4 — Practice learning model ===== */
+.practice-context-controls{display:flex;align-items:flex-end;gap:7px;padding:0 16px 8px;flex-wrap:wrap;background:transparent;border:0;box-shadow:none}
+.practice-context-controls>label{font-size:10px;color:#7f9aad;letter-spacing:.12em;display:block;margin:0 5px 10px 0}
+.practice-context-buttons{display:flex;gap:7px;flex-wrap:wrap}
+.practice-context-buttons button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:48px;cursor:pointer}
+.practice-context-buttons button.active{border-color:#ff57d7;color:#fff;background:#2b0b2c;box-shadow:0 0 14px #ff38c844}
+.practice-context-buttons button.filter-dimmed{opacity:.28;filter:saturate(.45) brightness(.72);box-shadow:none}
+
+/* Practice buttons use the same sizing language as Fretboard Map. */
+.practice-screen .note-strip button,
+.practice-screen .segmented button,
+.practice-screen .practice-context-buttons button,
+.practice-screen .fret-count-controls button{
+  min-width:42px;
+  padding:7px 10px;
+  line-height:normal;
+}
+
+/* Desktop/iPad landscape only: reorganize practiceDrawer as one compact, readable toolbar.
+   Mobile and iPad portrait drawer placement/order remain governed by the existing rules. */
+@media (min-width:768px) and (orientation:landscape){
+  .practice-screen .practice-drawer{
+    display:grid!important;
+    grid-template-columns:minmax(430px,1.8fr) auto auto;
+    grid-template-areas:"core context frets";
+    align-items:end;
+    column-gap:14px;
+    padding:2px 12px 7px!important;
+  }
+  .practice-screen .practice-drawer .control-panel{
+    grid-area:core;
+    display:grid!important;
+    grid-template-columns:minmax(300px,1.5fr) auto auto!important;
+    gap:10px!important;
+    padding:0!important;
+    align-items:end!important;
+  }
+  .practice-screen .practice-drawer .control-group{padding:0!important;margin:0!important}
+  .practice-screen .practice-drawer .root-group{min-width:0!important}
+  .practice-screen .practice-drawer .note-strip,
+  .practice-screen .practice-drawer .segmented{gap:5px!important;flex-wrap:nowrap!important}
+  .practice-screen .practice-drawer .control-group label,
+  .practice-screen .practice-context-controls>label,
+  .practice-screen .fret-count-controls label{font-size:10px!important;margin:0 0 5px!important}
+  .practice-screen .practice-context-controls{grid-area:context;padding:0!important;display:block!important}
+  .practice-screen .practice-context-buttons{gap:5px!important;flex-wrap:nowrap!important}
+  .practice-screen .fret-count-controls{grid-area:frets;padding:0!important;display:block!important}
+  .practice-screen .fret-count-controls button{margin-right:3px}
+  .practice-screen .note-strip button,
+  .practice-screen .segmented button,
+  .practice-screen .practice-context-buttons button,
+  .practice-screen .fret-count-controls button{
+    min-height:32px!important;height:32px!important;min-width:40px!important;padding:6px 9px!important;font-size:11px!important;line-height:normal!important
+  }
+  .practice-screen #modeControls button{min-width:auto!important}
+}
+
+/* Existing mobile hamburger structure is intentionally preserved; only the new context group adopts its established rhythm. */
+@media (max-width:800px){
+  .practice-drawer .practice-context-controls{position:static;background:none;padding:4px 0 0;display:flex;gap:7px;width:100%;margin:0;box-sizing:border-box}
+  .practice-drawer .practice-context-controls>label{width:100%;margin:0 0 2px}
+  .practice-drawer .practice-context-buttons{display:flex;gap:7px;flex-wrap:wrap;width:100%}
+  .practice-drawer .practice-context-buttons button{flex:1;min-width:0;padding:8px 10px}
+}
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
+  .practice-drawer .practice-context-controls{position:static!important;background:none!important;padding:8px 0 0!important;display:flex!important;gap:7px!important;flex-wrap:wrap!important;width:100%!important;margin:0!important}
+  .practice-drawer .practice-context-controls>label{width:100%;margin:0 0 2px!important}
+  .practice-drawer .practice-context-buttons{display:flex!important;gap:7px!important;flex-wrap:wrap!important;width:100%!important}
+  .practice-drawer .practice-context-buttons button{flex:1;min-width:0;padding:9px 5px}
+}
+
+/* V4.0.1: Position / Strings / Shape choices always remain fully visible. */
+.pattern-controls button.filter-dimmed,
+.practice-drawer .pattern-controls button.filter-dimmed{
+ opacity:1!important;filter:none!important;
+}
