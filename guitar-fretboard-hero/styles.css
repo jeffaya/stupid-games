@@ -311,8 +311,7 @@ a:active{
 
 /* ===== V3.6 — responsive/layout + consistent learning controls ===== */
 .legend.fourth{background:#ff8b3d;color:#351304;box-shadow:0 0 14px #ff8b3d}
-.legend-filter.filter-dimmed,
-.pattern-controls button.filter-dimmed{
+.legend-filter.filter-dimmed{
   opacity:.28!important;
   filter:saturate(.45) brightness(.72)!important;
   box-shadow:none!important;
@@ -585,7 +584,6 @@ a:active{
 .practice-context-buttons{display:flex;gap:7px;flex-wrap:wrap}
 .practice-context-buttons button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:48px;cursor:pointer}
 .practice-context-buttons button.active{border-color:#ff57d7;color:#fff;background:#2b0b2c;box-shadow:0 0 14px #ff38c844}
-.practice-context-buttons button.filter-dimmed{opacity:.28;filter:saturate(.45) brightness(.72);box-shadow:none}
 
 /* Practice buttons use the same sizing language as Fretboard Map. */
 .practice-screen .note-strip button,
@@ -650,8 +648,151 @@ a:active{
   .practice-drawer .practice-context-buttons button{flex:1;min-width:0;padding:9px 5px}
 }
 
-/* V4.0.1: Position / Strings / Shape choices always remain fully visible. */
-.pattern-controls button.filter-dimmed,
-.practice-drawer .pattern-controls button.filter-dimmed{
- opacity:1!important;filter:none!important;
+
+/* ===== V5 — Premium physical fretboard ===== */
+.fretboard-wrap{
+  background:#08090b;
+  border-color:#50372b;
+  box-shadow:inset 0 1px 0 #c4936730,inset 0 -18px 36px #0008,0 12px 34px #0008,0 0 28px #27d7ff0b;
+}
+.fretboard-wrap svg{filter:saturate(1.04) contrast(1.025)}
+@media(max-width:800px){
+  .fretboard-wrap{box-shadow:inset 0 1px 0 #c4936726,inset 0 -12px 24px #0007,0 8px 22px #0007}
+  .fretboard-wrap svg{filter:saturate(1.02)}
+}
+
+/* ===== V5.1 — electric-guitar fretboard refinement ===== */
+
+/* fretboard-wrap is no longer a visual card/container. */
+.fretboard-wrap,
+.practice-board.fretboard-wrap,
+.fretboard-wrap.practice-board{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+
+/* Center the physical neck in the available viewport instead of pinning it
+   to a card edge. */
+.practice-board,
+.map-board,
+.quiz-board,
+#practiceBoard,
+#mapBoard,
+#quizBoard{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.practice-board svg,
+.map-board svg,
+.quiz-board svg,
+#practiceBoard svg,
+#mapBoard svg,
+#quizBoard svg{
+  display:block;
+  margin:auto;
+  max-width:100%;
+  max-height:100%;
+}
+
+/* Dark electric-fingerboard surround: graphite / nickel, no acoustic brown. */
+.practice-board svg,
+.map-board svg,
+.quiz-board svg{
+  filter:saturate(.94) contrast(1.07) drop-shadow(0 12px 20px #0008);
+}
+
+@media (orientation:landscape){
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
+    width:min(100%,1800px);
+  }
+}
+@media (orientation:portrait){
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
+    width:100%;
+    min-height:0;
+  }
+  .practice-board svg,.map-board svg,.quiz-board svg{
+    filter:saturate(.96) contrast(1.05) drop-shadow(0 7px 13px #0007);
+  }
+}
+
+/* ===== V5.2 — Cyber / dimensional fretboard ===== */
+:root{--fretboard-desktop-width:96vw}
+
+body{
+  background:
+    radial-gradient(circle at 7% 44%,rgba(0,183,255,.16),transparent 25%),
+    radial-gradient(circle at 92% 73%,rgba(255,35,199,.13),transparent 26%),
+    radial-gradient(circle at 52% 37%,rgba(34,89,120,.07),transparent 30%),
+    #07090d;
+}
+
+.practice-board,
+.map-board,
+.quiz-board,
+#practiceBoard,
+#mapBoard,
+#quizBoard{
+  width:var(--fretboard-desktop-width)!important;
+  max-width:none!important;
+  margin-inline:calc((100% - var(--fretboard-desktop-width))/2)!important;
+  overflow:visible;
+}
+
+.practice-board svg,
+.map-board svg,
+.quiz-board svg,
+#practiceBoard svg,
+#mapBoard svg,
+#quizBoard svg{
+  width:100%!important;
+  max-width:none!important;
+  height:auto;
+  filter:saturate(1.05) contrast(1.08) drop-shadow(0 16px 24px #000b) drop-shadow(0 0 18px #27d7ff12);
+}
+
+/* Preserve the established mobile/tablet behavior for now. */
+@media(max-width:1024px), (orientation:portrait){
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
+    width:100%!important;
+    max-width:100%!important;
+    margin-inline:auto!important;
+  }
+  .practice-board svg,.map-board svg,.quiz-board svg,#practiceBoard svg,#mapBoard svg,#quizBoard svg{
+    width:100%!important;
+    max-width:100%!important;
+  }
+}
+
+/* ===== V5.2.1 — true edge-to-edge fretboard ===== */
+.practice-board,
+.map-board,
+.quiz-board,
+#practiceBoard,
+#mapBoard,
+#quizBoard{
+  width:100vw!important;
+  max-width:none!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+
+.practice-board svg,
+.map-board svg,
+.quiz-board svg,
+#practiceBoard svg,
+#mapBoard svg,
+#quizBoard svg{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  display:block;
 }

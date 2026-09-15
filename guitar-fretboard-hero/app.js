@@ -45,12 +45,12 @@
     svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
     $$('.map-controls button[data-map-frets]').forEach(b=>b.classList.toggle('active',Number(b.dataset.mapFrets)===maxFret));
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
-    const defs=svgEl('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs.append(filter);svg.append(defs);
+    const defs=svgEl('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs.append(filter);svg.append(defs);premiumSurface(svg,isP,W,H,'map');
     const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
     const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret),stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5),visualStringPos=s=>stringPos(isP?s:5-s);
-    for(let f=0;f<=maxFret;f++){const p=fretPos(f);svg.append(svgEl('line',isP?{x1:55,x2:W-55,y1:p,y2:p,stroke:f===0?'#e9ded0':'#8f8a84','stroke-width':f===0?5:2}:{x1:p,x2:p,y1:45,y2:H-50,stroke:f===0?'#e9ded0':'#8f8a84','stroke-width':f===0?5:2}));if(f===0||[3,5,7,9,12,15,17,19,21].includes(f)){const lp=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;svg.append(svgEl('text',isP?{x:28,y:lp+5,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'}:{x:lp,y:H-15,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'},String(f)))}}
+    for(let f=0;f<=maxFret;f++){const p=fretPos(f);premiumFret(svg,isP,p,W,H,f===0,'map');if(f===0||[3,5,7,9,12,15,17,19,21].includes(f)){const lp=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;svg.append(svgEl('text',isP?{x:28,y:lp+5,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'}:{x:lp,y:H-15,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'},String(f)))}}
     [3,5,7,9,12,15,17,19,21].filter(f=>f<=maxFret).forEach(f=>{const p=(fretPos(f-1)+fretPos(f))/2;if(f===12){[-14,14].forEach(o=>svg.append(svgEl('circle',isP?{cx:W/2+o,cy:p,r:4,fill:'#53616c'}:{cx:p,cy:H/2+o,r:4,fill:'#53616c'})))}else svg.append(svgEl('circle',isP?{cx:W/2,cy:p,r:4,fill:'#53616c'}:{cx:p,cy:H/2,r:4,fill:'#53616c'}))});
-    tuning.forEach((st,s)=>{const p=visualStringPos(s),gauge=2.15-s*.22;svg.append(svgEl('line',isP?{x1:p,x2:p,y1:fretStart,y2:fretEnd,stroke:'#d2d9de','stroke-width':gauge}:{x1:fretStart,x2:fretEnd,y1:p,y2:p,stroke:'#d2d9de','stroke-width':gauge}));svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
+    tuning.forEach((st,s)=>{const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,'map');svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?12:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y:y+4,fill:'#071016','font-size':name.length>1?8.5:10.5,'font-weight':1000,'text-anchor':'middle'},name))}
   }
 
@@ -73,6 +73,74 @@
   function degreeLabel(pc){return noteName(pc)}
   function portrait(){return matchMedia('(max-width:1100px) and (orientation:portrait)').matches}
   function svgEl(tag,attrs={},text=''){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(text)e.textContent=text;return e}
+  function premiumDefs(svg,prefix){
+    const defs=svgEl('defs');
+    const wood=svgEl('linearGradient',{id:prefix+'Wood',x1:'0%',y1:'0%',x2:'0%',y2:'100%'});
+    [['0%','#172431'],['10%','#071018'],['27%','#18232d'],['48%','#05090d'],['70%','#14212b'],['90%','#080d12'],['100%','#1b2833']].forEach(([offset,stop])=>wood.append(svgEl('stop',{offset,'stop-color':stop})));
+    const neckLight=svgEl('linearGradient',{id:prefix+'NeckLight',x1:'0%',y1:'0%',x2:'0%',y2:'100%'});
+    [['0%','#79dcff'],['8%','#174d66'],['30%','#ffffff'],['47%','#17232d'],['72%','#05080b'],['94%','#14455c'],['100%','#4ed7ff']].forEach(([offset,stop])=>neckLight.append(svgEl('stop',{offset,'stop-color':stop,'stop-opacity':offset==='30%'?.13:.28})));
+    const steel=svgEl('linearGradient',{id:prefix+'Steel',x1:'0%',y1:'0%',x2:'100%',y2:'0%'});
+    [['0%','#4d5154'],['18%','#eef4f6'],['42%','#8b9296'],['63%','#f9ffff'],['100%','#3f4447']].forEach(([offset,stop])=>steel.append(svgEl('stop',{offset,'stop-color':stop})));
+    const wound=svgEl('pattern',{id:prefix+'Wound',width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(28)'});
+    wound.append(svgEl('rect',{width:5,height:5,fill:'#78838b'}),svgEl('line',{x1:0,y1:0,x2:0,y2:5,stroke:'#e8f0f4','stroke-width':1.25}),svgEl('line',{x1:2.8,y1:0,x2:2.8,y2:5,stroke:'#424b52','stroke-width':.9}));
+    const grain=svgEl('filter',{id:prefix+'Grain',x:'-10%',y:'-10%',width:'120%',height:'120%'});
+    grain.append(svgEl('feTurbulence',{type:'fractalNoise',baseFrequency:'.012 .18',numOctaves:'3',seed:'19',result:'noise'}));
+    grain.append(svgEl('feColorMatrix',{in:'noise',type:'matrix',values:'0.25 0 0 0 0  0 0.18 0 0 0  0 0 0.12 0 0  0 0 0 .42 0',result:'grain'}));
+    const blend=svgEl('feBlend',{in:'SourceGraphic',in2:'grain',mode:'soft-light'});grain.append(blend);
+    const shadow=svgEl('filter',{id:prefix+'StringShadow',x:'-30%',y:'-100%',width:'160%',height:'300%'});
+    shadow.append(svgEl('feGaussianBlur',{stdDeviation:'1.8'}));
+    const fretGlow=svgEl('filter',{id:prefix+'FretGlow',x:'-100%',y:'-30%',width:'300%',height:'160%'});
+    fretGlow.append(svgEl('feGaussianBlur',{stdDeviation:'1.15',result:'blur'}));
+    const fm=svgEl('feMerge');fm.append(svgEl('feMergeNode',{in:'blur'}),svgEl('feMergeNode',{in:'SourceGraphic'}));fretGlow.append(fm);
+    defs.append(wood,neckLight,steel,wound,grain,shadow,fretGlow);svg.append(defs);
+  }
+  function premiumSurface(svg,isP,W,H,prefix){
+    premiumDefs(svg,prefix);
+    svg.append(svgEl('rect',{x:0,y:0,width:W,height:H,fill:'#08090b'}));
+    const neck=isP?{x:48,y:72,width:W-96,height:H-112,rx:14}:{x:54,y:34,width:W-92,height:H-70,rx:14};
+    svg.append(svgEl('rect',{...neck,fill:`url(#${prefix}Wood)`,filter:`url(#${prefix}Grain)`,stroke:'#19394b','stroke-width':2}));
+    svg.append(svgEl('rect',{...neck,fill:`url(#${prefix}NeckLight)`,opacity:.34}));
+    const edgeA=isP?{x1:neck.x,y1:neck.y,x2:neck.x+neck.width,y2:neck.y}:{x1:neck.x,y1:neck.y,x2:neck.x,y2:neck.y+neck.height};
+    const edgeB=isP?{x1:neck.x,y1:neck.y+neck.height,x2:neck.x+neck.width,y2:neck.y+neck.height}:{x1:neck.x+neck.width,y1:neck.y,x2:neck.x+neck.width,y2:neck.y+neck.height};
+    svg.append(svgEl('line',{...edgeA,stroke:'#27d7ff','stroke-width':1.4,opacity:.55}));
+    svg.append(svgEl('line',{...edgeB,stroke:'#ff3ec9','stroke-width':1.05,opacity:.25}));
+    // irregular longitudinal grain highlights
+    for(let i=0;i<9;i++){
+      const pos=(i+1)/10,op=.035+(i%3)*.018;
+      svg.append(svgEl('path',isP?{d:`M ${neck.x+neck.width*pos} ${neck.y} C ${neck.x+neck.width*(pos+.035)} ${neck.y+neck.height*.27}, ${neck.x+neck.width*(pos-.025)} ${neck.y+neck.height*.68}, ${neck.x+neck.width*(pos+.012)} ${neck.y+neck.height}`,fill:'none',stroke:'#91b9cc','stroke-width':1.15,opacity:op*.72}:{d:`M ${neck.x} ${neck.y+neck.height*pos} C ${neck.x+neck.width*.28} ${neck.y+neck.height*(pos+.035)}, ${neck.x+neck.width*.68} ${neck.y+neck.height*(pos-.025)}, ${neck.x+neck.width} ${neck.y+neck.height*(pos+.012)}`,fill:'none',stroke:'#91b9cc','stroke-width':1.15,opacity:op*.72}));
+    }
+    // subtle edge light
+    svg.append(svgEl('rect',{...neck,fill:'none',stroke:'#a8bed0','stroke-width':1,opacity:.16}));
+  }
+  function premiumFret(svg,isP,p,W,H,isNut,prefix){
+    const attrs=isP?{x1:52,x2:W-48,y1:p,y2:p}:{y1:48,y2:H-42,x1:p,x2:p};
+    if(!isNut){
+      svg.append(svgEl('line',{...attrs,stroke:'#000','stroke-width':8.5,opacity:.58}));
+      svg.append(svgEl('line',{...attrs,stroke:'#0a1015','stroke-width':6.4,opacity:.7}));
+      svg.append(svgEl('line',{...attrs,stroke:`url(#${prefix}Steel)`,'stroke-width':4.4,filter:`url(#${prefix}FretGlow)`}));
+      svg.append(svgEl('line',{...attrs,stroke:'#eaffff','stroke-width':1.05,opacity:.88}));
+      svg.append(svgEl('line',{...attrs,stroke:'#27d7ff','stroke-width':.45,opacity:.28}));
+    }else{
+      svg.append(svgEl('line',{...attrs,stroke:'#2a2118','stroke-width':11,opacity:.7}));
+      svg.append(svgEl('line',{...attrs,stroke:'#eee1c4','stroke-width':8}));
+      svg.append(svgEl('line',{...attrs,stroke:'#fff8df','stroke-width':1.2,opacity:.9}));
+    }
+  }
+  function premiumString(svg,isP,p,start,end,s,prefix){
+    const gauges=[4.15,3.55,3.0,2.05,1.55,1.15],g=gauges[s];
+    const attrs=isP?{x1:p,x2:p,y1:start,y2:end}:{x1:start,x2:end,y1:p,y2:p};
+    const far=isP?{...attrs,x1:p+4.6,x2:p+4.6}:{...attrs,y1:p+4.6,y2:p+4.6};
+    const near=isP?{...attrs,x1:p+2.2,x2:p+2.2}:{...attrs,y1:p+2.2,y2:p+2.2};
+    // Contact shadows create the visual gap between string and fretboard.
+    svg.append(svgEl('line',{...far,stroke:'#000','stroke-width':g+5.5,opacity:.24,filter:`url(#${prefix}StringShadow)`}));
+    svg.append(svgEl('line',{...near,stroke:'#000','stroke-width':g+2.4,opacity:.52}));
+    // Metallic body.
+    svg.append(svgEl('line',{...attrs,stroke:s<=2?`url(#${prefix}Wound)`:'#aebbc3','stroke-width':g+1.15,'stroke-linecap':'round'}));
+    svg.append(svgEl('line',{...attrs,stroke:s<=2?'#dce8ed':'#f0f8fb','stroke-width':Math.max(.72,g*.30),opacity:s<=2?.56:.82,'stroke-linecap':'round'}));
+    // Razor specular reflection on the crown.
+    const hi=isP?{...attrs,x1:p-.55,x2:p-.55}:{...attrs,y1:p-.55,y2:p-.55};
+    svg.append(svgEl('line',{...hi,stroke:'#fff','stroke-width':.42,opacity:.9,'stroke-linecap':'round'}));
+  }
 
   function patternWindows(){
     // Five standard pentatonic boxes, expressed as the inclusive fret span used by the notes.
@@ -151,7 +219,7 @@
     if(state.mode==='penta'){label.textContent='POSITIONS';values=['all','1','2','3','4','5'];current=state.pattern}
     else if(state.mode==='triad'){label.textContent='STRINGS';values=['all','EAD','ADG','DGB','GBE'];current=state.triadStrings}
     else{label.textContent='SHAPE';values=['all','C','A','G','E','D'];current=state.chordShape}
-    wrap.innerHTML='';values.forEach(v=>{const b=document.createElement('button');b.type='button';b.dataset.value=v;b.textContent=v==='all'?'ALL':v;b.classList.toggle('active',v===current);b.classList.toggle('filter-dimmed',current!=='all'&&v!==current);wrap.appendChild(b)});
+    wrap.innerHTML='';values.forEach(v=>{const b=document.createElement('button');b.type='button';b.dataset.value=v;b.textContent=v==='all'?'ALL':v;b.classList.toggle('active',v===current);wrap.appendChild(b)});
   }
 
   function renderPractice(){
@@ -171,9 +239,7 @@
     const isP=portrait(),maxFret=Math.min(21,state.maxFret), W=isP?520:1500,H=isP?1500:430;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
     const padA=isP?80:58,padB=isP?58:80; const fretStart=isP?110:90,fretEnd=isP?H-70:W-40; const stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
     const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret), stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5), visualStringPos=s=>stringPos(isP?s:5-s);
-    const defs=svgEl('defs'); const glow=svgEl('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'5',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs);
-    // wood
-    svg.append(svgEl('rect',{x:0,y:0,width:W,height:H,fill:'#0a0d12'}));
+    const defs=svgEl('defs'); const glow=svgEl('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'5',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs);premiumSurface(svg,isP,W,H,'practice');
     if(opt.mode==='penta'){
       const colors=['#ff3ec9','#35e78f','#ff5366','#ffd53c','#27d7ff'];
       patternWindows().forEach(w=>{if(w.minFret>maxFret)return;if(state.pattern!=='all'&&String(w.id)!==String(state.pattern))return;const visibleMax=Math.min(w.maxFret,maxFret),a=fretPos(Math.max(0,w.minFret-1)),b=fretPos(visibleMax);const attrs=isP?{x:45,y:a,width:W-90,height:Math.max(8,b-a),fill:colors[w.id-1]+'15',stroke:colors[w.id-1], 'stroke-width':2,rx:12}:{x:a,y:32,width:Math.max(8,b-a),height:H-62,fill:colors[w.id-1]+'15',stroke:colors[w.id-1],'stroke-width':2,rx:12};svg.append(svgEl('rect',attrs));const tx=isP?W-10:a+8,ty=isP?a+20:52;svg.append(svgEl('text',{x:tx,y:ty,fill:colors[w.id-1],'font-size':14,'font-weight':900,'text-anchor':isP?'end':'start'},`P${w.id}`))})
@@ -181,8 +247,7 @@
     // frets and numbers. Fret labels sit inside the fret they identify (as on scale/tab diagrams), not on the fret wire.
     for(let f=0;f<=maxFret;f++){
       const p=fretPos(f);
-      const line=svgEl('line',isP?{x1:52,x2:W-48,y1:p,y2:p,stroke:f===0?'#d6c5a6':'#81776c','stroke-width':f===0?8:2}:{y1:48,y2:H-42,x1:p,x2:p,stroke:f===0?'#d6c5a6':'#81776c','stroke-width':f===0?8:2});
-      svg.append(line);
+      premiumFret(svg,isP,p,W,H,f===0,'practice');
       if([0,3,5,7,9,12,15,17,19,21].includes(f)){
         const labelPos=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;
         const t=svgEl('text',isP?{x:18,y:labelPos+5,fill:'#8fa2b0','font-size':14}:{x:labelPos,y:H-14,fill:'#8fa2b0','font-size':14,'text-anchor':'middle'},String(f));
@@ -192,7 +257,7 @@
     // inlays
     [3,5,7,9,12,15,17,19,21].filter(f=>f<=maxFret).forEach(f=>{const p=(fretPos(f-1)+fretPos(f))/2;if(f===12){[-14,14].forEach(o=>svg.append(svgEl('circle',isP?{cx:W/2+o,cy:p,r:5,fill:'#59636b'}:{cx:p,cy:H/2+o,r:5,fill:'#59636b'})))}else svg.append(svgEl('circle',isP?{cx:W/2,cy:p,r:5,fill:'#59636b'}:{cx:p,cy:H/2,r:5,fill:'#59636b'}))});
     // strings. Portrait keeps the physical low→high order left-to-right; desktop follows tablature convention top-to-bottom: e B G D A E.
-    tuning.forEach((st,s)=>{const p=visualStringPos(s),gauge=2.15-s*.22;svg.append(svgEl('line',isP?{x1:p,x2:p,y1:fretStart,y2:fretEnd,stroke:'#d2d9de','stroke-width':gauge}:{x1:fretStart,x2:fretEnd,y1:p,y2:p,stroke:'#d2d9de','stroke-width':gauge}));svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
+    tuning.forEach((st,s)=>{const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,'practice');svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
     const activeSet=opt.mode==='penta'?new Set(pentaPCs()):new Set([rootPC(),thirdPC(),fifthPC()]);
     const visibleKeys=opt.visibleKeys||null;
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){
@@ -215,10 +280,10 @@
   function renderQuizBoard(){const svg=$('#quizFretboard');const q=state.quiz?.current;if(!q)return;const prev={root:state.root,quality:state.quality};state.root=q.root;state.quality=q.quality;renderFretboardQuiz(svg,q);state.root=prev.root;state.quality=prev.quality}
   function renderFretboardQuiz(svg,q){
     const isP=portrait(),maxFret=Math.min(21,defaultFretCount()),W=isP?520:1500,H=isP?1500:430;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret),stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5),visualStringPos=s=>stringPos(isP?s:5-s);
-    const defs=svgEl('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs,svgEl('rect',{x:0,y:0,width:W,height:H,fill:'#090b0e'}));
+    const defs=svgEl('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs);premiumSurface(svg,isP,W,H,'quiz');
     for(let f=0;f<=maxFret;f++){
       const p=fretPos(f);
-      svg.append(svgEl('line',isP?{x1:52,x2:W-48,y1:p,y2:p,stroke:f===0?'#d6c5a6':'#776f66','stroke-width':f===0?8:2}:{y1:48,y2:H-42,x1:p,x2:p,stroke:f===0?'#d6c5a6':'#776f66','stroke-width':f===0?8:2}));
+      premiumFret(svg,isP,p,W,H,f===0,'quiz');
       if([0,3,5,7,9,12,15,17,19,21].includes(f)){
         const labelPos=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;
         svg.append(svgEl('text',isP?{x:18,y:labelPos+5,fill:'#8193a0','font-size':14}:{x:labelPos,y:H-14,fill:'#8193a0','font-size':14,'text-anchor':'middle'},String(f)));
