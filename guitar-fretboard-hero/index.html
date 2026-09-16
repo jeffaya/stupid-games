@@ -15,14 +15,14 @@
   <meta name="keywords" content="guitar fretboard, guitar notes, fretboard trainer, pentatonic scale, minor pentatonic, major pentatonic, guitar triads, guitar chords, CAGED, learn guitar neck, fretboard quiz, guitar scales">
   <meta name="author" content="Jean-François Seignemorte">
   <meta name="creator" content="Jean-François Seignemorte">
-  <link rel="canonical" href="https://stupid-games.seignemorte.com/guitar-fretboard-hero/">
+  <link rel="canonical" href="https://guitar-fretboard-hero.seignemorte.com/">
   <meta property="og:title" content="Guitar Fretboard Hero — Master the Guitar Neck">
   <meta property="og:description" content="See it. Learn it. Play it. Explore pentatonic patterns, triads, chords and every note on the fretboard, then prove it in the quiz.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Stupid Games">
   <meta property="og:locale" content="en_US">
-  <meta property="og:url" content="https://stupid-games.seignemorte.com/guitar-fretboard-hero/">
-  <meta property="og:image" content="https://stupid-games.seignemorte.com/guitar-fretboard-hero/og.jpg">
+  <meta property="og:url" content="https://guitar-fretboard-hero.seignemorte.com/">
+  <meta property="og:image" content="https://guitar-fretboard-hero.seignemorte.com/og.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -30,7 +30,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Guitar Fretboard Hero — Master the Guitar Neck">
   <meta name="twitter:description" content="Interactive pentatonics, triads, chords, full note map and fretboard quiz. Free. No account. Just play.">
-  <meta name="twitter:image" content="https://stupid-games.seignemorte.com/guitar-fretboard-hero/og.jpg">
+  <meta name="twitter:image" content="https://guitar-fretboard-hero.seignemorte.com/og.jpg">
   <link rel="icon" href="./favicon.ico" sizes="16x16 32x32 48x48">
   <link rel="shortcut icon" href="./favicon.ico">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
@@ -46,7 +46,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Guitar Fretboard Hero","url":"https://stupid-games.seignemorte.com/guitar-fretboard-hero/","image":"https://stupid-games.seignemorte.com/guitar-fretboard-hero/og.jpg","description":"A free interactive guitar fretboard trainer for pentatonic scales, triads, chord voicings, fretboard note mapping and quizzes.","applicationCategory":"EducationalApplication","gamePlatform":["Web Browser","Mobile Web","Tablet"],"operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Person","name":"Jean-François Seignemorte"},"publisher":{"@type":"Organization","name":"Stupid Games","url":"https://stupid-games.seignemorte.com/"}}
+  {"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Guitar Fretboard Hero","url":"https://guitar-fretboard-hero.seignemorte.com/","image":"https://guitar-fretboard-hero.seignemorte.com/og.jpg","description":"A free interactive guitar fretboard trainer for pentatonic scales, triads, chord voicings, fretboard note mapping and quizzes.","applicationCategory":"EducationalApplication","gamePlatform":["Web Browser","Mobile Web","Tablet"],"operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Person","name":"Jean-François Seignemorte"},"publisher":{"@type":"Organization","name":"Stupid Games","url":"https://stupid-games.seignemorte.com/"}}
   </script>
 </head>
 <body>
@@ -81,7 +81,7 @@
       <header class="topbar">
         <button class="icon-btn desktop-back" data-go="home" aria-label="Back home">←</button>
         <button id="practiceMenuBtn" class="icon-btn mobile-menu-btn" aria-label="Open practice menu" aria-expanded="false"><span></span><span></span><span></span></button>
-        <div class="practice-heading" aria-live="polite"><strong id="practiceTitle">A MINOR PENTATONIC</strong><span id="practiceFormula">A • C • D • E • G</span></div>
+        <div class="section-heading" aria-live="polite"><strong id="practiceTitle">A MINOR PENTATONIC</strong><span id="practiceFormula">A • C • D • E • G</span></div>
 <button class="icon-btn fullscreen-btn" type="button" aria-label="Enter fullscreen" title="Fullscreen">
   <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>
@@ -92,18 +92,19 @@
 </button>
 
       </header>
-      <div id="practiceDrawer" class="practice-drawer" aria-hidden="true">
+      <div id="practiceDrawer" class="responsive-drawer" aria-hidden="true">
         <div class="drawer-head"><strong>PRACTICE SETUP</strong><button id="practiceMenuClose" class="icon-btn" aria-label="Close menu">×</button></div>
       <section class="control-panel">
-        <div class="control-group root-group"><label>ROOT</label><div class="note-strip" id="rootControls"></div></div>
-        <div class="control-group quality-group"><label>QUALITY</label><div class="segmented" id="qualityControls"><button data-quality="major">MAJOR</button><button data-quality="minor" class="active">MINOR</button></div></div>
-        <div class="control-group mode-group"><label>MODE</label><div class="segmented" id="modeControls"><button data-mode="penta" class="active">PENTATONIC</button><button data-mode="triad">TRIADS</button><button data-mode="chord">CHORDS</button></div></div>
+        <div class="control-group" data-control-group="root"><label>NOTE</label><div class="control-options" id="rootControls"></div><div class="control-select" data-select-for="rootControls"></div></div>
+        <div class="control-group" data-control-group="quality"><label>KEY</label><div class="control-options" id="qualityControls"><button data-quality="major">MAJOR</button><button data-quality="minor" class="active">MINOR</button></div><div class="control-select" data-select-for="qualityControls"></div></div>
+        <div class="control-group" data-control-group="mode"><label>MODE</label><div class="control-options" id="modeControls"><button data-mode="penta" class="active">PENTATONIC</button><button data-mode="triad">TRIADS</button><button data-mode="chord">CHORDS</button></div><div class="control-select" data-select-for="modeControls"></div></div>
+      <div id="practicePositionControls" class="control-group" data-control-group="context"><label id="practicePositionLabel">POSITIONS</label><div id="practicePositionButtons" class="control-options"></div><div class="control-select" data-select-for="practicePositionButtons"></div></div>
+      <div id="fretCountControls" class="control-group" data-control-group="fretboard"><label>FRETBOARD</label><div class="control-options"><button data-frets="12">12 FT</button><button data-frets="15">15 FT</button><button data-frets="17">17 FT</button><button data-frets="21">21 FT</button></div><div class="control-select" data-select-for="fretCountControls"></div></div>
       </section>
-      <div id="practicePositionControls" class="practice-context-controls"><label id="practicePositionLabel">POSITIONS</label><div id="practicePositionButtons" class="practice-context-buttons"></div></div>
-      <div id="fretCountControls" class="fret-count-controls"><label>FRETBOARD</label><button data-frets="12">12 FT</button><button data-frets="15">15 FT</button><button data-frets="17">17 FT</button><button data-frets="21">21 FT</button></div>
       </div>
       <div id="practiceDrawerBackdrop" class="drawer-backdrop"></div>
 
+      <div class="practice-learning-area">
       <div class="fretboard-wrap practice-board"><svg id="practiceFretboard" role="img" aria-label="Interactive guitar fretboard"></svg></div>
       <div class="practice-legend-row">
         <div id="practiceHint" class="practice-hint">All 5 connected positions are visible. Select one to isolate it.</div>
@@ -115,13 +116,15 @@
           <button id="legendSeventh" class="legend-pair legend-filter" type="button" data-degree-filter="seventh" aria-pressed="false"><span class="legend seventh">7</span><small>7th</small></button>
         </div>
       </div>
+      </div>
     </section>
 
 
     <section id="fretmap" class="screen fretmap-screen" aria-label="Fretboard Map">
       <header class="topbar">
         <button class="icon-btn" data-go="home" aria-label="Back home">←</button>
-        <div class="map-heading"><strong>FRETBOARD MAP</strong><span>EVERY NOTE • ONE NECK</span></div>
+        <button id="mapMenuBtn" class="icon-btn mobile-menu-btn" aria-label="Open map menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div class="section-heading"><strong>FRETBOARD MAP</strong><span>EVERY NOTE • ONE NECK</span></div>
 <button class="icon-btn fullscreen-btn" type="button" aria-label="Enter fullscreen" title="Fullscreen">
   <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>
@@ -132,18 +135,22 @@
 </button>
 
       </header>
-      <div class="map-toolbar">
-        <div class="map-controls"><label>FRETBOARD</label><button data-map-frets="12">12 FT</button><button data-map-frets="15">15 FT</button><button data-map-frets="17">17 FT</button><button data-map-frets="21">21 FT</button></div>
-        <div class="map-note-filter" aria-label="Filter fretboard by note"><label>NOTES</label><div id="mapNoteControls" class="map-note-strip"><button type="button" data-map-note="all" class="active">ALL</button></div></div>
+      <div id="mapDrawer" class="responsive-drawer" aria-hidden="true">
+        <div class="drawer-head"><strong>FRETBOARD MAP</strong><button id="mapMenuClose" class="icon-btn" aria-label="Close menu">×</button></div>
+        <div class="control-panel">
+          <div class="control-group" data-control-group="note" aria-label="Filter fretboard by note"><label>NOTE</label><div id="mapNoteControls" class="control-options"><button type="button" data-map-note="all" class="active">ALL</button></div><div class="control-select" data-select-for="mapNoteControls"></div></div>
+          <div class="control-group" data-control-group="fretboard"><label>FRETBOARD</label><div id="mapFretControls" class="control-options"><button data-map-frets="12">12 FT</button><button data-map-frets="15">15 FT</button><button data-map-frets="17">17 FT</button><button data-map-frets="21">21 FT</button></div><div class="control-select" data-select-for="mapFretControls"></div></div>
+        </div>
       </div>
+      <div id="mapDrawerBackdrop" class="drawer-backdrop"></div>
       <div class="fretboard-wrap map-board"><svg id="mapFretboard" role="img" aria-label="All guitar notes on the fretboard"></svg></div>
-      <div class="map-hint">Standard tuning • E A D G B E</div>
+      
     </section>
 
     <section id="quiz" class="screen quiz-screen" aria-label="Quiz">
       <header class="topbar">
         <button class="icon-btn" data-go="home" aria-label="Back home">←</button>
-        <div class="mini-logo">FRETBOARD <span>QUIZ</span></div>
+        <div class="section-heading"><strong>FRETBOARD QUIZ</strong><span>KNOW THE NECK • OWN THE NECK</span></div>
         <span id="quizAttempts" class="sr-only" aria-hidden="true">0 ATTEMPTS</span>
 <button class="icon-btn fullscreen-btn" type="button" aria-label="Enter fullscreen" title="Fullscreen">
   <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -155,14 +162,17 @@
 </button>
 
       </header>
+      <div class="quiz-hud" aria-label="Quiz status">
+        <div class="hud-stat"><span>ROUNDS</span><strong><b id="roundNum">1</b>/10</strong></div>
+        <div class="hud-stat"><span>ATTEMPTS</span><strong id="attemptCount">0</strong></div>
+        <div class="hud-stat hud-combo"><span>COMBO</span><strong>×<b id="comboCount">0</b></strong></div>
+      </div>
       <div class="quiz-head">
-        <div class="roundline">ROUND <strong id="roundNum">1</strong> / 10</div>
         <h2 id="quizChord">A MINOR</h2>
-        <p id="quizPrompt">Find the <strong>ROOT</strong></p>
+        <p id="quizPrompt">Find the <strong>NOTE</strong></p>
         <div id="quizFeedback" class="quiz-feedback">Touch any correct occurrence on the fretboard.</div>
       </div>
       <div class="fretboard-wrap quiz-board"><svg id="quizFretboard" role="img" aria-label="Quiz guitar fretboard"></svg></div>
-      <div class="quiz-bottom"><span>Attempts: <strong id="attemptCount">0</strong></span><span>Correct: <strong id="correctCount">0</strong>/10</span></div>
     </section>
   </main>
 
@@ -172,10 +182,10 @@
       <h2 id="resultRank">VIRTUOSO</h2>
       <div class="result-score"><strong id="resultAttempts">10</strong><span>attempts</span></div>
       <p id="resultCopy">Perfect run. You know your neck.</p>
-      <button id="shareScore" class="modal-primary">SHARE MY SCORE</button>
-      <button id="replayQuiz" class="modal-secondary">PLAY AGAIN</button>
-      <a href="https://stupid-games.seignemorte.com/">OTHER STUPID GAMES</a>
-      <a href="https://ko-fi.com/jeffseignemorte">BUY ME A COFFEE</a>
+      <button id="shareScore" class="modal-primary modal-action"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4A3 3 0 0 0 15 5c0 .22.02.43.07.63L8.91 9.1A3 3 0 0 0 7 8.42a3 3 0 1 0 1.91 5.48l6.16 3.47A3 3 0 0 0 15 18a3 3 0 1 0 .83-2.07L9.67 12.5c.04-.16.06-.33.06-.5s-.02-.34-.06-.5l6.16-3.43c.55.58 1.32.93 2.17.93Z"/></svg><span>SHARE MY SCORE</span></button>
+      <button id="replayQuiz" class="modal-secondary modal-action"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.34-5.66L20 7.68V3h2v8h-8V9h4.54l-2.3-2.25A6 6 0 1 0 18 11h2Z"/></svg><span>PLAY AGAIN</span></button>
+      <a class="coffee-action modal-action" href="https://ko-fi.com/jeffseignemorte" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h13v3h1.5a3.5 3.5 0 0 1 0 7H17v1a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V5Zm13 5v3h1.5a1.5 1.5 0 0 0 0-3H17ZM6 7v9a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V7H6Z"/></svg><span>BUY ME A COFFEE</span></a>
+      <a class="other-games-link" href="https://stupid-games.seignemorte.com/">OTHER STUPID GAMES <span aria-hidden="true">→</span></a>
     </div>
   </div>
 

@@ -20,6 +20,72 @@
   practiceMenuBtn?.addEventListener('click',()=>setPracticeMenu(!practiceDrawer.classList.contains('open')));
   $('#practiceMenuClose')?.addEventListener('click',()=>setPracticeMenu(false));
   practiceDrawerBackdrop?.addEventListener('click',()=>setPracticeMenu(false));
+
+  // V6 shared responsive drawers -------------------------------------------------
+  function bindDrawer(name){
+    const drawer=$('#'+name+'Drawer'), btn=$('#'+name+'MenuBtn'), close=$('#'+name+'MenuClose'), backdrop=$('#'+name+'DrawerBackdrop');
+    if(!drawer||!btn)return;
+    const set=open=>{drawer.classList.toggle('open',open);backdrop?.classList.toggle('show',open);drawer.setAttribute('aria-hidden',String(!open));btn.setAttribute('aria-expanded',String(open));};
+    btn.addEventListener('click',()=>set(!drawer.classList.contains('open'))); close?.addEventListener('click',()=>set(false)); backdrop?.addEventListener('click',()=>set(false));
+  }
+  bindDrawer('map');
+
+  // V6 custom select-buttons. They proxy the existing buttons, so gameplay has
+  // one source of truth regardless of responsive presentation.
+  function sourceButtonsFor(host){
+    const key=host.dataset.selectFor;
+    if(key==='mapFrets')return $$('#mapFretControls button[data-map-frets]');
+    const src=$('#'+key); if(!src)return [];
+    if(key==='fretCountControls')return $$('#fretCountControls button[data-frets]');
+    return [...src.querySelectorAll('button')].filter(b=>!b.classList.contains('select-trigger'));
+  }
+  function refreshSelect(host){
+    const buttons=sourceButtonsFor(host); if(!buttons.length){host.innerHTML='';return;}
+    let trigger=host.querySelector('.select-trigger'), menu=host.querySelector('.select-popover');
+    if(!trigger){
+      trigger=document.createElement('button');trigger.type='button';trigger.className='select-trigger';trigger.setAttribute('aria-expanded','false');
+      menu=document.createElement('div');menu.className='select-popover';host.append(trigger,menu);
+      trigger.addEventListener('click',e=>{e.stopPropagation();const open=host.classList.toggle('select-open');trigger.setAttribute('aria-expanded',String(open));});
+    }
+    menu.innerHTML='';
+    const active=buttons.find(b=>b.classList.contains('active'))||buttons[0];
+    trigger.innerHTML=`<span>${active?.textContent?.trim()||'SELECT'}</span><b aria-hidden="true">⌄</b>`;
+    buttons.forEach(b=>{const o=document.createElement('button');o.type='button';o.className='select-option'+(b.classList.contains('active')?' active':'');o.textContent=b.textContent.trim();o.addEventListener('click',()=>{b.click();host.classList.remove('select-open');trigger.setAttribute('aria-expanded','false');requestAnimationFrame(refreshAllSelects)});menu.append(o)});
+  }
+  function refreshAllSelects(){ $$('.control-select').forEach(refreshSelect); requestAnimationFrame(updateAdaptiveControls); }
+  document.addEventListener('click',e=>{if(!e.target.closest('.control-select'))$$('.control-select.select-open').forEach(x=>{x.classList.remove('select-open');x.querySelector('.select-trigger')?.setAttribute('aria-expanded','false')})});
+
+  function updateAdaptiveControls(){
+    const mobile=matchMedia('(max-width:767px), (orientation:landscape) and (max-width:1000px) and (max-height:599px)').matches;
+    const toolbars=[$('#practiceDrawer'),$('#mapDrawer')].filter(Boolean);
+    toolbars.forEach(toolbar=>toolbar.querySelectorAll('.control-group').forEach(g=>g.classList.remove('is-select')));
+    if(mobile)return;
+
+    toolbars.forEach(toolbar=>{
+      const row=toolbar.querySelector('.control-panel')||toolbar;
+      const groups=[...toolbar.querySelectorAll('.control-group')];
+      // Do not rely on scrollWidth here: several legacy children use visible overflow,
+      // which can report a row as fitting even when the groups visually spill/wrap.
+      // Measure the canonical groups themselves against the real panel width.
+      const fits=()=>{
+        const style=getComputedStyle(row);
+        const gap=parseFloat(style.columnGap||style.gap)||0;
+        const required=groups.reduce((sum,g)=>sum+g.getBoundingClientRect().width,0)+gap*Math.max(0,groups.length-1);
+        return required<=row.getBoundingClientRect().width+1;
+      };
+      // Same degradation order on Practice and Map. Wide controls collapse first.
+      const order=['fretboard','root','note','context','quality','mode'];
+      for(const type of order){
+        if(fits())break;
+        groups.filter(g=>g.dataset.controlGroup===type).forEach(g=>g.classList.add('is-select'));
+      }
+    });
+  }
+  const adaptiveObserver=new ResizeObserver(()=>requestAnimationFrame(()=>{refreshAllSelects();updateAdaptiveControls()}));
+  $$('.control-panel').forEach(el=>adaptiveObserver.observe(el));
+  window.addEventListener('resize',()=>requestAnimationFrame(()=>{refreshAllSelects();updateAdaptiveControls()}));
+  document.addEventListener('fullscreenchange',()=>setTimeout(()=>{refreshAllSelects();updateAdaptiveControls()},50));
+
   NOTES.forEach(n=>{const b=document.createElement('button');b.textContent=n;b.dataset.root=n;if(n==='A')b.classList.add('active');$('#rootControls').appendChild(b)});
   $('#rootControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.root=b.dataset.root;$$('#rootControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
   $('#modeControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.mode=b.dataset.mode;if(state.mode==='penta')state.pattern='all';else if(state.mode==='triad')state.triadStrings='GBE';else state.chordShape='all';$$('#modeControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
@@ -28,7 +94,7 @@
   $('#practicePositionButtons').addEventListener('click',e=>{const b=e.target.closest('button[data-value]');if(!b)return;const v=b.dataset.value;if(state.mode==='penta')state.pattern=v;else if(state.mode==='triad')state.triadStrings=v;else state.chordShape=v;renderPractice()});
   window.addEventListener('resize',()=>{if(!state.fretManual)state.maxFret=defaultFretCount();if(!state.mapFretManual)state.mapMaxFret=defaultFretCount();if(state.screen==='practice')renderPractice();if(state.screen==='fretmap')renderFretboardMap();if(state.screen==='quiz')renderQuizBoard()});
 
-  $$('.map-controls button[data-map-frets]').forEach(b=>b.addEventListener('click',()=>{state.mapMaxFret=Number(b.dataset.mapFrets);state.mapFretManual=true;renderFretboardMap()}));
+  $$('#mapFretControls button[data-map-frets]').forEach(b=>b.addEventListener('click',()=>{state.mapMaxFret=Number(b.dataset.mapFrets);state.mapFretManual=true;renderFretboardMap()}));
   // Practice legend: tap a degree to isolate it; tap the active pill again to show everything.
   $('.practice-legend')?.addEventListener('click',e=>{
     const b=e.target.closest('[data-degree-filter]');if(!b||b.classList.contains('legend-muted'))return;
@@ -38,12 +104,14 @@
   // Fretboard Map: all notes by default, or isolate one pitch class while learning it.
   NOTES.forEach(n=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.dataset.mapNote=n;$('#mapNoteControls')?.appendChild(b)});
   $('#mapNoteControls')?.addEventListener('click',e=>{const b=e.target.closest('button[data-map-note]');if(!b)return;state.mapNote=b.dataset.mapNote;renderFretboardMap()});
+  requestAnimationFrame(refreshAllSelects);
   const MAP_COLORS={A:'#4f9dff','A#':'#9b6cff',B:'#c48b5b',C:'#35d1b0','C#':'#26b9d5',D:'#d15a91','D#':'#b864d8',E:'#82bd58',F:'#ff745e','F#':'#ff4f93',G:'#ff9d3f','G#':'#ffd14f'};
   function renderFretboardMap(){
+    requestAnimationFrame(refreshAllSelects);
     const svg=$('#mapFretboard'); if(!svg)return;
     const isP=portrait(),maxFret=Math.min(21,state.mapMaxFret),W=isP?520:1500,H=isP?1500:430;
     svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
-    $$('.map-controls button[data-map-frets]').forEach(b=>b.classList.toggle('active',Number(b.dataset.mapFrets)===maxFret));
+    $$('#mapFretControls button[data-map-frets]').forEach(b=>b.classList.toggle('active',Number(b.dataset.mapFrets)===maxFret));
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
     const defs=svgEl('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs.append(filter);svg.append(defs);premiumSurface(svg,isP,W,H,'map');
     const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
@@ -71,7 +139,7 @@
     $$('.practice-legend [data-degree-filter]').forEach(b=>{const on=state.degreeFilter===b.dataset.degreeFilter;const filtered=state.degreeFilter!=='all';b.classList.toggle('active',on);b.classList.toggle('filter-dimmed',filtered&&!on);b.setAttribute('aria-pressed',String(on))});
   }
   function degreeLabel(pc){return noteName(pc)}
-  function portrait(){return matchMedia('(max-width:1100px) and (orientation:portrait)').matches}
+  function portrait(){return matchMedia('(max-width:1199px) and (orientation:portrait)').matches}
   function svgEl(tag,attrs={},text=''){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(text)e.textContent=text;return e}
   function premiumDefs(svg,prefix){
     const defs=svgEl('defs');
@@ -223,6 +291,7 @@
   }
 
   function renderPractice(){
+    requestAnimationFrame(refreshAllSelects);
     const title=state.root+' '+state.quality.toUpperCase()+' '+(state.mode==='penta'?'PENTATONIC':state.mode==='triad'?'TRIADS':'CAGED CHORDS');
     $('#practiceTitle').textContent=title;
     $('#practiceFormula').textContent=state.mode==='penta'?formula():`${state.root} • ${noteName(thirdPC())} • ${noteName(fifthPC())}`;
@@ -271,12 +340,18 @@
   }
 
   function startQuiz(){
-    state.quiz={round:0,attempts:0,correct:0,current:null,locked:false};state.quizReveal=null;$('#resultModal').classList.remove('show');nextQuestion();
+    state.quiz={round:0,attempts:0,correct:0,combo:0,current:null,locked:false};state.quizReveal=null;$('#resultModal').classList.remove('show');nextQuestion();
   }
   function randomQuestion(){const root=NOTES[Math.floor(Math.random()*NOTES.length)],quality=Math.random()<.5?'major':'minor',targets=['root','third','fifth'],target=targets[Math.floor(Math.random()*targets.length)];return{root,quality,target}}
   function targetPC(q){const r=PC[q.root];return q.target==='root'?r:q.target==='third'?mod(r+intervals[q.quality].third):mod(r+7)}
   function nextQuestion(){const qz=state.quiz;if(qz.round>=10){finishQuiz();return}qz.round++;qz.current=randomQuestion();qz.locked=false;$('#roundNum').textContent=qz.round;$('#quizChord').textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3rd':'3rd'):'5th';$('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;$('#quizFeedback').textContent='Touch any correct occurrence on the fretboard.';updateQuizStats();renderQuizBoard()}
-  function updateQuizStats(){if(!state.quiz)return;const a=$('#attemptCount'),c=$('#correctCount'),h=$('#quizAttempts');if(a)a.textContent=state.quiz.attempts;if(c)c.textContent=state.quiz.correct;if(h)h.textContent=`${state.quiz.attempts} ATTEMPTS`}
+  function updateQuizStats(){
+    if(!state.quiz)return;
+    const a=$('#attemptCount'),combo=$('#comboCount'),h=$('#quizAttempts');
+    if(a)a.textContent=state.quiz.attempts;
+    if(combo)combo.textContent=state.quiz.combo;
+    if(h)h.textContent=`${state.quiz.attempts} ATTEMPTS`;
+  }
   function renderQuizBoard(){const svg=$('#quizFretboard');const q=state.quiz?.current;if(!q)return;const prev={root:state.root,quality:state.quality};state.root=q.root;state.quality=q.quality;renderFretboardQuiz(svg,q);state.root=prev.root;state.quality=prev.quality}
   function renderFretboardQuiz(svg,q){
     const isP=portrait(),maxFret=Math.min(21,defaultFretCount()),W=isP?520:1500,H=isP?1500:430;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret),stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5),visualStringPos=s=>stringPos(isP?s:5-s);
@@ -298,10 +373,43 @@
     }
     svg.onclick=e=>{const c=e.target.closest('circle[data-string]');if(!c||state.quiz.locked)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c)};
   }
-  function answerQuiz(s,f,node){const qz=state.quiz,q=qz.current;const pc=noteAt(s,f);qz.attempts++;if(pc===targetPC(q)){qz.correct++;qz.locked=true;state.quizReveal=pc;$('#quizFeedback').textContent=`Correct — ${noteName(pc)} is the ${q.target==='root'?'root':q.target==='third'?(q.quality==='minor'?'♭3rd':'3rd'):'5th'} of ${q.root} ${q.quality}.`;renderQuizBoard();updateQuizStats();setTimeout(()=>{state.quizReveal=null;nextQuestion()},850)}else{node.setAttribute('fill','#ff4d62');node.setAttribute('stroke','#ff8897');node.setAttribute('filter','url(#qglow)');$('#quizFeedback').textContent=`Not this one — try again.`;updateQuizStats();setTimeout(()=>{if(node.isConnected){node.setAttribute('fill','transparent');node.setAttribute('stroke','transparent');node.removeAttribute('filter')}},280)}}
-  function finishQuiz(){const a=state.quiz.attempts;let rank='KEEP PRACTICING',copy='Every attempt builds the map in your head.';if(a===10){rank='VIRTUOSO';copy='Perfect run. You know your neck.'}else if(a<=13){rank='ROCKSTAR';copy='Fast, accurate and confident.'}else if(a<=17){rank='SHREDDER';copy='Strong fretboard knowledge.'}else if(a<=24){rank='PLAYER';copy='Solid base. One more run will sharpen it.'}$('#resultRank').textContent=rank;$('#resultAttempts').textContent=a;$('#resultCopy').textContent=copy;$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false')}
+  function answerQuiz(s,f,node){const qz=state.quiz,q=qz.current;const pc=noteAt(s,f);qz.attempts++;if(pc===targetPC(q)){qz.correct++;qz.combo++;qz.locked=true;state.quizReveal=pc;$('#quizFeedback').textContent=`Correct — ${noteName(pc)} is the ${q.target==='root'?'root':q.target==='third'?(q.quality==='minor'?'♭3rd':'3rd'):'5th'} of ${q.root} ${q.quality}.`;renderQuizBoard();updateQuizStats();setTimeout(()=>{state.quizReveal=null;nextQuestion()},850)}else{qz.combo=0;node.setAttribute('fill','#ff4d62');node.setAttribute('stroke','#ff8897');node.setAttribute('filter','url(#qglow)');$('#quizFeedback').textContent=`Not this one — try again.`;updateQuizStats();setTimeout(()=>{if(node.isConnected){node.setAttribute('fill','transparent');node.setAttribute('stroke','transparent');node.removeAttribute('filter')}},280)}}
+  function quizRank(a){
+    const exact={
+      10:['🏆','VIRTUOSO','Perfect run. You know your neck.'],
+      11:['👑','GUITAR HERO','One tiny miss. Still legendary.'],
+      12:['⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
+      13:['⚡','SHREDDER','The neck is starting to fear you.'],
+      14:['🔥','SOLO MASTER','Strong fretboard instincts.'],
+      15:['💀','RIFF LORD','You command the riffs.'],
+      16:['🤘','HEADLINER','Ready for the big stage.'],
+      17:['🎵','LEAD GUITARIST','Solid lead-player territory.'],
+      18:['🔥','AXE SLINGER','You know how to handle that axe.'],
+      19:['🎸','GIG PLAYER','Good enough to survive the set.'],
+      20:['🎶','JAMMER','You can find your way through a jam.'],
+      21:['🔊','AMPLIFIED','Getting louder. Getting sharper.'],
+      22:['🎼','PLAYER','A solid base is taking shape.'],
+      23:['🎧','PRACTICER','The repetitions are paying off.'],
+      24:['🌱','ROOKIE','The journey has officially begun.'],
+      25:['🎸','BEGINNER','You found the guitar. Now find the notes.'],
+      26:['🎵','CHORD CHASER','Always one fret behind the chord.'],
+      27:['🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
+      28:['🐣','NEWBIE','Fresh strings. Fresh mistakes.'],
+      29:['📖','STUDENT','Homework: learn the neck.'],
+      30:['🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
+      31:['🐌','SLOW HAND','Slow is smooth. Eventually.'],
+      32:['😵','FRET LOST','Somewhere between fret 1 and 21.'],
+      33:['🗺️','NECK TOURIST','Nice neck. First time here?'],
+      34:['🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.']
+    };
+    if(exact[a]){const [emoji,rank,copy]=exact[a];return{emoji,rank,copy}}
+    if(a<=39)return{emoji:'🛠️',rank:'KEEP PRACTICING',copy:'Every attempt builds the map in your head.'};
+    if(a<=49)return{emoji:'😬',rank:'NEEDS A TUNER',copy:'The guitar might be fine. We should still check.'};
+    return{emoji:'💀',rank:'AIR GUITARIST',copy:'At least air guitar has no wrong frets.'};
+  }
+  function finishQuiz(){const a=state.quiz.attempts,{emoji,rank,copy}=quizRank(a);$('#resultRank').textContent=`${emoji} ${rank}`;$('#resultAttempts').textContent=a;$('#resultCopy').textContent=copy;$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false')}
   $('#replayQuiz').addEventListener('click',startQuiz);
-  $('#shareScore').addEventListener('click',async()=>{const a=state.quiz?.attempts??0,text=`I scored ${a} attempts on Guitar Fretboard Hero 🎸 Can you beat me?`,url='https://stupid-games.seignemorte.com/guitar-fretboard-hero/';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text} ${url}`);$('#shareScore').textContent='COPIED!';setTimeout(()=>$('#shareScore').textContent='SHARE MY SCORE',1400)}}catch{}});
+  $('#shareScore').addEventListener('click',async()=>{const a=state.quiz?.attempts??0,{emoji,rank}=quizRank(a);const text=a===10?`${emoji} VIRTUOSO! Perfect 10/10 on Guitar Fretboard Hero 🎸\nWhat's your rank?`:`${emoji} I reached ${rank} with ${a} attempts on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
 
   renderPractice();
 })();

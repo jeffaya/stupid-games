@@ -1,733 +1,2222 @@
-:root{--bg:#05070b;--panel:#0b1119cc;--line:#223245;--cyan:#27d7ff;--pink:#ff3ec9;--yellow:#ffd53c;--green:#32f0a6;--text:#edf8ff;--muted:#8ba0b3;--danger:#ff4d62;--radius:20px}
-*{box-sizing:border-box}html,body{margin:0;background:#030509;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100%;overflow-x:hidden}body{min-height:100dvh;background:radial-gradient(circle at 15% 10%,#111c35 0,transparent 34%),radial-gradient(circle at 85% 70%,#2b0a2d 0,transparent 28%),#030509}.ambient{position:fixed;inset:auto;pointer-events:none;filter:blur(60px);opacity:.35}.ambient-a{width:240px;height:240px;background:#00c8ff;left:-100px;top:25%}.ambient-b{width:300px;height:300px;background:#ff00ba;right:-130px;bottom:5%}.app-shell{min-height:100dvh;position:relative;z-index:1}.screen{display:none;min-height:100dvh}.screen.active{display:flex}.home-screen{padding:max(30px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));align-items:center;justify-content:center;flex-direction:column;text-align:center}.home-topline{font-size:11px;letter-spacing:.32em;color:#7294aa;margin-bottom:22px}.hero-logo{display:flex;flex-direction:column;line-height:.78;transform:skew(-7deg) rotate(-2deg);filter:drop-shadow(0 0 18px #15c7ff55)}.hero-logo span{display:block;font-weight:1000;font-style:italic;letter-spacing:-.07em;text-shadow:0 0 12px currentColor}.hero-guitar{font-size:clamp(54px,13vw,110px);color:#f8fbff}.hero-fret{font-size:clamp(46px,11vw,94px);color:var(--cyan)}.hero-hero{font-size:clamp(50px,12vw,100px);color:var(--pink)}.tagline{margin:26px 0 22px;letter-spacing:.18em;color:#a8c0d3;font-size:12px}.tagline span{color:#51758f}.guitar-visual{width:min(820px,92vw);height:150px;position:relative;margin:0 auto 24px;transform:perspective(700px) rotateX(64deg) rotateZ(-2deg);border-radius:36px;background:linear-gradient(180deg,#261b18,#08090d 55%,#16110f);box-shadow:0 0 30px #00c8ff22,0 0 50px #ff00b722;overflow:hidden}.neck-glow{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent 7.7%,#e0d2bf55 7.9%,transparent 8.15%),linear-gradient(90deg,#ff00b91d,#00c8ff1c)}.neck-line{position:absolute;left:2%;right:2%;height:1px;background:#d6dbe2aa}.n1{top:16%}.n2{top:30%}.n3{top:44%}.n4{top:58%}.n5{top:72%}.n6{top:86%}.note-dot{position:absolute;width:16px;height:16px;border-radius:50%;box-shadow:0 0 12px currentColor,0 0 24px currentColor;background:currentColor}.d1{left:20%;top:25%;color:var(--pink)}.d2{left:36%;top:63%;color:var(--cyan)}.d3{left:51%;top:38%;color:var(--yellow)}.d4{left:66%;top:73%;color:#6dff85}.d5{left:78%;top:22%;color:var(--cyan)}.home-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(720px,100%)}.hero-btn{min-height:88px;border-radius:18px;border:1px solid #2a4055;background:#09111bcc;color:#fff;padding:16px;display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;text-align:left;align-items:center;cursor:pointer;box-shadow:inset 0 0 28px #0e213122;transition:.2s}.hero-btn:hover{transform:translateY(-2px)}.hero-btn span{grid-row:1/3;font-size:28px}.hero-btn strong{font-size:18px;letter-spacing:.05em}.hero-btn small{color:#85a2b6}.hero-btn.primary{border-color:#ff52df;box-shadow:0 0 20px #ff36cf22,inset 0 0 30px #ff00c018}.hero-btn.primary span{color:var(--pink)}.hero-btn.secondary{border-color:#2cccf8;box-shadow:0 0 20px #2cccf822,inset 0 0 30px #00bdf018}.hero-btn.secondary span{color:var(--cyan)}.ecosystem-link{margin-top:28px;color:#6f8ca0;text-decoration:none;font-size:12px}.topbar{display:flex;align-items:center;justify-content:space-between;padding:max(14px,env(safe-area-inset-top)) 16px 10px;gap:10px}.icon-btn,.quiz-jump{border:1px solid #25384a;background:#09111b;color:#cce9f9;border-radius:12px;height:42px;padding:0 14px;font-weight:800}.icon-btn{width:42px}.mini-logo{font-weight:900;letter-spacing:.08em;font-size:13px}.mini-logo span{color:var(--cyan)}.practice-screen,.quiz-screen{flex-direction:column}.control-panel{padding:4px 16px 10px;display:grid;grid-template-columns:1.4fr 2fr 1fr;gap:10px}.control-group{background:var(--panel);border:1px solid #1f3142;border-radius:16px;padding:11px}.control-group label,.pattern-controls label{font-size:10px;color:#7f9aad;letter-spacing:.12em;display:block;margin-bottom:8px}.segmented,.note-strip{display:flex;gap:7px;flex-wrap:wrap}.segmented button,.note-strip button,.pattern-controls button{background:#09121d;border:1px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:48px;cursor:pointer}.segmented button.active,.note-strip button.active,.pattern-controls button.active{border-color:#ff57d7;color:#fff;background:#2b0b2c;box-shadow:0 0 14px #ff38c844}.practice-meta{padding:0 16px 8px;display:flex;justify-content:space-between;align-items:end;gap:16px}.practice-meta strong{display:block;font-size:18px}.practice-meta>div>span{color:#8ca5b8;font-size:12px}.legend-inline{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.legend-inline small{color:#8ba0b3;margin-right:7px}.legend{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}.legend.root{background:var(--cyan);color:#032530;box-shadow:0 0 14px #27d7ff}.legend.third{background:var(--pink);color:#38042c;box-shadow:0 0 14px #ff3ec9}.legend.fifth{background:var(--yellow);color:#362800;box-shadow:0 0 14px #ffd53c}.legend.other{background:#91a3b1;color:#14212a}.pattern-controls{display:flex;align-items:end;gap:7px;padding:0 16px 8px;flex-wrap:wrap}.pattern-controls label{margin:0 5px 10px 0}.shape-controls{display:flex;align-items:center;justify-content:center;gap:16px;padding:0 16px 8px}.shape-controls button{width:38px;height:38px;border-radius:50%;border:1px solid #2e4861;background:#0a141f;color:white;font-size:24px}.shape-controls div{text-align:center;min-width:200px}.shape-controls strong,.shape-controls span{display:block}.shape-controls span{color:#8ca5b8;font-size:12px}.hidden{display:none!important}.fretboard-wrap{margin:0 16px;border:1px solid #263b4f;border-radius:18px;background:linear-gradient(180deg,#130d0b,#07090c);overflow:hidden;position:relative;box-shadow:inset 0 0 30px #000,0 0 24px #00c8ff0c}.practice-board{flex:1;min-height:330px}.quiz-board{flex:1;min-height:430px}.fretboard-wrap svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}.practice-hint{padding:9px 16px max(14px,env(safe-area-inset-bottom));text-align:center;color:#718b9e;font-size:12px}.quiz-head{text-align:center;padding:4px 16px 12px}.roundline{font-size:11px;letter-spacing:.18em;color:#7894a7}.quiz-head h2{font-size:clamp(30px,8vw,56px);margin:8px 0 2px;font-style:italic;text-shadow:0 0 18px #ff3ec955}.quiz-head p{margin:0;color:#bcd4e2}.quiz-head p strong{color:var(--cyan)}.quiz-feedback{margin-top:8px;color:#7894a7;font-size:12px;min-height:18px}.attempt-pill{border:1px solid #2b4358;background:#0a141f;padding:8px 10px;border-radius:999px;font-size:11px;color:#9eb7c7}.quiz-bottom{display:flex;justify-content:space-between;padding:10px 18px max(16px,env(safe-area-inset-bottom));font-size:13px;color:#8fa8b9}.modal-backdrop{position:fixed;inset:0;background:#020407df;display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal-backdrop.show{display:flex}.result-modal{width:min(430px,100%);background:#090f17;border:1px solid #31495e;border-radius:24px;padding:26px;text-align:center;box-shadow:0 0 60px #ff35cb22,0 0 80px #00c8ff18}.result-kicker{font-size:10px;letter-spacing:.2em;color:#7493a7}.result-modal h2{font-size:42px;color:var(--pink);margin:10px 0;text-shadow:0 0 22px currentColor}.result-score strong{font-size:64px;color:var(--cyan)}.result-score span{display:block;color:#7f9aad}.result-modal p{color:#a5bbca}.result-modal button{width:100%;padding:14px;border-radius:12px;font-weight:900;margin-top:8px;cursor:pointer}.modal-primary{background:linear-gradient(90deg,#ff32c7,#7f43ff);border:0;color:#fff}.modal-secondary{background:#0a1520;border:1px solid #2d455a;color:#fff}.result-modal a{display:block;color:#7f9aad;text-decoration:none;font-size:12px;margin-top:12px}
-@media(max-width:800px){.home-actions{grid-template-columns:1fr}.guitar-visual{height:110px}.control-panel{grid-template-columns:1fr}.control-group{padding:8px}.practice-meta{align-items:flex-start;flex-direction:column}.legend-inline{justify-content:flex-start}.practice-board{min-height:56dvh}.quiz-board{min-height:55dvh}.hero-logo{margin-top:6vh}.pattern-controls{position:sticky;bottom:0;z-index:4;background:linear-gradient(180deg,transparent,#04070bd9 20%);padding-top:10px}.shape-controls{position:sticky;bottom:0;z-index:4;background:#05090dde;padding-top:8px}.note-strip{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}.note-strip button{flex:0 0 auto}}
-@media(min-width:801px){.practice-screen .fretboard-wrap,.quiz-screen .fretboard-wrap{max-height:60vh}.quiz-screen .fretboard-wrap{min-height:420px}}
+/* Guitar Fretboard Hero — V6.8 (baseline V6.5)
+   Unified production stylesheet.
+   Responsive policy: mobile drawer, tablet selects/adaptive controls, desktop visible controls.
+   The fretboard renderer remains the visual priority; the learning legend is intentionally independent.
+*/
 
-/* ===== V2 polish ===== */
-body{font-family:"Barlow Condensed",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button{font-family:inherit}
-.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2{font-family:"Metal Mania","Barlow Condensed",sans-serif;font-weight:400;letter-spacing:.035em}
-.hero-logo span{letter-spacing:-.025em}
-.hero-guitar{font-size:clamp(58px,13vw,116px)}
-.hero-fret{font-size:clamp(48px,11vw,98px)}
-.hero-hero{font-size:clamp(54px,12vw,106px)}
+:root {
+  --bg: #05070b;
+  --panel: #0b1119cc;
+  --line: #223245;
+  --cyan: #27d7ff;
+  --pink: #ff3ec9;
+  --yellow: #ffd53c;
+  --green: #32f0a6;
+  --text: #edf8ff;
+  --muted: #8ba0b3;
+  --danger: #ff4d62;
+  --radius: 20px;
+}
 
-/* All interactive controls need a strong, legible edge */
-.hero-btn,.icon-btn,.quiz-jump,.control-group,.segmented button,.note-strip button,.pattern-controls button,.shape-controls button,.fretboard-wrap,.attempt-pill,.result-modal,.modal-secondary{border-width:2px}
-.hero-btn{border-style:solid;min-height:94px}
-.segmented button,.note-strip button,.pattern-controls button{border-width:2px}
-.shape-controls button{border-width:2px}
-.icon-btn,.quiz-jump{border-width:2px;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;flex:0 0 auto}
-.icon-btn{width:44px;height:44px;font-size:22px}
-.quiz-jump{height:44px;padding:0 14px;gap:7px;min-width:92px;cursor:pointer}
-.quiz-jump-icon{font-size:17px;color:var(--yellow);filter:drop-shadow(0 0 7px #ffd53c99)}
+* {
+  box-sizing: border-box;
+}
 
-.home-screen{position:relative;padding-bottom:max(76px,calc(env(safe-area-inset-bottom) + 64px))}
-.hero-icon{width:48px;height:48px;display:inline-flex!important;align-items:center;justify-content:center;grid-row:1/3!important}
-.hero-icon svg{width:38px;height:38px;fill:currentColor;filter:drop-shadow(0 0 8px currentColor)}
-.hero-btn strong{font-size:20px;letter-spacing:.07em}
-.hero-btn small{font-size:14px;line-height:1.1}
-.ecosystem-link{position:absolute;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);margin:0;color:#b7cfdf;text-decoration:none;font-size:15px;letter-spacing:.04em;padding:10px 16px;border:2px solid #29445b;border-radius:999px;background:#071019cc;box-shadow:0 0 18px #27d7ff16;white-space:nowrap;transition:.2s}
-.ecosystem-link:hover{color:#fff;border-color:var(--cyan);box-shadow:0 0 20px #27d7ff44}
-.ecosystem-link strong{color:var(--cyan);font-size:18px;margin-left:5px}
+html,body {
+  margin: 0;
+  background: #030509;
+  color: var(--text);
+  font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height: 100%;
+  overflow-x: hidden;
+}
 
-.section-title{font-size:24px;color:#fff;text-shadow:0 0 12px #ff3ec977,0 0 18px #27d7ff44;transform:skew(-5deg) rotate(-1deg)}
-.drawer-head,.mobile-menu-btn,.drawer-backdrop{display:none}
-.practice-drawer{display:contents}
+body {
+  min-height: 100dvh;
+  background: radial-gradient(circle at 15% 10%,#111c35 0,transparent 34%),radial-gradient(circle at 85% 70%,#2b0a2d 0,transparent 28%),#030509;
+}
 
-.legend.seventh{background:#62ef75;color:#06280c;box-shadow:0 0 14px #62ef75}
-.legend.ninth{background:#ff8b3d;color:#351304;box-shadow:0 0 14px #ff8b3d}
+.ambient {
+  position: fixed;
+  inset: auto;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: .35;
+}
 
-@media(max-width:800px){
-  .practice-screen{height:100dvh;min-height:100dvh;overflow:hidden}
-  .practice-screen .topbar{flex:0 0 auto;padding-bottom:7px}
-  .desktop-back{display:none}
-  .mobile-menu-btn{display:inline-flex;flex-direction:column;gap:4px;padding:0!important}
-  .mobile-menu-btn span{display:block;width:20px;height:2px;border-radius:4px;background:#d9eef9;box-shadow:0 0 7px #27d7ff55}
-  .practice-drawer{display:block;position:fixed;left:0;top:0;bottom:0;width:min(88vw,380px);z-index:40;background:linear-gradient(180deg,#09111d 0%,#04070b 100%);border-right:2px solid #2d4b63;box-shadow:22px 0 55px #000c;transform:translateX(-104%);transition:transform .22s ease;padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));overflow-y:auto}
-  .practice-drawer.open{transform:translateX(0)}
-  .drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px}
-  .drawer-head strong{font-family:"Permanent Marker","Barlow Condensed",sans-serif;font-size:22px;font-weight:400;letter-spacing:.04em;color:#fff;text-shadow:0 0 10px #ff3ec977}
-  .drawer-backdrop{display:block;position:fixed;inset:0;z-index:35;background:#020407b8;opacity:0;pointer-events:none;transition:opacity .22s}
-  .drawer-backdrop.show{opacity:1;pointer-events:auto}
-  .control-panel{display:block;padding:0}
-  .control-group{margin-bottom:10px;padding:11px;border-width:2px}
-  .pattern-controls{position:static;background:none;padding:4px 0 0;display:flex;gap:7px}
-  .pattern-controls label{width:100%;margin:0 0 2px}
-  .note-strip{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;gap:7px}
-  .note-strip button{min-width:0;padding:9px 5px}
-  .segmented{display:grid;grid-template-columns:repeat(3,1fr)}
-  #qualityControls{grid-template-columns:1fr 1fr}
-  .practice-meta{flex:0 0 auto;padding:1px 12px 6px;gap:5px}
-  .practice-meta strong{font-size:17px}
-  .practice-meta>div>span{font-size:11px}
-  .legend-inline{width:100%;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:2px 0;gap:5px;scrollbar-width:none}
-  .legend-inline::-webkit-scrollbar{display:none}
-  .legend-inline small{margin-right:4px;white-space:nowrap;font-size:10px}
-  .legend{width:21px;height:21px;flex:0 0 21px;font-size:10px}
-  .shape-controls{flex:0 0 auto;position:static;background:none;padding:2px 12px 6px}
-  .shape-controls button{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0}
-  .practice-board{flex:1 1 auto;min-height:0;margin:0 10px 6px}
-  .practice-hint{display:none}
-  .quiz-jump{min-width:88px;height:42px}
-  .section-title{font-size:22px}
-  .home-screen{justify-content:flex-start;padding-top:max(28px,env(safe-area-inset-top));overflow-y:auto}
-  .hero-logo{margin-top:2vh}
-  .ecosystem-link{font-size:14px}
+.ambient-a {
+  width: 240px;
+  height: 240px;
+  background: #00c8ff;
+  left: -100px;
+  top: 25%;
+}
+
+.ambient-b {
+  width: 300px;
+  height: 300px;
+  background: #ff00ba;
+  right: -130px;
+  bottom: 5%;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+}
+
+.screen {
+  display: none;
+  min-height: 100dvh;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.home-screen {
+  padding: max(30px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.home-topline {
+  font-size: 11px;
+  letter-spacing: .32em;
+  color: #7294aa;
+  margin-bottom: 22px;
+}
+
+.hero-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: .78;
+  transform: skew(-7deg) rotate(-2deg);
+  filter: drop-shadow(0 0 18px #15c7ff55);
+}
+
+.hero-logo span {
+  display: block;
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: -.07em;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.hero-guitar {
+  font-size: clamp(54px,13vw,110px);
+  color: #f8fbff;
+}
+
+.hero-fret {
+  font-size: clamp(46px,11vw,94px);
+  color: var(--cyan);
+}
+
+.hero-hero {
+  font-size: clamp(50px,12vw,100px);
+  color: var(--pink);
+}
+
+.tagline {
+  margin: 26px 0 22px;
+  letter-spacing: .18em;
+  color: #a8c0d3;
+  font-size: 12px;
+}
+
+.tagline span {
+  color: #51758f;
 }
 
 
-/* ===== V2.1 homepage + pentatonic accuracy ===== */
-.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2{
-  font-family:"Permanent Marker","Barlow Condensed",sans-serif;
-  font-weight:400;
-}
-.hero-logo{transform:skew(-8deg) rotate(-2deg);filter:drop-shadow(0 0 16px #15c7ff55)}
-.hero-logo span{text-shadow:0 0 8px currentColor,0 0 20px currentColor}
-.hero-guitar{color:#f8fbff!important;text-shadow:0 0 8px #fff,0 0 18px #c9d7ff!important}
-.hero-fret{color:var(--cyan)!important}
-.hero-hero{color:var(--pink)!important}
-.home-screen{justify-content:center}
-.guitar-visual{display:none!important}
-.hero-btn:hover{transform:none}
-.hero-btn{transition:border-color .18s,box-shadow .18s,background .18s}
-.hero-btn:active{transform:none}
-.practice-pick svg>path{fill:currentColor}
-.practice-pick .pick-neck path{fill:none;stroke:#06131b;stroke-width:2.4;stroke-linecap:round;opacity:.92}
-@media (hover:hover){
-  .hero-btn.primary:hover{border-color:#ff8be7;box-shadow:0 0 28px #ff36cf3a,inset 0 0 34px #ff00c020}
-  .hero-btn.secondary:hover{border-color:#6fe0ff;box-shadow:0 0 28px #2cccf83a,inset 0 0 34px #00bdf020}
-}
-@media(max-width:800px){
-  .home-screen{justify-content:center;overflow-y:auto}
-  .hero-logo{margin-top:0}
-}
 
-/* ===== V2.2 controls, premium icons & dynamic fret range ===== */
-.hero-icon svg,.quiz-jump-icon svg{overflow:visible}
-.hero-icon .icon-shell,.quiz-jump-icon .icon-shell{fill:none;stroke:currentColor;stroke-width:3;stroke-linejoin:round;filter:drop-shadow(0 0 6px currentColor)}
-.hero-icon .icon-cut{fill:currentColor;opacity:.16}
-.hero-icon .icon-line{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;opacity:.95}
-.hero-icon circle{fill:currentColor}
-.hero-icon .icon-q,.quiz-jump-icon .icon-q{fill:currentColor}
-.hero-icon .icon-spark,.quiz-jump-icon .icon-spark{fill:currentColor;filter:drop-shadow(0 0 4px currentColor)}
-.quiz-jump-icon{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;color:var(--cyan);filter:none}
-.quiz-jump-icon svg{width:24px;height:24px}
-.quiz-jump{gap:8px}
 
-.practice-heading{flex:1;min-width:0;text-align:center;line-height:1.05;padding:0 8px}
-.practice-heading strong{display:block;font-family:"Permanent Marker","Barlow Condensed",sans-serif;font-weight:400;font-size:clamp(16px,2vw,24px);color:#fff;text-shadow:0 0 10px #ff3ec966;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.practice-heading span{display:block;margin-top:3px;font-size:11px;letter-spacing:.03em;color:#8ca5b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.control-panel{grid-template-columns:2fr .9fr 1.35fr}
-.fret-count-controls{display:flex;align-items:end;gap:7px;padding:0 16px 8px;flex-wrap:wrap}
-.fret-count-controls label{font-size:10px;color:#7f9aad;letter-spacing:.12em;display:block;margin:0 5px 10px 0}
-.fret-count-controls button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:58px;cursor:pointer}
-.fret-count-controls button.active{border-color:#27d7ff;color:#fff;background:#082433;box-shadow:0 0 14px #27d7ff44}
-.practice-legend{padding:9px 18px 2px;justify-content:flex-end;flex:0 0 auto}
-.practice-legend small{white-space:nowrap}
 
-@media(max-width:800px){
-  .practice-heading strong{font-size:15px}
-  .practice-heading span{font-size:9px}
-  .quiz-jump{min-width:44px;width:44px;padding:0}
-  .quiz-jump>span:last-child{display:none}
-  .quiz-jump-icon,.quiz-jump-icon svg{width:27px;height:27px}
-  .fret-count-controls{position:static;background:none;padding:10px 0 0;display:flex;gap:7px}
-  .fret-count-controls label{width:100%;margin:0 0 2px}
-  .fret-count-controls button{flex:1;min-width:0;padding:9px 5px}
-  .practice-legend{width:auto;max-width:100%;margin:0 10px;padding:5px 4px 1px;justify-content:flex-end;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
-  .practice-legend::-webkit-scrollbar{display:none}
-}
-/* V2.3 — Fretboard Map */
-.home-actions{grid-template-columns:repeat(3,1fr);width:min(1040px,100%)}
-.hero-btn.map-btn{border-color:#5cffb2;box-shadow:0 0 20px #31f6a622,inset 0 0 30px #18e79816}
-.hero-btn.map-btn .hero-icon{color:#5cffb2}
-.map-note svg{width:42px;height:42px;overflow:visible;filter:drop-shadow(0 0 8px currentColor)}
-.map-note .note-beam{fill:currentColor}.map-note .note-glint{fill:#fff}
-.fretmap-screen{flex-direction:column;height:100dvh;overflow:hidden}
-.map-heading{display:flex;flex-direction:column;text-align:center;line-height:1}
-.map-heading strong{font-family:'Permanent Marker',cursive;font-size:22px;color:#5cffb2;text-shadow:0 0 14px #35f4aa88;transform:skew(-5deg)}
-.map-heading span{font-size:9px;letter-spacing:.16em;color:#7f9aad;margin-top:5px}
-.map-nav{display:flex;gap:7px}.map-nav-btn{height:42px;border:2px solid #2a4054;background:#09121d;color:#d4e7f2;border-radius:11px;padding:0 12px;font-weight:900;font-size:11px;cursor:pointer}
-.map-controls{display:flex;align-items:center;justify-content:flex-end;gap:7px;padding:2px 16px 9px}
-.map-controls label{font-size:10px;color:#7f9aad;letter-spacing:.12em;margin-right:5px}
-.map-controls button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:58px;cursor:pointer}
-.map-controls button.active{border-color:#5cffb2;color:#fff;background:#09271d;box-shadow:0 0 14px #36efa044}
-.map-board{flex:1;min-height:0;margin-bottom:0}.map-hint{text-align:center;padding:8px 16px max(12px,env(safe-area-inset-bottom));font-size:11px;letter-spacing:.08em;color:#718b9e}
-@media(max-width:800px){.home-actions{grid-template-columns:1fr}.fretmap-screen .topbar{padding-bottom:5px}.map-heading strong{font-size:17px}.map-heading span{font-size:7px}.map-nav-btn{padding:0 7px;font-size:9px}.map-controls{justify-content:center;padding:4px 10px 8px}.map-controls label{display:none}.map-controls button{flex:1;max-width:75px;padding:8px 5px;min-width:0}.map-board{margin:0 10px}.map-hint{padding-top:5px}}
-/* V2.4 — home card spacing + simplified Fretboard Map header */
-.hero-btn{column-gap:18px}
-.hero-btn .hero-icon{margin-right:2px}
-.fretmap-screen .topbar{justify-content:flex-start}
-.fretmap-screen .map-heading{position:absolute;left:50%;transform:translateX(-50%)}
 
-/* V2.6 — vertical home navigation + cleaner ecosystem footer */
-.home-actions{grid-template-columns:1fr!important;width:min(720px,100%);gap:14px}
-.ecosystem-link{
-  border:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  border-radius:0!important;
-  padding:6px 2px!important;
-  color:#9db7c8!important;
-  text-decoration:none;
-  font-size:14px;
-  letter-spacing:.04em;
-}
-.ecosystem-link:hover{
-  color:#fff!important;
-  border:0!important;
-  box-shadow:none!important;
-}
-.ecosystem-link strong{color:var(--cyan);font-size:18px;margin-left:6px}
 
-.legend-pair{display:inline-flex;align-items:center;gap:6px}.legend-pair small{margin-right:7px}.legend-pair.legend-muted{opacity:.24;filter:saturate(.35)}
 
-/* V3.1 — interactive learning filters */
-.practice-legend .legend-filter{appearance:none;border:0;background:transparent;color:inherit;padding:3px 7px 3px 3px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font:inherit;transition:background .16s ease,box-shadow .16s ease,opacity .16s ease,transform .16s ease}
-.practice-legend .legend-filter:hover{background:#ffffff0b}
-.practice-legend .legend-filter.active{background:#101d2a;box-shadow:inset 0 0 0 2px #ffffff25,0 0 18px #26d8ff18}
-.practice-legend .legend-filter.active .legend{transform:scale(1.08)}
-.practice-legend .legend-filter.legend-muted{pointer-events:none}
-.map-toolbar{display:flex;flex-direction:column;gap:2px}
-.map-note-filter{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px 9px}
-.map-note-filter>label{font-size:10px;color:#7f9aad;letter-spacing:.12em;flex:0 0 auto}
-.map-note-strip{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.map-note-strip button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:999px;padding:7px 10px;font-weight:900;min-width:42px;cursor:pointer;transition:.16s}
-.map-note-strip button.active{border-color:#5cffb2;color:#07130f;background:#5cffb2;box-shadow:0 0 16px #36efa066}
-.map-note-strip button:not(.active):hover{border-color:#4d718e}
-@media(max-width:800px){
-  .map-note-filter{display:block;padding:0 10px 8px}
-  .map-note-filter>label{display:block;margin:0 0 6px 2px}
-  .map-note-strip{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:2px;scrollbar-width:none}
-  .map-note-strip::-webkit-scrollbar{display:none}
-  .map-note-strip button{flex:0 0 auto;min-width:44px;padding:8px 10px}
-  .practice-legend .legend-filter{flex:0 0 auto}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.home-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: min(720px,100%);
 }
 
-.sr-only{
-  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
-  margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;
-  white-space:nowrap!important;border:0!important;
+.hero-btn {
+  min-height: 88px;
+  border-radius: 18px;
+  border: 1px solid #2a4055;
+  background: #09111bcc;
+  color: #fff;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  grid-template-rows: auto auto;
+  text-align: left;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 28px #0e213122;
+  transition: .2s;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hero-btn span {
+  grid-row: 1/3;
+  font-size: 28px;
+}
+
+.hero-btn strong {
+  font-size: 18px;
+  letter-spacing: .05em;
+}
+
+.hero-btn small {
+  color: #85a2b6;
+}
+
+.hero-btn.primary {
+  border-color: #ff52df;
+  box-shadow: 0 0 20px #ff36cf22,inset 0 0 30px #ff00c018;
+}
+
+.hero-btn.primary span {
+  color: var(--pink);
+}
+
+.hero-btn.secondary {
+  border-color: #2cccf8;
+  box-shadow: 0 0 20px #2cccf822,inset 0 0 30px #00bdf018;
+}
+
+.hero-btn.secondary span {
+  color: var(--cyan);
+}
+
+.ecosystem-link {
+  margin-top: 28px;
+  color: #6f8ca0;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(14px,env(safe-area-inset-top)) 16px 10px;
+  gap: 10px;
+}
+
+.icon-btn,.quiz-jump {
+  border: 1px solid #25384a;
+  background: #09111b;
+  color: #cce9f9;
+  border-radius: 12px;
+  height: 42px;
+  padding: 0 14px;
+  font-weight: 800;
+}
+
+.icon-btn {
+  width: 42px;
 }
 
 
-/* ===== V3.4 repair: header actions / fullscreen ===== */
+
+
+
+.practice-screen,.quiz-screen {
+  flex-direction: column;
+}
+
+.control-panel {
+  padding: 4px 16px 10px;
+  display: grid;
+  grid-template-columns: 1.4fr 2fr 1fr;
+  gap: 10px;
+}
+
+.control-group {
+  background: var(--panel);
+  border: 1px solid #1f3142;
+  border-radius: 16px;
+  padding: 11px;
+}
+
+.control-group label,.pattern-controls label {
+  font-size: 10px;
+  color: #7f9aad;
+  letter-spacing: .12em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.control-options,.control-options {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.control-options button,.control-options button,.pattern-controls button {
+  background: #09121d;
+  border: 1px solid #2a4054;
+  color: #d4e7f2;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 800;
+  min-width: 48px;
+  cursor: pointer;
+}
+
+.control-options button.active,.control-options button.active,.pattern-controls button.active {
+  border-color: #ff57d7;
+  color: #fff;
+  background: #2b0b2c;
+  box-shadow: 0 0 14px #ff38c844;
+}
+
+
+
+
+
+
+
+.legend-inline {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.legend-inline small {
+  color: #8ba0b3;
+  margin-right: 7px;
+}
+
+.legend {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.legend.root {
+  background: var(--cyan);
+  color: #032530;
+  box-shadow: 0 0 14px #27d7ff;
+}
+
+.legend.third {
+  background: var(--pink);
+  color: #38042c;
+  box-shadow: 0 0 14px #ff3ec9;
+}
+
+.legend.fifth {
+  background: var(--yellow);
+  color: #362800;
+  box-shadow: 0 0 14px #ffd53c;
+}
+
+.legend.other {
+  background: #91a3b1;
+  color: #14212a;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.fretboard-wrap {
+  margin: 0 16px;
+  border: 1px solid #263b4f;
+  border-radius: 18px;
+  background: linear-gradient(180deg,#130d0b,#07090c);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 30px #000,0 0 24px #00c8ff0c;
+}
+
+.practice-board {
+  flex: 1;
+  min-height: 330px;
+}
+
+.quiz-board {
+  flex: 1;
+  min-height: 430px;
+}
+
+.fretboard-wrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+
+.practice-hint {
+  padding: 9px 16px max(14px,env(safe-area-inset-bottom));
+  text-align: center;
+  color: #718b9e;
+  font-size: 12px;
+}
+
+.quiz-head {
+  text-align: center;
+  padding: 4px 16px 12px;
+}
+
+
+
+.quiz-head h2 {
+  font-size: clamp(30px,8vw,56px);
+  margin: 8px 0 2px;
+  font-style: italic;
+  text-shadow: 0 0 18px #ff3ec955;
+}
+
+.quiz-head p {
+  margin: 0;
+  color: #bcd4e2;
+}
+
+.quiz-head p strong {
+  color: var(--cyan);
+}
+
+.quiz-feedback {
+  margin-top: 8px;
+  color: #7894a7;
+  font-size: 12px;
+  min-height: 18px;
+}
+
+
+
+
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #020407df;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 20;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.result-modal {
+  width: min(430px,100%);
+  background: #090f17;
+  border: 1px solid #31495e;
+  border-radius: 24px;
+  padding: 26px;
+  text-align: center;
+  box-shadow: 0 0 60px #ff35cb22,0 0 80px #00c8ff18;
+}
+
+.result-kicker {
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: #7493a7;
+}
+
+.result-modal h2 {
+  font-size: 42px;
+  color: var(--pink);
+  margin: 10px 0;
+  text-shadow: 0 0 22px currentColor;
+}
+
+.result-score strong {
+  font-size: 64px;
+  color: var(--cyan);
+}
+
+.result-score span {
+  display: block;
+  color: #7f9aad;
+}
+
+.result-modal p {
+  color: #a5bbca;
+}
+
+.result-modal button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 900;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.modal-primary {
+  background: linear-gradient(90deg,#ff32c7,#7f43ff);
+  border: 0;
+  color: #fff;
+}
+
+.modal-secondary {
+  background: #0a1520;
+  border: 1px solid #2d455a;
+  color: #fff;
+}
+
+.result-modal a {
+  display: block;
+  color: #7f9aad;
+  text-decoration: none;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width:800px) {
+  .home-actions {
+    grid-template-columns: 1fr;
+  }
+
+  
+
+  .control-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .control-group {
+    padding: 8px;
+  }
+
+  
+
+  .legend-inline {
+    justify-content: flex-start;
+  }
+
+  .practice-board {
+    min-height: 56dvh;
+  }
+
+  .quiz-board {
+    min-height: 55dvh;
+  }
+
+  .hero-logo {
+    margin-top: 6vh;
+  }
+
+  
+
+  
+
+  .control-options {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .control-options button {
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width:801px) {
+  .practice-screen .fretboard-wrap,.quiz-screen .fretboard-wrap {
+    max-height: 60vh;
+  }
+
+  .quiz-screen .fretboard-wrap {
+    min-height: 420px;
+  }
+}
+
+body {
+  font-family: "Barlow Condensed",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2 {
+  font-family: "Metal Mania","Barlow Condensed",sans-serif;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+.hero-logo span {
+  letter-spacing: -.025em;
+}
+
+.hero-guitar {
+  font-size: clamp(58px,13vw,116px);
+}
+
+.hero-fret {
+  font-size: clamp(48px,11vw,98px);
+}
+
+.hero-hero {
+  font-size: clamp(54px,12vw,106px);
+}
+
+.hero-btn,.icon-btn,.quiz-jump,.control-group,.control-options button,.control-options button,.pattern-controls button,.shape-controls button,.fretboard-wrap,.attempt-pill,.result-modal,.modal-secondary {
+  border-width: 2px;
+}
+
+.hero-btn {
+  border-style: solid;
+  min-height: 94px;
+}
+
+.control-options button,.control-options button,.pattern-controls button {
+  border-width: 2px;
+}
+
+
+
+.icon-btn,.quiz-jump {
+  border-width: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+
+
+
+
+
+.home-screen {
+  position: relative;
+  padding-bottom: max(76px,calc(env(safe-area-inset-bottom) + 64px));
+}
+
+.hero-icon {
+  width: 48px;
+  height: 48px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  grid-row: 1/3 !important;
+}
+
+.hero-icon svg {
+  width: 38px;
+  height: 38px;
+  fill: currentColor;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.hero-btn strong {
+  font-size: 20px;
+  letter-spacing: .07em;
+}
+
+.hero-btn small {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.ecosystem-link {
+  position: absolute;
+  left: 50%;
+  bottom: max(20px,env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  margin: 0;
+  color: #b7cfdf;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: .04em;
+  padding: 10px 16px;
+  border: 2px solid #29445b;
+  border-radius: 999px;
+  background: #071019cc;
+  box-shadow: 0 0 18px #27d7ff16;
+  white-space: nowrap;
+  transition: .2s;
+}
+
+.ecosystem-link:hover {
+  color: #fff;
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px #27d7ff44;
+}
+
+.ecosystem-link strong {
+  color: var(--cyan);
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+
+
+.drawer-head,.mobile-menu-btn,.drawer-backdrop {
+  display: none;
+}
+
+.responsive-drawer {
+  display: contents;
+}
+
+.legend.seventh {
+  background: #62ef75;
+  color: #06280c;
+  box-shadow: 0 0 14px #62ef75;
+}
+
+
+
+@media (max-width:800px) {
+  .practice-screen {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .practice-screen .topbar {
+    flex: 0 0 auto;
+    padding-bottom: 7px;
+  }
+
+  .desktop-back {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 !important;
+  }
+
+  .mobile-menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 4px;
+    background: #d9eef9;
+    box-shadow: 0 0 7px #27d7ff55;
+  }
+
+  .responsive-drawer {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(88vw,380px);
+    z-index: 40;
+    background: linear-gradient(180deg,#09111d 0%,#04070b 100%);
+    border-right: 2px solid #2d4b63;
+    box-shadow: 22px 0 55px #000c;
+    transform: translateX(-104%);
+    transition: transform .22s ease;
+    padding: max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .responsive-drawer.open {
+    transform: translateX(0);
+  }
+
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+
+  .drawer-head strong {
+    font-family: "Permanent Marker","Barlow Condensed",sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    color: #fff;
+    text-shadow: 0 0 10px #ff3ec977;
+  }
+
+  .drawer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    background: #020407b8;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s;
+  }
+
+  .drawer-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .control-panel {
+    display: block;
+    padding: 0;
+  }
+
+  .control-group {
+    margin-bottom: 10px;
+    padding: 11px;
+    border-width: 2px;
+  }
+
+  
+
+  
+
+  .control-options {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    overflow: visible;
+    gap: 7px;
+  }
+
+  .control-options button {
+    min-width: 0;
+    padding: 9px 5px;
+  }
+
+  .control-options {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  #qualityControls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  
+
+  
+
+  
+
+  .legend-inline {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 2px 0;
+    gap: 5px;
+    scrollbar-width: none;
+  }
+
+  .legend-inline::-webkit-scrollbar {
+    display: none;
+  }
+
+  .legend-inline small {
+    margin-right: 4px;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+
+  .legend {
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+    font-size: 10px;
+  }
+
+  
+
+  
+
+  .practice-board {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 10px 6px;
+  }
+
+  .practice-hint {
+    display: none;
+  }
+
+  
+
+  
+
+  .home-screen {
+    justify-content: flex-start;
+    padding-top: max(28px,env(safe-area-inset-top));
+    overflow-y: auto;
+  }
+
+  .hero-logo {
+    margin-top: 2vh;
+  }
+
+  .ecosystem-link {
+    font-size: 14px;
+  }
+}
+
+.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2 {
+  font-family: "Permanent Marker","Barlow Condensed",sans-serif;
+  font-weight: 400;
+}
+
+.hero-logo {
+  transform: skew(-8deg) rotate(-2deg);
+  filter: drop-shadow(0 0 16px #15c7ff55);
+}
+
+.hero-logo span {
+  text-shadow: 0 0 8px currentColor,0 0 20px currentColor;
+}
+
+.hero-guitar {
+  color: #f8fbff !important;
+  text-shadow: 0 0 8px #fff,0 0 18px #c9d7ff !important;
+}
+
+.hero-fret {
+  color: var(--cyan) !important;
+}
+
+.hero-hero {
+  color: var(--pink) !important;
+}
+
+.home-screen {
+  justify-content: center;
+}
+
+
+
+.hero-btn:hover {
+  transform: none;
+}
+
+.hero-btn {
+  transition: border-color .18s,box-shadow .18s,background .18s;
+}
+
+.hero-btn:active {
+  transform: none;
+}
+
+.practice-pick svg>path {
+  fill: currentColor;
+}
+
+
+
+@media (hover:hover) {
+  .hero-btn.primary:hover {
+    border-color: #ff8be7;
+    box-shadow: 0 0 28px #ff36cf3a,inset 0 0 34px #ff00c020;
+  }
+
+  .hero-btn.secondary:hover {
+    border-color: #6fe0ff;
+    box-shadow: 0 0 28px #2cccf83a,inset 0 0 34px #00bdf020;
+  }
+}
+
+@media (max-width:800px) {
+  .home-screen {
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .hero-logo {
+    margin-top: 0;
+  }
+}
+
+.hero-icon svg,.quiz-jump-icon svg {
+  overflow: visible;
+}
+
+.hero-icon .icon-shell,.quiz-jump-icon .icon-shell {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+
+
+
+
+.hero-icon circle {
+  fill: currentColor;
+}
+
+.hero-icon .icon-q,.quiz-jump-icon .icon-q {
+  fill: currentColor;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.control-panel {
+  grid-template-columns: 2fr .9fr 1.35fr;
+}
+
+.control-group {
+  display: flex;
+  align-items: end;
+  gap: 7px;
+  padding: 0 16px 8px;
+  flex-wrap: wrap;
+}
+
+.control-group label {
+  font-size: 10px;
+  color: #7f9aad;
+  letter-spacing: .12em;
+  display: block;
+  margin: 0 5px 10px 0;
+}
+
+.control-group button {
+  background: #09121d;
+  border: 2px solid #2a4054;
+  color: #d4e7f2;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 800;
+  min-width: 58px;
+  cursor: pointer;
+}
+
+.control-group button.active {
+  border-color: #27d7ff;
+  color: #fff;
+  background: #082433;
+  box-shadow: 0 0 14px #27d7ff44;
+}
+
+.practice-legend {
+  padding: 9px 18px 2px;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
+.practice-legend small {
+  white-space: nowrap;
+}
+
+@media (max-width:800px) {
+  
+
+  
+
+  
+
+  
+
+  
+
+  .control-group {
+    position: static;
+    background: none;
+    padding: 10px 0 0;
+    display: flex;
+    gap: 7px;
+  }
+
+  .control-group label {
+    width: 100%;
+    margin: 0 0 2px;
+  }
+
+  .control-group button {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 5px;
+  }
+
+  .practice-legend {
+    width: auto;
+    max-width: 100%;
+    margin: 0 10px;
+    padding: 5px 4px 1px;
+    justify-content: flex-end;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .practice-legend::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.home-actions {
+  grid-template-columns: repeat(3,1fr);
+  width: min(1040px,100%);
+}
+
+.hero-btn.map-btn {
+  border-color: #5cffb2;
+  box-shadow: 0 0 20px #31f6a622,inset 0 0 30px #18e79816;
+}
+
+.hero-btn.map-btn .hero-icon {
+  color: #5cffb2;
+}
+
+.map-note svg {
+  width: 42px;
+  height: 42px;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.map-note .note-beam {
+  fill: currentColor;
+}
+
+
+
+.fretmap-screen {
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+.control-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 2px 16px 9px;
+}
+
+.control-group label {
+  font-size: 10px;
+  color: #7f9aad;
+  letter-spacing: .12em;
+  margin-right: 5px;
+}
+
+.control-group button {
+  background: #09121d;
+  border: 2px solid #2a4054;
+  color: #d4e7f2;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 800;
+  min-width: 58px;
+  cursor: pointer;
+}
+
+.control-group button.active {
+  border-color: #5cffb2;
+  color: #fff;
+  background: #09271d;
+  box-shadow: 0 0 14px #36efa044;
+}
+
+.map-board {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+
+
+@media (max-width:800px) {
+  .home-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .fretmap-screen .topbar {
+    padding-bottom: 5px;
+  }
+
+  
+
+  
+
+  
+
+  .control-group {
+    justify-content: center;
+    padding: 4px 10px 8px;
+  }
+
+  .control-group label {
+    display: none;
+  }
+
+  .control-group button {
+    flex: 1;
+    max-width: 75px;
+    padding: 8px 5px;
+    min-width: 0;
+  }
+
+  .map-board {
+    margin: 0 10px;
+  }
+
+  
+}
+
+.hero-btn {
+  column-gap: 18px;
+}
+
+.hero-btn .hero-icon {
+  margin-right: 2px;
+}
+
+.fretmap-screen .topbar {
+  justify-content: flex-start;
+}
+
+
+
+.home-actions {
+  grid-template-columns: 1fr !important;
+  width: min(720px,100%);
+  gap: 14px;
+}
+
+.ecosystem-link {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 6px 2px !important;
+  color: #9db7c8 !important;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: .04em;
+}
+
+.ecosystem-link:hover {
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.ecosystem-link strong {
+  color: var(--cyan);
+  font-size: 18px;
+  margin-left: 6px;
+}
+
+.legend-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-pair small {
+  margin-right: 7px;
+}
+
+.legend-pair.legend-muted {
+  opacity: .24;
+  filter: saturate(.35);
+}
+
+.practice-legend .legend-filter {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 3px 7px 3px 3px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font: inherit;
+  transition: background .16s ease,box-shadow .16s ease,opacity .16s ease,transform .16s ease;
+}
+
+.practice-legend .legend-filter:hover {
+  background: #ffffff0b;
+}
+
+.practice-legend .legend-filter.active {
+  background: #101d2a;
+  box-shadow: inset 0 0 0 2px #ffffff25,0 0 18px #26d8ff18;
+}
+
+.practice-legend .legend-filter.active .legend {
+  transform: scale(1.08);
+}
+
+.practice-legend .legend-filter.legend-muted {
+  pointer-events: none;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 16px 9px;
+}
+
+.control-group>label {
+  font-size: 10px;
+  color: #7f9aad;
+  letter-spacing: .12em;
+  flex: 0 0 auto;
+}
+
+.control-options {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.control-options button {
+  background: #09121d;
+  border: 2px solid #2a4054;
+  color: #d4e7f2;
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-weight: 900;
+  min-width: 42px;
+  cursor: pointer;
+  transition: .16s;
+}
+
+.control-options button.active {
+  border-color: #5cffb2;
+  color: #07130f;
+  background: #5cffb2;
+  box-shadow: 0 0 16px #36efa066;
+}
+
+.control-options button:not(.active):hover {
+  border-color: #4d718e;
+}
+
+@media (max-width:800px) {
+  .control-group {
+    display: block;
+    padding: 0 10px 8px;
+  }
+
+  .control-group>label {
+    display: block;
+    margin: 0 0 6px 2px;
+  }
+
+  .control-options {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .control-options::-webkit-scrollbar {
+    display: none;
+  }
+
+  .control-options button {
+    flex: 0 0 auto;
+    min-width: 44px;
+    padding: 8px 10px;
+  }
+
+  .practice-legend .legend-filter {
+    flex: 0 0 auto;
+  }
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .practice-screen .topbar,
 .quiz-screen .topbar,
-.fretmap-screen .topbar{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.fretmap-screen .topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.practice-heading,
-.map-heading,
-.quiz-screen .mini-logo{
-  min-width:0;
+
+
+.fullscreen-btn {
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2a4054;
+  border-radius: 12px;
+  background: #09121d;
+  color: #d4e7f2;
+  cursor: pointer;
+  transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease, color .16s ease;
+  transform: none !important;
 }
 
-.fullscreen-btn{
-  margin-left:auto;
-  width:44px;
-  height:44px;
-  min-width:44px;
-  padding:0;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border:2px solid #2a4054;
-  border-radius:12px;
-  background:#09121d;
-  color:#d4e7f2;
-  cursor:pointer;
-  transition:border-color .16s ease, box-shadow .16s ease, background-color .16s ease, color .16s ease;
-  transform:none!important;
-}
 .fullscreen-btn:hover,
-.fullscreen-btn:active{
-  transform:none!important;
-}
-.fullscreen-btn:hover{
-  border-color:#5a7b96;
-  background:#0c1825;
-  color:#fff;
-  box-shadow:0 0 16px #27d7ff20;
-}
-.fullscreen-btn svg{
-  width:21px;
-  height:21px;
-  display:block;
-  pointer-events:none;
-}
-.fullscreen-btn .icon-exit{display:none}
-.fullscreen-btn.is-fullscreen .icon-enter{display:none}
-.fullscreen-btn.is-fullscreen .icon-exit{display:block}
-
-/* Back buttons share the same premium border behavior. */
-.topbar > .icon-btn:not(.mobile-menu-btn){
-  border:2px solid #2a4054;
-  border-radius:12px;
-  background:#09121d;
-  cursor:pointer;
-  transform:none!important;
-}
-.topbar > .icon-btn:not(.mobile-menu-btn):hover{
-  border-color:#5a7b96;
-  background:#0c1825;
-  box-shadow:0 0 16px #27d7ff20;
-  transform:none!important;
+.fullscreen-btn:active {
+  transform: none !important;
 }
 
-/* No button in this app shifts on hover. */
+.fullscreen-btn:hover {
+  border-color: #5a7b96;
+  background: #0c1825;
+  color: #fff;
+  box-shadow: 0 0 16px #27d7ff20;
+}
+
+.fullscreen-btn svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+  pointer-events: none;
+}
+
+.fullscreen-btn .icon-exit {
+  display: none;
+}
+
+.fullscreen-btn.is-fullscreen .icon-enter {
+  display: none;
+}
+
+.fullscreen-btn.is-fullscreen .icon-exit {
+  display: block;
+}
+
+.topbar > .icon-btn:not(.mobile-menu-btn) {
+  border: 2px solid #2a4054;
+  border-radius: 12px;
+  background: #09121d;
+  cursor: pointer;
+  transform: none !important;
+}
+
+.topbar > .icon-btn:not(.mobile-menu-btn):hover {
+  border-color: #5a7b96;
+  background: #0c1825;
+  box-shadow: 0 0 16px #27d7ff20;
+  transform: none !important;
+}
+
 button:hover,
 button:active,
 a:hover,
-a:active{
-  transform:none!important;
+a:active {
+  transform: none !important;
 }
 
-/* Practice mobile menu remains a true hamburger. */
-.mobile-menu-btn{
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:4px;
-}
-.mobile-menu-btn span{
-  width:18px;
-  height:2px;
-  display:block;
-  margin:0!important;
-  border-radius:99px;
-  background:currentColor;
-}
-@media (max-width:760px){
-  .mobile-menu-btn{display:inline-flex;}
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
 }
 
-
-/* ===== V3.6 — responsive/layout + consistent learning controls ===== */
-.legend.fourth{background:#ff8b3d;color:#351304;box-shadow:0 0 14px #ff8b3d}
-.legend-filter.filter-dimmed{
-  opacity:.28!important;
-  filter:saturate(.45) brightness(.72)!important;
-  box-shadow:none!important;
+.mobile-menu-btn span {
+  width: 18px;
+  height: 2px;
+  display: block;
+  margin: 0 !important;
+  border-radius: 99px;
+  background: currentColor;
 }
 
-/* Hint and legend are one visual block: hint immediately left of legend. */
-.practice-legend-row{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:12px;
-  padding:7px 18px max(10px,env(safe-area-inset-bottom));
-}
-.practice-legend-row .practice-hint{
-  padding:0;
-  margin:0;
-  flex:0 1 auto;
-  text-align:right;
-  white-space:nowrap;
-}
-.practice-legend-row .practice-legend{
-  padding:0;
-  margin:0;
-  flex:0 0 auto;
+@media (max-width:760px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
 }
 
-/* All setup menus use the same borderless treatment.
-   Layout/placement inside the hamburger drawer is intentionally unchanged. */
-.control-group{
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
+.legend.fourth {
+  background: #ff8b3d;
+  color: #351304;
+  box-shadow: 0 0 14px #ff8b3d;
 }
-.map-toolbar,
-.map-controls,
-.map-note-filter,
+
+.legend-filter.filter-dimmed {
+  opacity: .28 !important;
+  filter: saturate(.45) brightness(.72) !important;
+  box-shadow: none !important;
+}
+
+.practice-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 7px 18px max(10px,env(safe-area-inset-bottom));
+}
+
+.practice-legend-row .practice-hint {
+  padding: 0;
+  margin: 0;
+  flex: 0 1 auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.practice-legend-row .practice-legend {
+  padding: 0;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.control-group {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.control-panel,
+.control-group,
+.control-group,
 .pattern-controls,
-.fret-count-controls{
-  background:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
+.control-group {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
-/* From iPad landscape upward, home fits in one viewport. */
-@media (min-width:768px) and (orientation:landscape){
-  html,body{height:100%;overflow:hidden}
-  .home-screen{
-    height:100dvh!important;
-    min-height:100dvh!important;
-    max-height:100dvh!important;
-    overflow:hidden!important;
-    justify-content:center!important;
-    padding-top:max(12px,env(safe-area-inset-top))!important;
-    padding-bottom:max(10px,env(safe-area-inset-bottom))!important;
+@media (min-width:768px) and (orientation:landscape) {
+  html,body {
+    height: 100%;
+    overflow: hidden;
   }
-  .home-topline{margin-bottom:8px!important}
-  .hero-logo span{line-height:.76}
-  .hero-guitar{font-size:clamp(44px,8.5vh,78px)!important}
-  .hero-fret{font-size:clamp(38px,7.3vh,68px)!important}
-  .hero-hero{font-size:clamp(40px,7.8vh,72px)!important}
-  .tagline{margin:10px 0!important}
-  .home-actions{gap:8px!important}
-  .hero-btn{min-height:64px!important;padding:9px 14px!important}
-  .hero-btn .hero-icon{width:34px;height:34px}
-  .hero-btn strong{font-size:16px}
-  .hero-btn small{font-size:12px}
-  .ecosystem-link{margin-top:8px!important;padding:2px!important}
+
+  .home-screen {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+    padding-top: max(12px,env(safe-area-inset-top)) !important;
+    padding-bottom: max(10px,env(safe-area-inset-bottom)) !important;
+  }
+
+  .home-topline {
+    margin-bottom: 8px !important;
+  }
+
+  .hero-logo span {
+    line-height: .76;
+  }
+
+  .hero-guitar {
+    font-size: clamp(44px,8.5vh,78px) !important;
+  }
+
+  .hero-fret {
+    font-size: clamp(38px,7.3vh,68px) !important;
+  }
+
+  .hero-hero {
+    font-size: clamp(40px,7.8vh,72px) !important;
+  }
+
+  .tagline {
+    margin: 10px 0 !important;
+  }
+
+  .home-actions {
+    gap: 8px !important;
+  }
+
+  .hero-btn {
+    min-height: 64px !important;
+    padding: 9px 14px !important;
+  }
+
+  .hero-btn .hero-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hero-btn strong {
+    font-size: 16px;
+  }
+
+  .hero-btn small {
+    font-size: 12px;
+  }
+
+  .ecosystem-link {
+    margin-top: 8px !important;
+    padding: 2px !important;
+  }
 }
 
-/* Compact setup toolbar from iPad landscape and desktop. */
-@media (min-width:768px) and (orientation:landscape){
-  .practice-drawer{display:block!important}
-  .practice-screen .control-panel{
-    display:flex!important;
-    align-items:flex-end!important;
-    gap:8px!important;
-    padding:2px 12px 4px!important;
+@media (min-width:768px) and (orientation:landscape) {
+  .responsive-drawer {
+    display: block !important;
   }
-  .practice-screen .control-group{
-    padding:2px 0!important;
-    margin:0!important;
-    min-width:0!important;
+
+  .practice-screen .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+    padding: 2px 12px 4px !important;
   }
-  .practice-screen .root-group{flex:1 1 470px}
-  .practice-screen .quality-group{flex:0 0 auto}
-  .practice-screen .mode-group{flex:0 0 auto}
+
+  .practice-screen .control-group {
+    padding: 2px 0 !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .practice-screen .control-group {
+    flex: 1 1 470px;
+  }
+
+  .practice-screen .control-group {
+    flex: 0 0 auto;
+  }
+
+  .practice-screen .control-group {
+    flex: 0 0 auto;
+  }
+
   .practice-screen .control-group label,
   .practice-screen .pattern-controls label,
-  .practice-screen .fret-count-controls label{
-    margin-bottom:4px!important;
-    font-size:9px!important;
+  .practice-screen .control-group label {
+    margin-bottom: 4px !important;
+    font-size: 9px !important;
   }
-  .practice-screen .segmented,
-  .practice-screen .note-strip{gap:4px!important;flex-wrap:nowrap!important}
-  .practice-screen .segmented button,
-  .practice-screen .note-strip button,
+
+  .practice-screen .control-options,
+  .practice-screen .control-options {
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .practice-screen .control-options button,
+  .practice-screen .control-options button,
   .practice-screen .pattern-controls button,
-  .practice-screen .fret-count-controls button{
-    min-height:28px!important;
-    height:28px!important;
-    min-width:0!important;
-    padding:0 8px!important;
-    font-size:10px!important;
-    line-height:26px!important;
+  .practice-screen .control-group button {
+    min-height: 28px !important;
+    height: 28px !important;
+    min-width: 0 !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    line-height: 26px !important;
   }
+
   .practice-screen .pattern-controls,
-  .practice-screen .fret-count-controls{
-    display:flex!important;
-    align-items:center!important;
-    gap:4px!important;
-    padding:2px 12px 4px!important;
-    flex-wrap:nowrap!important;
+  .practice-screen .control-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px 12px 4px !important;
+    flex-wrap: nowrap !important;
   }
-  .practice-screen .practice-board{min-height:0!important}
-}
 
-/* Fretboard Map controls stay on one horizontal line from iPad upward. */
-@media (min-width:768px){
-  .fretmap-screen .map-toolbar{
-    display:flex!important;
-    flex-direction:row!important;
-    align-items:center!important;
-    justify-content:flex-end!important;
-    gap:10px!important;
-    padding:2px 12px 6px!important;
-    min-width:0;
-  }
-  .fretmap-screen .map-controls,
-  .fretmap-screen .map-note-filter{
-    display:flex!important;
-    align-items:center!important;
-    justify-content:flex-end!important;
-    gap:5px!important;
-    padding:0!important;
-    min-width:0;
-  }
-  .fretmap-screen .map-note-strip{
-    flex-wrap:nowrap!important;
-    overflow-x:auto!important;
-    justify-content:flex-start!important;
-    scrollbar-width:none;
-  }
-  .fretmap-screen .map-note-strip::-webkit-scrollbar{display:none}
-  .fretmap-screen .map-note-strip button{
-    flex:0 0 auto;
-    min-width:38px!important;
-    padding:6px 8px!important;
+  .practice-screen .practice-board {
+    min-height: 0 !important;
   }
 }
 
-/* iPad portrait deliberately behaves like mobile, without altering drawer order. */
-@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
-  .practice-screen{height:100dvh;min-height:100dvh;overflow:hidden}
-  .practice-screen .topbar{flex:0 0 auto;padding-bottom:7px}
-  .desktop-back{display:none!important}
-  .mobile-menu-btn{display:inline-flex!important;flex-direction:column;gap:4px;padding:0!important}
-  .practice-drawer{
-    display:block!important;position:fixed;left:0;top:0;bottom:0;width:min(88vw,410px);
-    z-index:40;background:linear-gradient(180deg,#09111d 0%,#04070b 100%);
-    border-right:2px solid #2d4b63;box-shadow:22px 0 55px #000c;
-    transform:translateX(-104%);transition:transform .22s ease;
-    padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));overflow-y:auto
+/* V6.9: Fretboard Map uses the canonical control component rules (same as Practice). */
+
+
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
+  .practice-screen {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
   }
-  .practice-drawer.open{transform:translateX(0)}
-  .drawer-head{display:flex!important;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px}
-  .drawer-backdrop{display:block!important;position:fixed;inset:0;z-index:35;background:#020407b8;opacity:0;pointer-events:none;transition:opacity .22s}
-  .drawer-backdrop.show{opacity:1;pointer-events:auto}
-  .practice-drawer .control-panel{display:block!important;padding:0!important}
-  .practice-drawer .control-group{margin-bottom:10px!important;padding:11px!important}
-  .practice-drawer .note-strip{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:7px!important;overflow:visible!important}
-  .practice-drawer .segmented{display:grid!important;grid-template-columns:repeat(3,1fr)!important}
-  .practice-drawer #qualityControls{grid-template-columns:1fr 1fr!important}
-  .practice-drawer .pattern-controls,.practice-drawer .fret-count-controls{
-    position:static!important;background:none!important;padding:8px 0 0!important;display:flex!important;gap:7px!important;flex-wrap:wrap!important
+
+  .practice-screen .topbar {
+    flex: 0 0 auto;
+    padding-bottom: 7px;
   }
-  .practice-drawer .pattern-controls label,.practice-drawer .fret-count-controls label{width:100%;margin:0 0 2px!important}
-  .practice-board{flex:1 1 auto!important;min-height:0!important;margin:0 10px 6px!important}
-  .practice-legend-row{padding:4px 10px max(8px,env(safe-area-inset-bottom));gap:6px}
-  .practice-legend-row .practice-hint{display:none!important}
-  .practice-legend-row .practice-legend{width:100%;overflow-x:auto;justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
-  .practice-legend-row .practice-legend::-webkit-scrollbar{display:none}
+
+  .desktop-back {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex !important;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 !important;
+  }
+
+  .responsive-drawer {
+    display: block !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(88vw,410px);
+    z-index: 40;
+    background: linear-gradient(180deg,#09111d 0%,#04070b 100%);
+    border-right: 2px solid #2d4b63;
+    box-shadow: 22px 0 55px #000c;
+    transform: translateX(-104%);
+    transition: transform .22s ease;
+    padding: max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .responsive-drawer.open {
+    transform: translateX(0);
+  }
+
+  .drawer-head {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+
+  .drawer-backdrop {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    background: #020407b8;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s;
+  }
+
+  .drawer-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .responsive-drawer .control-panel {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .responsive-drawer .control-group {
+    margin-bottom: 10px !important;
+    padding: 11px !important;
+  }
+
+  .responsive-drawer .control-options {
+    display: grid !important;
+    grid-template-columns: repeat(4,1fr) !important;
+    gap: 7px !important;
+    overflow: visible !important;
+  }
+
+  .responsive-drawer .control-options {
+    display: grid !important;
+    grid-template-columns: repeat(3,1fr) !important;
+  }
+
+  .responsive-drawer #qualityControls {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .responsive-drawer .pattern-controls,.responsive-drawer .control-group {
+    position: static !important;
+    background: none !important;
+    padding: 8px 0 0 !important;
+    display: flex !important;
+    gap: 7px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .responsive-drawer .pattern-controls label,.responsive-drawer .control-group label {
+    width: 100%;
+    margin: 0 0 2px !important;
+  }
+
+  .practice-board {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    margin: 0 10px 6px !important;
+  }
+
+  .practice-legend-row {
+    padding: 4px 10px max(8px,env(safe-area-inset-bottom));
+    gap: 6px;
+  }
+
+  .practice-legend-row .practice-hint {
+    display: none !important;
+  }
+
+  .practice-legend-row .practice-legend {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .practice-legend-row .practice-legend::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-
-/* ===== V3.6.1 — Practice mobile drawer alignment =====
-   Keep menu order/placement unchanged; normalize horizontal gutters only. */
-@media (max-width:800px){
-  .practice-drawer .control-panel{
-    padding:0!important;
-    margin:0!important;
+@media (max-width:800px) {
+  .responsive-drawer .control-panel {
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
-  .practice-drawer .control-group,
-  .practice-drawer .pattern-controls,
-  .practice-drawer .fret-count-controls{
-    width:100%!important;
-    box-sizing:border-box!important;
-    margin-left:0!important;
-    margin-right:0!important;
+  .responsive-drawer .control-group,
+  .responsive-drawer .pattern-controls,
+  .responsive-drawer .control-group {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
-  /* ROOT / QUALITY / MODE use the exact same left/right gutter as
-     POSITIONS and FRETBOARD. */
-  .practice-drawer .control-group{
-    padding:8px 0!important;
-    margin-bottom:4px!important;
+  .responsive-drawer .control-group {
+    padding: 8px 0 !important;
+    margin-bottom: 4px !important;
   }
 
-  .practice-drawer .control-group label,
-  .practice-drawer .pattern-controls label,
-  .practice-drawer .fret-count-controls label{
-    margin-left:0!important;
-    padding-left:0!important;
-    text-align:left!important;
+  .responsive-drawer .control-group label,
+  .responsive-drawer .pattern-controls label,
+  .responsive-drawer .control-group label {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left !important;
   }
 
-  .practice-drawer .note-strip,
-  .practice-drawer .segmented,
-  .practice-drawer .pattern-controls,
-  .practice-drawer .fret-count-controls{
-    padding-left:0!important;
-    padding-right:0!important;
+  .responsive-drawer .control-options,
+  .responsive-drawer .control-options,
+  .responsive-drawer .pattern-controls,
+  .responsive-drawer .control-group {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
-  .practice-drawer .pattern-controls,
-  .practice-drawer .fret-count-controls{
-    margin-top:0!important;
+  .responsive-drawer .pattern-controls,
+  .responsive-drawer .control-group {
+    margin-top: 0 !important;
   }
 }
 
-/* Same mobile-like drawer alignment for iPad portrait. */
-@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
-  .practice-drawer .control-panel{
-    padding:0!important;
-    margin:0!important;
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
+  .responsive-drawer .control-panel {
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  .practice-drawer .control-group,
-  .practice-drawer .pattern-controls,
-  .practice-drawer .fret-count-controls{
-    width:100%!important;
-    box-sizing:border-box!important;
-    margin-left:0!important;
-    margin-right:0!important;
+
+  .responsive-drawer .control-group,
+  .responsive-drawer .pattern-controls,
+  .responsive-drawer .control-group {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
-  .practice-drawer .control-group{
-    padding:8px 0!important;
-    margin-bottom:4px!important;
+
+  .responsive-drawer .control-group {
+    padding: 8px 0 !important;
+    margin-bottom: 4px !important;
   }
-  .practice-drawer .control-group label,
-  .practice-drawer .pattern-controls label,
-  .practice-drawer .fret-count-controls label{
-    margin-left:0!important;
-    padding-left:0!important;
-    text-align:left!important;
+
+  .responsive-drawer .control-group label,
+  .responsive-drawer .pattern-controls label,
+  .responsive-drawer .control-group label {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left !important;
   }
-  .practice-drawer .note-strip,
-  .practice-drawer .segmented,
-  .practice-drawer .pattern-controls,
-  .practice-drawer .fret-count-controls{
-    padding-left:0!important;
-    padding-right:0!important;
+
+  .responsive-drawer .control-options,
+  .responsive-drawer .control-options,
+  .responsive-drawer .pattern-controls,
+  .responsive-drawer .control-group {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
-
-/* ===== V4 — Practice learning model ===== */
-.practice-context-controls{display:flex;align-items:flex-end;gap:7px;padding:0 16px 8px;flex-wrap:wrap;background:transparent;border:0;box-shadow:none}
-.practice-context-controls>label{font-size:10px;color:#7f9aad;letter-spacing:.12em;display:block;margin:0 5px 10px 0}
-.practice-context-buttons{display:flex;gap:7px;flex-wrap:wrap}
-.practice-context-buttons button{background:#09121d;border:2px solid #2a4054;color:#d4e7f2;border-radius:10px;padding:9px 12px;font-weight:800;min-width:48px;cursor:pointer}
-.practice-context-buttons button.active{border-color:#ff57d7;color:#fff;background:#2b0b2c;box-shadow:0 0 14px #ff38c844}
-
-/* Practice buttons use the same sizing language as Fretboard Map. */
-.practice-screen .note-strip button,
-.practice-screen .segmented button,
-.practice-screen .practice-context-buttons button,
-.practice-screen .fret-count-controls button{
-  min-width:42px;
-  padding:7px 10px;
-  line-height:normal;
+.control-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  padding: 0 16px 8px;
+  flex-wrap: wrap;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
-/* Desktop/iPad landscape only: reorganize practiceDrawer as one compact, readable toolbar.
-   Mobile and iPad portrait drawer placement/order remain governed by the existing rules. */
-@media (min-width:768px) and (orientation:landscape){
-  .practice-screen .practice-drawer{
-    display:grid!important;
-    grid-template-columns:minmax(430px,1.8fr) auto auto;
-    grid-template-areas:"core context frets";
-    align-items:end;
-    column-gap:14px;
-    padding:2px 12px 7px!important;
+.control-group>label {
+  font-size: 10px;
+  color: #7f9aad;
+  letter-spacing: .12em;
+  display: block;
+  margin: 0 5px 10px 0;
+}
+
+.control-options {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.control-options button {
+  background: #09121d;
+  border: 2px solid #2a4054;
+  color: #d4e7f2;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 800;
+  min-width: 48px;
+  cursor: pointer;
+}
+
+.control-options button.active {
+  border-color: #ff57d7;
+  color: #fff;
+  background: #2b0b2c;
+  box-shadow: 0 0 14px #ff38c844;
+}
+
+.practice-screen .control-options button,
+.practice-screen .control-options button,
+.practice-screen .control-options button,
+.practice-screen .control-group button {
+  min-width: 42px;
+  padding: 7px 10px;
+  line-height: normal;
+}
+
+@media (min-width:768px) and (orientation:landscape) {
+  .practice-screen .responsive-drawer {
+    display: grid !important;
+    grid-template-columns: minmax(430px,1.8fr) auto auto;
+    grid-template-areas: "core context frets";
+    align-items: end;
+    column-gap: 14px;
+    padding: 2px 12px 7px !important;
   }
-  .practice-screen .practice-drawer .control-panel{
-    grid-area:core;
-    display:grid!important;
-    grid-template-columns:minmax(300px,1.5fr) auto auto!important;
-    gap:10px!important;
-    padding:0!important;
-    align-items:end!important;
+
+  .practice-screen .responsive-drawer .control-panel {
+    grid-area: core;
+    display: grid !important;
+    grid-template-columns: minmax(300px,1.5fr) auto auto !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    align-items: end !important;
   }
-  .practice-screen .practice-drawer .control-group{padding:0!important;margin:0!important}
-  .practice-screen .practice-drawer .root-group{min-width:0!important}
-  .practice-screen .practice-drawer .note-strip,
-  .practice-screen .practice-drawer .segmented{gap:5px!important;flex-wrap:nowrap!important}
-  .practice-screen .practice-drawer .control-group label,
-  .practice-screen .practice-context-controls>label,
-  .practice-screen .fret-count-controls label{font-size:10px!important;margin:0 0 5px!important}
-  .practice-screen .practice-context-controls{grid-area:context;padding:0!important;display:block!important}
-  .practice-screen .practice-context-buttons{gap:5px!important;flex-wrap:nowrap!important}
-  .practice-screen .fret-count-controls{grid-area:frets;padding:0!important;display:block!important}
-  .practice-screen .fret-count-controls button{margin-right:3px}
-  .practice-screen .note-strip button,
-  .practice-screen .segmented button,
-  .practice-screen .practice-context-buttons button,
-  .practice-screen .fret-count-controls button{
-    min-height:32px!important;height:32px!important;min-width:40px!important;padding:6px 9px!important;font-size:11px!important;line-height:normal!important
+
+  .practice-screen .responsive-drawer .control-group {
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  .practice-screen #modeControls button{min-width:auto!important}
+
+  .practice-screen .responsive-drawer .control-group {
+    min-width: 0 !important;
+  }
+
+  .practice-screen .responsive-drawer .control-options,
+  .practice-screen .responsive-drawer .control-options {
+    gap: 5px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .practice-screen .responsive-drawer .control-group label,
+  .practice-screen .control-group>label,
+  .practice-screen .control-group label {
+    font-size: 10px !important;
+    margin: 0 0 5px !important;
+  }
+
+  .practice-screen .control-group {
+    grid-area: context;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .practice-screen .control-options {
+    gap: 5px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .practice-screen .control-group {
+    grid-area: frets;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .practice-screen .control-group button {
+    margin-right: 3px;
+  }
+
+  .practice-screen .control-options button,
+  .practice-screen .control-options button,
+  .practice-screen .control-options button,
+  .practice-screen .control-group button {
+    min-height: 32px !important;
+    height: 32px !important;
+    min-width: 40px !important;
+    padding: 6px 9px !important;
+    font-size: 11px !important;
+    line-height: normal !important;
+  }
+
+  .practice-screen #modeControls button {
+    min-width: auto !important;
+  }
 }
 
-/* Existing mobile hamburger structure is intentionally preserved; only the new context group adopts its established rhythm. */
-@media (max-width:800px){
-  .practice-drawer .practice-context-controls{position:static;background:none;padding:4px 0 0;display:flex;gap:7px;width:100%;margin:0;box-sizing:border-box}
-  .practice-drawer .practice-context-controls>label{width:100%;margin:0 0 2px}
-  .practice-drawer .practice-context-buttons{display:flex;gap:7px;flex-wrap:wrap;width:100%}
-  .practice-drawer .practice-context-buttons button{flex:1;min-width:0;padding:8px 10px}
-}
-@media (min-width:801px) and (max-width:1100px) and (orientation:portrait){
-  .practice-drawer .practice-context-controls{position:static!important;background:none!important;padding:8px 0 0!important;display:flex!important;gap:7px!important;flex-wrap:wrap!important;width:100%!important;margin:0!important}
-  .practice-drawer .practice-context-controls>label{width:100%;margin:0 0 2px!important}
-  .practice-drawer .practice-context-buttons{display:flex!important;gap:7px!important;flex-wrap:wrap!important;width:100%!important}
-  .practice-drawer .practice-context-buttons button{flex:1;min-width:0;padding:9px 5px}
+@media (max-width:800px) {
+  .responsive-drawer .control-group {
+    position: static;
+    background: none;
+    padding: 4px 0 0;
+    display: flex;
+    gap: 7px;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .responsive-drawer .control-group>label {
+    width: 100%;
+    margin: 0 0 2px;
+  }
+
+  .responsive-drawer .control-options {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .responsive-drawer .control-options button {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+  }
 }
 
+@media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
+  .responsive-drawer .control-group {
+    position: static !important;
+    background: none !important;
+    padding: 8px 0 0 !important;
+    display: flex !important;
+    gap: 7px !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
 
-/* ===== V5 — Premium physical fretboard ===== */
-.fretboard-wrap{
-  background:#08090b;
-  border-color:#50372b;
-  box-shadow:inset 0 1px 0 #c4936730,inset 0 -18px 36px #0008,0 12px 34px #0008,0 0 28px #27d7ff0b;
+  .responsive-drawer .control-group>label {
+    width: 100%;
+    margin: 0 0 2px !important;
+  }
+
+  .responsive-drawer .control-options {
+    display: flex !important;
+    gap: 7px !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+  }
+
+  .responsive-drawer .control-options button {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 5px;
+  }
 }
-.fretboard-wrap svg{filter:saturate(1.04) contrast(1.025)}
-@media(max-width:800px){
-  .fretboard-wrap{box-shadow:inset 0 1px 0 #c4936726,inset 0 -12px 24px #0007,0 8px 22px #0007}
-  .fretboard-wrap svg{filter:saturate(1.02)}
+
+.fretboard-wrap {
+  background: #08090b;
+  border-color: #50372b;
+  box-shadow: inset 0 1px 0 #c4936730,inset 0 -18px 36px #0008,0 12px 34px #0008,0 0 28px #27d7ff0b;
 }
 
-/* ===== V5.1 — electric-guitar fretboard refinement ===== */
+.fretboard-wrap svg {
+  filter: saturate(1.04) contrast(1.025);
+}
 
-/* fretboard-wrap is no longer a visual card/container. */
+@media (max-width:800px) {
+  .fretboard-wrap {
+    box-shadow: inset 0 1px 0 #c4936726,inset 0 -12px 24px #0007,0 8px 22px #0007;
+  }
+
+  .fretboard-wrap svg {
+    filter: saturate(1.02);
+  }
+}
+
 .fretboard-wrap,
 .practice-board.fretboard-wrap,
-.fretboard-wrap.practice-board{
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  padding:0!important;
+.fretboard-wrap.practice-board {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
-/* Center the physical neck in the available viewport instead of pinning it
-   to a card edge. */
 .practice-board,
 .map-board,
 .quiz-board,
 #practiceBoard,
 #mapBoard,
-#quizBoard{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-left:auto!important;
-  margin-right:auto!important;
+#quizBoard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
+
 .practice-board svg,
 .map-board svg,
 .quiz-board svg,
 #practiceBoard svg,
 #mapBoard svg,
-#quizBoard svg{
-  display:block;
-  margin:auto;
-  max-width:100%;
-  max-height:100%;
+#quizBoard svg {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* Dark electric-fingerboard surround: graphite / nickel, no acoustic brown. */
 .practice-board svg,
 .map-board svg,
-.quiz-board svg{
-  filter:saturate(.94) contrast(1.07) drop-shadow(0 12px 20px #0008);
+.quiz-board svg {
+  filter: saturate(.94) contrast(1.07) drop-shadow(0 12px 20px #0008);
 }
 
-@media (orientation:landscape){
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
-    width:min(100%,1800px);
-  }
-}
-@media (orientation:portrait){
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
-    width:100%;
-    min-height:0;
-  }
-  .practice-board svg,.map-board svg,.quiz-board svg{
-    filter:saturate(.96) contrast(1.05) drop-shadow(0 7px 13px #0007);
+@media (orientation:landscape) {
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+    width: min(100%,1800px);
   }
 }
 
-/* ===== V5.2 — Cyber / dimensional fretboard ===== */
-:root{--fretboard-desktop-width:96vw}
+@media (orientation:portrait) {
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+    width: 100%;
+    min-height: 0;
+  }
 
-body{
-  background:
-    radial-gradient(circle at 7% 44%,rgba(0,183,255,.16),transparent 25%),
+  .practice-board svg,.map-board svg,.quiz-board svg {
+    filter: saturate(.96) contrast(1.05) drop-shadow(0 7px 13px #0007);
+  }
+}
+
+:root {
+  --fretboard-desktop-width: 96vw;
+}
+
+body {
+  background: radial-gradient(circle at 7% 44%,rgba(0,183,255,.16),transparent 25%),
     radial-gradient(circle at 92% 73%,rgba(255,35,199,.13),transparent 26%),
     radial-gradient(circle at 52% 37%,rgba(34,89,120,.07),transparent 30%),
     #07090d;
@@ -738,11 +2227,11 @@ body{
 .quiz-board,
 #practiceBoard,
 #mapBoard,
-#quizBoard{
-  width:var(--fretboard-desktop-width)!important;
-  max-width:none!important;
-  margin-inline:calc((100% - var(--fretboard-desktop-width))/2)!important;
-  overflow:visible;
+#quizBoard {
+  width: var(--fretboard-desktop-width) !important;
+  max-width: none !important;
+  margin-inline: calc((100% - var(--fretboard-desktop-width))/2) !important;
+  overflow: visible;
 }
 
 .practice-board svg,
@@ -750,39 +2239,38 @@ body{
 .quiz-board svg,
 #practiceBoard svg,
 #mapBoard svg,
-#quizBoard svg{
-  width:100%!important;
-  max-width:none!important;
-  height:auto;
-  filter:saturate(1.05) contrast(1.08) drop-shadow(0 16px 24px #000b) drop-shadow(0 0 18px #27d7ff12);
+#quizBoard svg {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  filter: saturate(1.05) contrast(1.08) drop-shadow(0 16px 24px #000b) drop-shadow(0 0 18px #27d7ff12);
 }
 
-/* Preserve the established mobile/tablet behavior for now. */
-@media(max-width:1024px), (orientation:portrait){
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard{
-    width:100%!important;
-    max-width:100%!important;
-    margin-inline:auto!important;
+@media (max-width:1024px), (orientation:portrait) {
+  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
   }
-  .practice-board svg,.map-board svg,.quiz-board svg,#practiceBoard svg,#mapBoard svg,#quizBoard svg{
-    width:100%!important;
-    max-width:100%!important;
+
+  .practice-board svg,.map-board svg,.quiz-board svg,#practiceBoard svg,#mapBoard svg,#quizBoard svg {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
-/* ===== V5.2.1 — true edge-to-edge fretboard ===== */
 .practice-board,
 .map-board,
 .quiz-board,
 #practiceBoard,
 #mapBoard,
-#quizBoard{
-  width:100vw!important;
-  max-width:none!important;
-  margin-left:calc(50% - 50vw)!important;
-  margin-right:calc(50% - 50vw)!important;
-  padding-left:0!important;
-  padding-right:0!important;
+#quizBoard {
+  width: 100vw !important;
+  max-width: none !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .practice-board svg,
@@ -790,9 +2278,1226 @@ body{
 .quiz-board svg,
 #practiceBoard svg,
 #mapBoard svg,
-#quizBoard svg{
-  width:100%!important;
-  max-width:none!important;
-  margin:0!important;
-  display:block;
+#quizBoard svg {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  display: block;
+}
+
+.result-modal .modal-action {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  margin-top: 9px;
+  letter-spacing: .035em;
+}
+
+.result-modal .modal-action svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  flex: 0 0 20px;
+}
+
+.result-modal .coffee-action {
+  padding: 13px 16px;
+  color: #fff;
+  background: linear-gradient(90deg,#1a9ec1,#24b8c9);
+  border: 1px solid #6ce9f0;
+  box-shadow: 0 0 18px #27d7ff25,inset 0 1px 0 #ffffff30;
+  font-size: 13px;
+}
+
+.result-modal .coffee-action:hover {
+  box-shadow: 0 0 25px #27d7ff42,inset 0 1px 0 #ffffff40;
+}
+
+.result-modal .other-games-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #7f9aad;
+  text-decoration: none;
+  font-size: 12px;
+  margin-top: 15px;
+}
+
+.result-modal .other-games-link span {
+  font-size: 18px;
+  line-height: 1;
+  color: #27d7ff;
+}
+
+:root {
+  --control-h: 34px;
+  --control-gap: 6px;
+  --control-border: #2a4054;
+  --control-bg: #09121d;
+  --control-active: #ff57d7;
+}
+
+.header-controls {
+  min-width: 0;
+}
+
+.header-controls .control-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0 !important;
+}
+
+.header-controls .control-group>label,
+.responsive-drawer .control-group>label {
+  display: block;
+  margin: 0 0 5px !important;
+  padding: 0 !important;
+  color: #7f9aad;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .12em;
+  font-weight: 700;
+}
+
+.header-controls .control-options,
+.responsive-drawer .control-options {
+  display: flex;
+  align-items: center;
+  gap: var(--control-gap);
+  flex-wrap: nowrap;
+}
+
+.header-controls .control-options button,
+.responsive-drawer .control-options button,
+.control-options button {
+  height: var(--control-h) !important;
+  min-height: var(--control-h) !important;
+  min-width: 42px !important;
+  padding: 0 10px !important;
+  border: 2px solid var(--control-border) !important;
+  border-radius: 10px !important;
+  background: var(--control-bg) !important;
+  color: #d4e7f2 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.header-controls .control-options button.active,
+.responsive-drawer .control-options button.active,
+.control-options button.active {
+  border-color: var(--control-active) !important;
+  background: #2b0b2c !important;
+  color: #fff !important;
+  box-shadow: 0 0 14px #ff38c844 !important;
+}
+
+.control-select {
+  display: none;
+  position: relative;
+  min-width: 92px;
+}
+
+.control-select .select-trigger {
+  width: 100%;
+  height: var(--control-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 11px;
+  border: 2px solid var(--control-active);
+  border-radius: 10px;
+  background: #170d1d;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+
+.control-select .select-trigger b {
+  font-size: 14px;
+  color: var(--cyan);
+  font-weight: 900;
+}
+
+.control-select .select-popover {
+  display: none;
+  position: absolute;
+  z-index: 80;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  max-height: min(52dvh,360px);
+  overflow: auto;
+  padding: 6px;
+  background: #07101a;
+  border: 1px solid #36546b;
+  border-radius: 11px;
+  box-shadow: 0 18px 45px #000d,0 0 20px #27d7ff18;
+}
+
+.control-select.select-open .select-popover {
+  display: grid;
+  gap: 4px;
+}
+
+.control-select .select-option {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #cfe4f1;
+  text-align: left;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.control-select .select-option.active {
+  border-color: #ff57d7;
+  background: #2b0b2c;
+  color: #fff;
+}
+
+.responsive-drawer {
+  display: contents;
+}
+
+
+
+
+
+
+
+
+
+@media (min-width:1200px) {
+  .practice-screen .responsive-drawer {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 14px !important;
+    padding: 3px 14px 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .practice-screen .responsive-drawer .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 14px !important;
+    padding: 0 !important;
+    flex: 1 1 720px !important;
+    min-width: 0 !important;
+  }
+
+  .practice-screen .responsive-drawer .control-group {
+    flex: 1 1 500px;
+  }
+
+  .practice-screen .responsive-drawer .control-group,.practice-screen .responsive-drawer .control-group {
+    flex: 0 0 auto;
+  }
+
+  .practice-screen .control-group,.practice-screen .control-group {
+    display: block !important;
+    padding: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .responsive-drawer {
+    display: block !important;
+  }
+
+  .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    padding: 3px 14px 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .control-group,.control-group {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .control-options {
+    overflow: visible !important;
+  }
+
+  .drawer-head {
+    display: none !important;
+  }
+}
+
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait) {
+  .practice-screen .responsive-drawer {
+    display: flex !important;
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 4px 10px 7px !important;
+    gap: 7px !important;
+    align-items: flex-end !important;
+  }
+
+  .practice-screen .responsive-drawer .drawer-head {
+    display: none !important;
+  }
+
+  .practice-screen .responsive-drawer .control-panel {
+    display: contents !important;
+  }
+
+  .practice-screen .control-group,.practice-screen .control-group {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .practice-screen .control-group {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .practice-screen .control-options {
+    display: none !important;
+  }
+
+  .practice-screen .control-select {
+    display: block !important;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .responsive-drawer {
+    display: block !important;
+  }
+
+  .responsive-drawer .drawer-head {
+    display: none !important;
+  }
+
+  .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+    padding: 4px 10px 7px !important;
+  }
+
+  .control-panel .control-group {
+    flex: 1 1 0 !important;
+    padding: 0 !important;
+  }
+
+  .control-panel .control-options {
+    display: none !important;
+  }
+
+  .control-panel .control-select {
+    display: block !important;
+    width: 100%;
+  }
+}
+
+@media (min-width:768px) and (max-width:1199px) and (orientation:landscape) {
+  .practice-screen .responsive-drawer {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 9px !important;
+    padding: 3px 9px 7px !important;
+    flex-wrap: nowrap !important;
+    overflow: visible !important;
+  }
+
+  .practice-screen .responsive-drawer .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 9px !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .practice-screen .control-group,.practice-screen .control-group {
+    display: block !important;
+    padding: 0 !important;
+    flex: 0 0 auto !important;
+  }
+
+  .practice-screen .control-group {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .practice-screen .control-options {
+    gap: 4px !important;
+  }
+
+  .practice-screen .control-options button,.practice-screen .control-options button {
+    min-width: 36px !important;
+    padding: 0 7px !important;
+    font-size: 10px !important;
+  }
+
+  .responsive-drawer {
+    display: block !important;
+  }
+
+  .responsive-drawer .drawer-head {
+    display: none !important;
+  }
+
+  .control-panel {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 9px !important;
+    padding: 3px 9px 7px !important;
+    overflow: visible !important;
+  }
+
+  .control-panel .control-group {
+    padding: 0 !important;
+  }
+
+  
+
+  
+
+  
+
+  
+}
+
+@media (max-width:767px) {
+  .topbar {
+    display: grid !important;
+    grid-template-columns: 42px 42px minmax(0,1fr) 42px;
+    align-items: center;
+    padding: max(8px,env(safe-area-inset-top)) 8px 6px !important;
+    gap: 6px !important;
+  }
+
+  .topbar>.icon-btn[data-go="home"] {
+    grid-column: 1;
+  }
+
+  .topbar>.mobile-menu-btn {
+    display: inline-flex !important;
+    grid-column: 2;
+  }
+
+  
+
+  .topbar>.fullscreen-btn {
+    grid-column: 4;
+  }
+
+  
+
+  
+
+  
+
+  .responsive-drawer,.responsive-drawer {
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: min(88vw,380px) !important;
+    z-index: 40 !important;
+    background: linear-gradient(180deg,#09111d 0%,#04070b 100%) !important;
+    border-right: 2px solid #2d4b63 !important;
+    box-shadow: 22px 0 55px #000c !important;
+    transform: translateX(-104%) !important;
+    transition: transform .22s ease !important;
+    padding: max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+  }
+
+  .responsive-drawer.open,.responsive-drawer.open {
+    transform: translateX(0) !important;
+  }
+
+  .control-panel {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .control-panel .control-group {
+    padding: 8px 0 !important;
+    margin: 0 0 4px !important;
+  }
+
+  .control-panel .control-options {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    overflow: visible !important;
+  }
+
+  .control-panel .control-options button {
+    flex: 1 1 52px !important;
+  }
+
+  .control-select {
+    display: none !important;
+  }
+
+  .quiz-head {
+    padding-top: 2px !important;
+    padding-bottom: 5px !important;
+  }
+
+  
+}
+
+.practice-learning-area {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.practice-board,.map-board,.quiz-board {
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+@media (orientation:portrait) {
+  .practice-learning-area {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) auto;
+    grid-template-rows: minmax(0,1fr);
+    align-items: stretch;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .practice-learning-area .practice-board {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+
+  .practice-learning-area .practice-board svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain;
+  }
+
+  .practice-learning-area .practice-legend-row {
+    grid-column: 2;
+    grid-row: 1;
+    width: 76px;
+    padding: 4px 5px max(6px,env(safe-area-inset-bottom)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .practice-learning-area .practice-hint {
+    display: none !important;
+  }
+
+  .practice-learning-area .practice-legend {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .practice-learning-area .legend-filter {
+    width: 100%;
+    padding: 3px !important;
+    gap: 4px !important;
+  }
+
+  .practice-learning-area .legend-filter small {
+    font-size: 9px !important;
+    margin: 0 !important;
+  }
+
+  .map-board,.quiz-board {
+    width: 100vw !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .map-board svg,.quiz-board svg {
+    height: 100% !important;
+    width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain;
+  }
+}
+
+@media (orientation:landscape) {
+  .practice-learning-area {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .practice-learning-area .practice-board {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  .practice-learning-area .practice-legend-row {
+    flex: 0 0 auto !important;
+  }
+
+  .practice-board,.map-board,.quiz-board {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+  }
+}
+
+@media (max-width:767px) {
+  .practice-screen .desktop-back {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ========================================================================== 
+   V6.2 — RESPONSIVE CONTROL SYSTEM + QUIZ HUD
+   One control language. The fretboard always wins the space negotiation.
+   ========================================================================== */
+:root{--control-min-h:48px;--control-gap:8px}
+.control-group>label{white-space:nowrap}
+.icon-btn{display:inline-grid;place-items:center;line-height:1;padding:0}
+.icon-btn[data-go="home"]{font-size:clamp(22px,2vw,32px);padding-bottom:2px}
+
+/* Shared semantic select degradation. */
+
+
+
+/* Quiz is information-only: no drawer, ever. */
+.quiz-screen .mobile-menu-btn,.quiz-drawer,#quizDrawerBackdrop{display:none!important}
+.quiz-hud{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:min(920px,calc(100% - 32px));margin:4px auto 8px}
+.hud-stat{min-height:58px;border:1px solid rgba(92,175,220,.28);border-radius:14px;background:rgba(5,16,28,.72);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;box-shadow:inset 0 0 18px rgba(39,215,255,.035)}
+.hud-stat span{font-family:"Barlow Condensed",sans-serif;font-weight:800;letter-spacing:.14em;color:#8da8b9;font-size:14px}
+.hud-stat strong{font-family:"Barlow Condensed",sans-serif;font-size:24px;color:#fff}.hud-combo strong{color:#27d7ff}
+
+/* Portrait: Map geometry is the canonical fretboard geometry for Practice + Quiz.
+   Legend is an overlay and never participates in fretboard centering/sizing. */
+@media (orientation:portrait) and (max-width:1199px){
+  .practice-learning-area{position:relative;display:block!important;width:100%;min-height:0}
+  .practice-board,.map-board,.quiz-board{width:100vw!important;max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;display:flex!important;justify-content:center!important;align-items:center!important}
+  .practice-board svg,.map-board svg,.quiz-board svg{display:block!important;width:auto!important;max-width:88vw!important;height:min(72dvh,1500px)!important;max-height:72dvh!important;margin:0 auto!important}
+  .practice-legend-row{position:absolute!important;right:max(6px,env(safe-area-inset-right))!important;top:50%!important;transform:translateY(-50%)!important;z-index:6!important;width:auto!important;margin:0!important;pointer-events:none}
+  .practice-legend{display:flex!important;flex-direction:column!important;gap:7px!important;pointer-events:auto;background:rgba(3,10,18,.55);backdrop-filter:blur(5px);border-radius:16px;padding:7px 5px!important}
+  .practice-legend .legend-filter{padding:0!important;min-width:44px!important;display:flex!important;align-items:center!important;gap:4px!important}
+  .practice-legend .legend-filter small{font-size:10px!important}
+  .practice-hint{display:none!important}
+}
+
+/* Tablet portrait: selects are the intentional primary UI, not tiny radios. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .responsive-drawer,.responsive-drawer{display:block!important;position:static!important;transform:none!important;width:100%!important;height:auto!important;background:transparent!important;box-shadow:none!important;padding:0 18px 8px!important}
+  .responsive-drawer .drawer-head,.responsive-drawer .drawer-head{display:none!important}
+  .responsive-drawer .control-options,.responsive-drawer .control-options{display:none!important}
+  .responsive-drawer .control-select,.responsive-drawer .control-select{display:block!important}
+  .responsive-drawer,.control-panel{display:flex!important;align-items:end!important;justify-content:center!important;gap:10px!important;flex-wrap:nowrap!important}
+  .responsive-drawer>.control-panel{display:contents!important}
+  .control-group{min-width:0!important;flex:1 1 0!important}
+  .select-trigger{min-height:52px!important;width:100%!important;font-size:17px!important}
+}
+
+/* Tablet landscape: readable controls first; JS progressively switches groups to selects.
+   If even that cannot fit, force the same drawer interaction as mobile. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
+  .responsive-drawer,.responsive-drawer{overflow:visible!important}
+  .control-options button,.select-trigger{min-height:var(--control-min-h)!important;min-width:52px!important;font-size:14px!important}
+  
+  
+  
+  
+  
+  
+  
+  
+}
+
+/* Mobile: Practice-style drawer is canonical. Map order is NOTES -> FRETBOARD in DOM. */
+@media (max-width:767px){
+  .responsive-drawer,.responsive-drawer{width:min(88vw,610px)!important}
+  .control-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:22px!important}
+  .control-panel .control-group{width:100%!important;margin:0!important}
+  .control-panel .control-options{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important}
+  .control-panel .control-group .control-options{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .control-panel .control-options button{width:100%!important;min-width:0!important;min-height:54px!important}
+  .quiz-screen{overflow:hidden!important}
+  .quiz-screen .topbar{min-height:64px!important}
+  .quiz-hud{width:calc(100% - 24px);gap:6px;margin:4px auto 6px}
+  .hud-stat{min-height:48px;padding:7px 9px;border-radius:11px;flex-direction:column;justify-content:center;gap:1px}
+  .hud-stat span{font-size:10px}.hud-stat strong{font-size:19px}
+  .quiz-head{margin:0 auto 4px!important;padding:0 12px!important;min-height:0!important}
+  .quiz-head h2{font-size:clamp(34px,11vw,58px)!important;margin:0!important;line-height:.95!important}
+  .quiz-head p{margin:3px 0!important}.quiz-feedback{margin-top:2px!important;font-size:12px!important}
+  .quiz-board{flex:1 1 auto!important;min-height:0!important}
+}
+
+/* Mobile landscape: game HUD becomes a thin strip and the horizontal neck gets the rest. */
+@media (max-width:767px) and (orientation:landscape){
+  .quiz-screen .topbar{min-height:48px!important;height:48px!important;padding:3px 10px!important}
+  
+  .quiz-screen .icon-btn{width:42px!important;height:42px!important}
+  .quiz-hud{position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:5;width:min(520px,64vw);height:40px;margin:0;gap:5px}
+  .hud-stat{min-height:38px;height:38px;padding:3px 8px;flex-direction:row;border-radius:9px}.hud-stat span{font-size:9px}.hud-stat strong{font-size:15px}
+  .quiz-head{position:absolute!important;z-index:5!important;top:94px!important;left:50%!important;transform:translateX(-50%)!important;width:auto!important;background:rgba(3,9,16,.78)!important;border-radius:12px!important;padding:4px 14px!important;white-space:nowrap!important}
+  .quiz-head h2{font-size:24px!important;display:inline!important}.quiz-head p{font-size:12px!important;display:inline!important;margin-left:10px!important}.quiz-feedback{display:none!important}
+  .quiz-board{position:absolute!important;left:0!important;right:0!important;bottom:0!important;top:48px!important;width:100vw!important;height:calc(100dvh - 48px)!important;margin:0!important;display:flex!important;align-items:flex-end!important}
+  .quiz-board svg{width:100vw!important;height:auto!important;max-height:calc(100dvh - 48px)!important}
+}
+
+/* Desktop: one coherent centered control bar. Use available pixels instead of tiny controls. */
+@media (min-width:1200px){
+  :root{--control-min-h:clamp(52px,4vw,78px);--control-gap:clamp(8px,1vw,16px)}
+  .responsive-drawer,.responsive-drawer{width:100%!important;max-width:100%!important;margin:0 auto!important;padding:8px clamp(18px,2vw,44px) 12px!important;display:flex!important;align-items:end!important;justify-content:center!important;gap:clamp(10px,1.1vw,22px)!important}
+  .responsive-drawer>.control-panel{display:contents!important}.control-panel{display:flex!important;align-items:end!important;justify-content:center!important;gap:clamp(10px,1.1vw,22px)!important}
+  .control-group{flex:0 0 auto!important}.control-group label{font-size:clamp(13px,.85vw,20px)!important;margin-bottom:6px!important}
+  .control-options{gap:var(--control-gap)!important}.control-options button{min-height:var(--control-min-h)!important;min-width:clamp(58px,4.2vw,92px)!important;padding:0 clamp(13px,1vw,22px)!important;font-size:clamp(15px,1vw,22px)!important;border-radius:clamp(11px,.8vw,17px)!important}
+  .control-group .control-options button,.control-group .control-options button{min-width:clamp(52px,3.5vw,78px)!important}
+  .topbar>.icon-btn{width:clamp(58px,4.2vw,82px)!important;height:clamp(58px,4.2vw,82px)!important}
+  .practice-board,.map-board,.quiz-board{margin-top:4px!important}
+}
+
+/* ========================================================================== 
+   V6.3 — SHARED CONTROL + FRETBOARD SYSTEM
+   Practice / Map / Quiz share one visual language. Screen-specific rules may
+   place components, but must not redefine the components themselves.
+   ========================================================================== */
+:root{
+  --ui-control-border:#2a4054;
+  --ui-control-bg:#09121d;
+  --ui-control-fg:#d4e7f2;
+  --ui-control-active:#ff57d7;
+  --ui-control-active-bg:#2b0b2c;
+  --ui-control-radius:12px;
+}
+
+/* One control component everywhere. */
+.control-group{background:transparent!important;border:0!important;box-shadow:none!important}
+.control-group>label{
+  display:block!important;color:#8ca6b8!important;font-family:"Barlow Condensed",sans-serif!important;
+  font-weight:800!important;letter-spacing:.13em!important;line-height:1!important;
+}
+.control-group .control-options{display:flex;align-items:center;gap:var(--control-gap);flex-wrap:nowrap}
+.control-group .control-options button{
+  appearance:none;background:var(--ui-control-bg)!important;border:2px solid var(--ui-control-border)!important;
+  color:var(--ui-control-fg)!important;border-radius:var(--ui-control-radius)!important;font-family:"Barlow Condensed",sans-serif!important;
+  font-weight:900!important;line-height:1!important;cursor:pointer!important;box-shadow:none!important;transform:none!important;
+}
+.control-group .control-options button.active{
+  border-color:var(--ui-control-active)!important;color:#fff!important;background:var(--ui-control-active-bg)!important;
+  box-shadow:0 0 16px #ff38c844!important;
+}
+.control-group .control-options button:hover{transform:none!important}
+
+/* Fret count is the same component in Practice and Map. */
+.control-group,.control-group,.control-group,.control-group{
+  padding:0!important;margin:0!important;display:block!important;background:transparent!important;border:0!important;box-shadow:none!important;
+}
+.control-group>label,.control-group>label,.control-group>label,.control-group>label{margin:0 0 7px!important}
+.control-options,.control-options{display:flex!important;align-items:center!important;gap:var(--control-gap)!important;flex-wrap:nowrap!important}
+
+/* Header menu button only exists when a drawer is actually required. */
+.mobile-menu-btn{display:none!important}
+
+/* Unified section heading hierarchy. */
+
+
+
+
+
+/* Cleaner game HUD: one slim instrument panel, not three cards. */
+.quiz-hud{
+  display:flex!important;align-items:center!important;justify-content:center!important;gap:0!important;
+  width:min(880px,calc(100% - 32px))!important;min-height:48px!important;margin:4px auto 8px!important;
+  padding:0!important;border-top:1px solid #24455b;border-bottom:1px solid #24455b;
+  background:linear-gradient(90deg,transparent,rgba(5,20,34,.82) 12%,rgba(5,20,34,.82) 88%,transparent);
+}
+.hud-stat{
+  min-height:0!important;height:auto!important;flex:1 1 0!important;border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;padding:7px 18px!important;display:flex!important;align-items:baseline!important;justify-content:center!important;gap:10px!important;
+}
+.hud-stat+.hud-stat{border-left:1px solid rgba(73,135,169,.28)!important}
+.hud-stat span{font-size:clamp(11px,.85vw,15px)!important}.hud-stat strong{font-size:clamp(20px,1.55vw,28px)!important}
+.hud-combo strong{color:var(--cyan)!important;text-shadow:0 0 10px #27d7ff66}
+
+/* Shared portrait neck geometry. The legend is an overlay and never consumes width. */
+@media (orientation:portrait) and (max-width:1199px){
+  .practice-learning-area{position:relative!important;display:flex!important;flex:1 1 auto!important;min-height:0!important;width:100%!important}
+  .practice-board,.map-board,.quiz-board{
+    flex:1 1 auto!important;min-height:0!important;width:100vw!important;max-width:none!important;
+    margin:0 calc(50% - 50vw)!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  }
+  .practice-board svg,.map-board svg,.quiz-board svg{
+    display:block!important;width:auto!important;height:100%!important;max-height:100%!important;max-width:94vw!important;margin:auto!important;
+  }
+  .practice-legend-row{
+    position:absolute!important;right:max(7px,env(safe-area-inset-right))!important;top:50%!important;transform:translateY(-50%)!important;
+    z-index:8!important;width:auto!important;padding:0!important;margin:0!important;pointer-events:none!important;
+  }
+  .practice-legend{pointer-events:auto!important}
+  
+}
+
+/* Mobile drawers: roomy, readable, same component layout for Practice and Map. */
+@media (max-width:767px){
+  .practice-screen .mobile-menu-btn,.fretmap-screen .mobile-menu-btn{display:inline-flex!important}
+  .responsive-drawer,.responsive-drawer{width:min(92vw,430px)!important;padding:16px 16px max(20px,env(safe-area-inset-bottom))!important}
+  .drawer-head{margin-bottom:20px!important}
+  .responsive-drawer .control-panel,.control-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:20px!important}
+  .responsive-drawer>.control-group,.responsive-drawer>.control-group{margin-top:20px!important}
+  .responsive-drawer .control-group,.responsive-drawer .control-group{padding:0!important;margin:0!important;width:100%!important}
+  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{margin:0 0 8px!important;font-size:13px!important}
+  .responsive-drawer .control-options,.responsive-drawer .control-options{width:100%!important;display:grid!important;gap:9px!important;overflow:visible!important}
+  .responsive-drawer #rootControls{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .responsive-drawer #qualityControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .responsive-drawer #modeControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .responsive-drawer #practicePositionButtons{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .responsive-drawer #fretCountControls .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .responsive-drawer #mapNoteControls{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .responsive-drawer .control-group .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .responsive-drawer .control-options button,.responsive-drawer .control-options button{width:100%!important;min-width:0!important;min-height:52px!important;padding:0 6px!important;font-size:15px!important}
+  .quiz-screen .mobile-menu-btn{display:none!important}
+  
+  
+}
+
+/* Tablet portrait: selects remain deliberate and the neck gets all remaining height. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .mobile-menu-btn{display:none!important}
+  .practice-screen,.fretmap-screen,.quiz-screen{height:100dvh!important;overflow:hidden!important}
+  .responsive-drawer,.responsive-drawer{flex:0 0 auto!important}
+  .practice-learning-area,.map-board,.quiz-board{min-height:0!important}
+  .practice-board svg,.map-board svg,.quiz-board svg{max-width:92vw!important}
+}
+
+/* Tablet landscape: show readable controls; progressively select, then drawer. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
+  
+  .responsive-drawer,.responsive-drawer,.control-panel{max-width:100%!important}
+  .control-group .control-options button,.select-trigger{min-height:46px!important;min-width:48px!important;font-size:13px!important;padding:0 10px!important}
+}
+
+/* Desktop / large screens: no hamburger, no select, same toolbar components, use the space. */
+@media (min-width:1200px){
+  .mobile-menu-btn{display:none!important}
+  .control-select{display:none!important}
+  .responsive-drawer,.responsive-drawer{position:static!important;transform:none!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+  .responsive-drawer,.control-panel{display:flex!important;align-items:flex-end!important;justify-content:center!important;gap:clamp(12px,1.15vw,24px)!important}
+  .responsive-drawer>.control-panel{display:contents!important}
+  .control-group>label{font-size:clamp(14px,.9vw,19px)!important;margin-bottom:8px!important}
+  .control-group .control-options button{
+    min-height:clamp(54px,4vw,76px)!important;min-width:clamp(62px,4.1vw,92px)!important;
+    padding:0 clamp(14px,1vw,22px)!important;font-size:clamp(16px,1vw,21px)!important;
+  }
+  .control-group .control-options button,.control-group .control-options button{min-width:clamp(56px,3.5vw,78px)!important}
+  
+}
+
+
+/* ========================================================================== 
+   V6.4 — CANONICAL UI COMPONENTS
+   Concept is frozen: one heading, one control group, one options grid.
+   Screen classes place components only; they no longer style their internals.
+   ========================================================================== */
+:root{
+  --ui-group-gap:20px;
+  --ui-label-gap:9px;
+  --ui-drawer-control-h:54px;
+}
+
+/* ONE heading component for Practice / Map / Quiz. */
+.section-heading{
+  flex:1 1 auto!important;min-width:0!important;text-align:center!important;line-height:1.02!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  margin:0 auto!important;padding:0 12px!important;
+}
+.section-heading strong{
+  display:block!important;margin:0!important;font-family:"Permanent Marker","Barlow Condensed",sans-serif!important;
+  font-weight:400!important;font-size:clamp(22px,1.8vw,34px)!important;color:#fff!important;
+  text-shadow:0 0 12px #ff3ec966!important;white-space:nowrap!important;
+}
+.section-heading span{
+  display:block!important;margin-top:4px!important;font-family:"Barlow Condensed",sans-serif!important;
+  font-size:clamp(8px,.65vw,11px)!important;font-weight:700!important;letter-spacing:.16em!important;color:#829bad!important;
+  white-space:nowrap!important;
+}
+
+/* ONE control component. Context and page names are layout hooks only. */
+.control-group{
+  padding:0!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;
+}
+.control-group>label{
+  display:block!important;margin:0 0 var(--ui-label-gap)!important;color:#8ca6b8!important;
+  font-family:"Barlow Condensed",sans-serif!important;font-weight:800!important;letter-spacing:.13em!important;line-height:1!important;
+}
+.control-group>.control-options{
+  width:100%!important;display:flex;align-items:center;gap:var(--control-gap)!important;flex-wrap:nowrap!important;
+}
+.control-group>.control-options>button{
+  appearance:none!important;background:var(--ui-control-bg)!important;border:2px solid var(--ui-control-border)!important;
+  color:var(--ui-control-fg)!important;border-radius:var(--ui-control-radius)!important;
+  font-family:"Barlow Condensed",sans-serif!important;font-weight:900!important;line-height:1!important;
+  cursor:pointer!important;box-shadow:none!important;transform:none!important;
+}
+.control-group>.control-options>button.active{
+  border-color:var(--ui-control-active)!important;color:#fff!important;background:var(--ui-control-active-bg)!important;
+  box-shadow:0 0 16px #ff38c844!important;
+}
+
+/* Drawer: same rhythm and same grids whatever screen owns it. */
+@media (max-width:767px){
+  .section-heading strong{font-size:clamp(20px,6vw,28px)!important}
+  .section-heading span{font-size:8px!important}
+  .responsive-drawer .control-panel,.responsive-drawer .control-panel{
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:var(--ui-group-gap)!important;
+  }
+  .responsive-drawer>.control-group{margin-top:var(--ui-group-gap)!important}
+  .responsive-drawer .control-group,.responsive-drawer .control-group{width:100%!important}
+  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{font-size:13px!important}
+  .responsive-drawer .control-options,.responsive-drawer .control-options{
+    display:grid!important;gap:9px!important;width:100%!important;overflow:visible!important;
+  }
+  /* NOTE is literally the same 2x6 component in Practice and Map. */
+  .responsive-drawer [data-control-group="root"] .control-options,
+  .responsive-drawer [data-control-group="note"] .control-options{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .responsive-drawer [data-control-group="quality"] .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .responsive-drawer [data-control-group="mode"] .control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .responsive-drawer [data-control-group="context"] .control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  /* FRETBOARD is one canonical 4-button row everywhere. */
+  .responsive-drawer [data-control-group="fretboard"] .control-options,
+  .responsive-drawer [data-control-group="fretboard"] .control-options{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .responsive-drawer .control-options>button,.responsive-drawer .control-options>button{
+    width:100%!important;min-width:0!important;min-height:var(--ui-drawer-control-h)!important;padding:0 5px!important;font-size:14px!important;
+  }
+}
+
+/* Tablet portrait keeps the same heading geometry. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .section-heading strong{font-size:28px!important}.section-heading span{font-size:9px!important}
+}
+
+/* Desktop: same controls, same labels, same sizing; no hamburger unless JS proves overflow. */
+@media (min-width:1200px){
+  .practice-screen .mobile-menu-btn,.fretmap-screen .mobile-menu-btn{display:none!important}
+  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{font-size:clamp(14px,.9vw,19px)!important}
+  .responsive-drawer .control-group>.control-options>button,.responsive-drawer .control-group>.control-options>button{
+    min-height:clamp(54px,4vw,76px)!important;min-width:clamp(62px,4.1vw,92px)!important;
+    padding:0 clamp(14px,1vw,22px)!important;font-size:clamp(16px,1vw,21px)!important;
+  }
+  .responsive-drawer [data-control-group="root"]>.control-options>button,
+  .responsive-drawer [data-control-group="note"]>.control-options>button{min-width:clamp(56px,3.5vw,78px)!important}
+}
+
+/* ==========================================================================
+   V6.5 — FROZEN RESPONSIVE CONTROL CONTRACT
+   Mobile = drawer. Tablet/desktop = one canonical adaptive toolbar.
+   Components switch representation from available width, never by page.
+   ========================================================================== */
+:root{--control-min-h:44px;--control-min-w:58px;--toolbar-gap:12px}
+
+/* Canonical adaptive select state, shared by every screen. */
+.control-group .control-select{display:none}
+.control-group.is-select>.control-options{display:none!important}
+.control-group.is-select>.control-select{display:block!important;min-width:92px}
+.control-group.is-select>.control-select .select-trigger{width:100%;min-height:var(--control-min-h)}
+
+/* Mobile contract: hamburger always, regardless of orientation. */
+@media (max-width:767px){
+  .desktop-back{display:inline-flex!important}
+  .mobile-menu-btn{display:inline-flex!important}
+  .responsive-drawer,.responsive-drawer{position:fixed!important;display:block!important}
+  .control-group.is-select>.control-options{display:grid!important}
+  .control-group.is-select>.control-select{display:none!important}
+}
+
+/* Tablet + desktop contract: never hamburger; controls stay visible and adapt. */
+@media (min-width:768px){
+  .mobile-menu-btn{display:none!important}
+  .desktop-back,.topbar>[data-go="home"]{display:inline-flex!important}
+  .drawer-head,.drawer-backdrop{display:none!important}
+  .responsive-drawer,.responsive-drawer,.responsive-drawer{
+    position:static!important;inset:auto!important;width:100%!important;max-width:none!important;height:auto!important;
+    transform:none!important;transition:none!important;overflow:visible!important;background:transparent!important;
+    border:0!important;box-shadow:none!important;padding:0 14px 8px!important;display:flex!important;
+    align-items:flex-end!important;justify-content:center!important;gap:var(--toolbar-gap)!important;
+  }
+  .responsive-drawer .control-panel{display:contents!important}
+  .responsive-drawer .control-panel{display:contents!important}
+  .control-group{flex:0 0 auto!important;min-width:0!important}
+  .control-group>label{font-size:11px!important;text-align:left!important;margin:0 0 6px!important}
+  .control-group>.control-options{width:auto!important;display:flex!important;gap:6px!important;overflow:visible!important}
+  .control-group>.control-options>button{
+    flex:0 0 auto!important;min-width:var(--control-min-w)!important;min-height:var(--control-min-h)!important;
+    height:var(--control-min-h)!important;padding:0 10px!important;font-size:12px!important;
+  }
+  .control-group[data-control-group="root"]>.control-options>button,
+  .control-group[data-control-group="note"]>.control-options>button{min-width:52px!important}
+  .control-group[data-control-group="mode"]>.control-options>button{min-width:86px!important}
+  .control-group[data-control-group="context"]>.control-options>button{min-width:54px!important}
+  .control-group[data-control-group="fretboard"]>.control-options>button{min-width:62px!important}
+  .control-select{position:relative!important}
+  .control-select .select-trigger{min-width:104px!important;padding:0 11px!important;font-size:12px!important}
+  .control-select .select-popover{z-index:80!important}
+}
+
+/* Tablet portrait: preserve the validated top toolbar and give the neck the remaining viewport. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .practice-screen,.fretmap-screen,.quiz-screen{height:100dvh!important;min-height:100dvh!important;overflow:hidden!important}
+  .practice-screen .topbar,.fretmap-screen .topbar,.quiz-screen .topbar{flex:0 0 auto!important}
+  .responsive-drawer,.responsive-drawer{flex:0 0 auto!important;padding-top:2px!important}
+  .practice-learning-area{flex:1 1 0!important;min-height:0!important;display:flex!important;align-items:stretch!important}
+  .practice-learning-area .practice-board{flex:1 1 0!important;min-height:0!important;margin:0!important}
+  .practice-learning-area .practice-board svg{height:100%!important;max-height:none!important;width:auto!important;max-width:96vw!important}
+}
+
+/* Landscape tablet: readable controls first; the adaptive JS converts expensive groups to selects. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
+  .responsive-drawer,.responsive-drawer{gap:8px!important;padding-left:10px!important;padding-right:10px!important}
+  .control-group>.control-options>button{min-height:40px!important;height:40px!important}
+  .control-group>label{font-size:10px!important;margin-bottom:5px!important}
+}
+
+
+/* ========================================================================== 
+   V6.8 — CANONICAL CONTROLS + HEADINGS ONLY
+   Baseline: V6.5. Fretboard geometry intentionally untouched in this pass.
+   One drawer, one panel, one group, one heading across Practice / Map / Quiz.
+   ========================================================================== */
+:root{--phone-landscape-max-height:599px}
+
+/* Shared title component. */
+.section-heading{flex:1 1 auto!important;min-width:0!important;margin:0 auto!important;padding:0 12px!important;text-align:center!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
+.section-heading strong{display:block!important;margin:0!important;font-family:"Permanent Marker","Barlow Condensed",sans-serif!important;font-weight:400!important;color:#fff!important;text-shadow:0 0 12px #ff3ec966!important;white-space:nowrap!important}
+.section-heading span{display:block!important;margin-top:4px!important;font-family:"Barlow Condensed",sans-serif!important;font-weight:700!important;letter-spacing:.16em!important;color:#829bad!important;white-space:nowrap!important}
+
+/* Shared menu structure. No page-specific visual component selectors. */
+.responsive-drawer{min-width:0}
+.control-panel{min-width:0;container-type:inline-size;container-name:controls}
+.control-group{min-width:0!important;margin:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.control-group>label{display:block!important;text-align:left!important;margin:0 0 7px!important;padding:0!important;color:#8ca6b8!important;font-family:"Barlow Condensed",sans-serif!important;font-weight:800!important;letter-spacing:.13em!important;line-height:1!important}
+.control-group>.control-options{align-items:center;gap:var(--control-gap)!important}
+
+/* Tablet/desktop: same visible toolbar, representation is chosen by available space. */
+@media (min-width:768px) and (min-height:600px), (min-width:1001px){
+  .mobile-menu-btn{display:none!important}
+  .responsive-drawer{position:static!important;inset:auto!important;display:block!important;width:100%!important;height:auto!important;transform:none!important;overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0 14px 8px!important}
+  .responsive-drawer>.drawer-head,.drawer-backdrop{display:none!important}
+  .control-panel{display:flex!important;align-items:flex-end!important;justify-content:center!important;gap:var(--toolbar-gap)!important;flex-wrap:nowrap!important;width:100%!important}
+  .control-group{flex:0 0 auto!important}
+  .control-group.is-select>.control-options{display:none!important}
+  .control-group.is-select>.control-select{display:block!important}
+}
+
+/* Tablet portrait: selects are the single representation; never radios + selects together. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .control-panel{gap:8px!important;padding-top:2px!important}
+  .control-group{flex:1 1 0!important}
+  .control-group>.control-options{display:none!important}
+  .control-group>.control-select{display:block!important;width:100%!important;min-width:0!important}
+}
+
+/* Phone contract: hamburger + drawer in BOTH orientations. */
+@media (max-width:767px), (orientation:landscape) and (max-width:1000px) and (max-height:599px){
+  .mobile-menu-btn{display:inline-flex!important}
+  .responsive-drawer{display:block!important;position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:min(92vw,430px)!important;height:auto!important;z-index:40!important;background:linear-gradient(180deg,#09111d 0%,#04070b 100%)!important;border-right:2px solid #2d4b63!important;box-shadow:22px 0 55px #000c!important;transform:translateX(-104%)!important;transition:transform .22s ease!important;padding:max(12px,env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom))!important;overflow-y:auto!important}
+  .responsive-drawer.open{transform:translateX(0)!important}
+  .responsive-drawer>.drawer-head{display:flex!important}
+  .control-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:20px!important;width:100%!important}
+  .control-group{width:100%!important}
+  .control-group>label{font-size:13px!important;margin-bottom:8px!important}
+  .control-group>.control-options{display:grid!important;width:100%!important;gap:9px!important;overflow:visible!important}
+  .control-group>.control-select,.control-group.is-select>.control-select{display:none!important}
+  .control-group.is-select>.control-options{display:grid!important}
+  .control-group[data-control-group="root"]>.control-options,.control-group[data-control-group="note"]>.control-options{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .control-group[data-control-group="quality"]>.control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .control-group[data-control-group="mode"]>.control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .control-group[data-control-group="context"]>.control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .control-group[data-control-group="fretboard"]>.control-options{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .control-group>.control-options>button{width:100%!important;min-width:0!important;min-height:52px!important;padding:0 5px!important;font-size:14px!important}
+}
+
+
+/* ========================================================================== 
+   V6.8.3 — WIDE TOOLBAR CONTRACT
+   Tablet portrait remains untouched and is the visual reference.
+   Tablet landscape / desktop reuse the same canonical controls on ONE row.
+   Available width reveals radio buttons; adaptive JS collapses FRETBOARD,
+   then NOTE/root, then lower-priority groups to the existing select component.
+   ========================================================================== */
+@media (min-width:768px) and (orientation:landscape), (min-width:1200px){
+  .responsive-drawer{
+    display:block!important;
+    width:100%!important;
+    padding:2px 14px 8px!important;
+  }
+  .responsive-drawer>.control-panel{
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:flex-end!important;
+    justify-content:center!important;
+    flex-wrap:nowrap!important;
+    gap:clamp(8px,.7vw,14px)!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .control-panel>.control-group{
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:0!important;
+  }
+  .control-panel>.control-group>label{
+    display:block!important;
+    margin:0 0 7px!important;
+    font-size:12px!important;
+    line-height:1!important;
+    text-align:left!important;
+  }
+  .control-panel>.control-group>.control-options{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    gap:6px!important;
+    width:auto!important;
+  }
+  .control-panel>.control-group>.control-options>button{
+    width:auto!important;
+    min-width:54px!important;
+    height:48px!important;
+    min-height:48px!important;
+    padding:0 11px!important;
+    font-size:14px!important;
+    flex:0 0 auto!important;
+  }
+  .control-panel>.control-group[data-control-group="mode"]>.control-options>button{min-width:92px!important}
+  .control-panel>.control-group[data-control-group="context"]>.control-options>button{min-width:58px!important}
+  .control-panel>.control-group[data-control-group="fretboard"]>.control-options>button{min-width:66px!important}
+  .control-panel>.control-group.is-select>.control-options{display:none!important}
+  .control-panel>.control-group.is-select>.control-select{display:block!important;width:auto!important;min-width:104px!important}
+  .control-panel>.control-group.is-select>.control-select .select-trigger{
+    width:100%!important;
+    min-width:104px!important;
+    height:48px!important;
+    min-height:48px!important;
+    padding:0 12px!important;
+    font-size:14px!important;
+  }
+}
+
+/* V6.9.1 — Tablet portrait drawer convergence
+   Practice is the reference. Map uses the exact same drawer/container behavior.
+   No fretboard geometry, mobile, landscape or desktop changes in this patch. */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .fretmap-screen .responsive-drawer{
+    display:flex!important;
+    position:static!important;
+    transform:none!important;
+    width:100%!important;
+    height:auto!important;
+    overflow:visible!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    padding:4px 10px 7px!important;
+    gap:7px!important;
+    align-items:flex-end!important;
+    flex-wrap:wrap!important;
+  }
+  .fretmap-screen .responsive-drawer .drawer-head{display:none!important}
+  .fretmap-screen .responsive-drawer .control-panel{display:contents!important}
+  .fretmap-screen .responsive-drawer .control-group{
+    display:block!important;
+    flex:1 1 0!important;
+    min-width:0!important;
+    padding:0!important;
+    margin:0!important;
+  }
+  .fretmap-screen .responsive-drawer .control-options{display:none!important}
+  .fretmap-screen .responsive-drawer .control-select{
+    display:block!important;
+    min-width:0!important;
+    width:100%!important;
+  }
+}
+
+/* ========================================================================== 
+   V6.9.2 — HAMBURGER DRAWER GRID
+   Drawer-only refinement: every option fills its grid cell. No toolbar impact.
+   ========================================================================== */
+@media (max-width:767px), (orientation:landscape) and (max-width:1000px) and (max-height:599px){
+  .responsive-drawer .control-group>.control-options{
+    width:100%!important;
+    display:grid!important;
+    gap:clamp(6px,2.2vw,9px)!important;
+  }
+  .responsive-drawer .control-group>.control-options>button{
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .responsive-drawer .control-group[data-control-group="root"]>.control-options,
+  .responsive-drawer .control-group[data-control-group="note"]>.control-options{
+    grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  }
+  .responsive-drawer .control-group[data-control-group="quality"]>.control-options{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .responsive-drawer .control-group[data-control-group="mode"]>.control-options{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  .responsive-drawer .control-group[data-control-group="context"]>.control-options{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  .responsive-drawer .control-group[data-control-group="fretboard"]>.control-options{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+
+/* On very narrow hamburger drawers, preserve FRETBOARD button readability. */
+@container controls (max-width:290px){
+  .responsive-drawer .control-group[data-control-group="fretboard"]>.control-options{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
 }
