@@ -114,7 +114,7 @@
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
     const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'map',maxFret});
     const defs=svg.querySelector('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs?.append(filter);
-    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?12:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y:y+4,fill:'#071016','font-size':name.length>1?8.5:10.5,'font-weight':1000,'text-anchor':'middle'},name))}
+    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y,fill:'#071016','font-size':isP?20:(name.length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto'},name))}
   }
 
   function noteAt(stringIndex,fret){return mod(tuning[stringIndex].pc+fret)}
@@ -365,7 +365,7 @@
       const d=degreeFor(pc);if(!d)continue;if(state.degreeFilter!=='all'&&d!==state.degreeFilter)continue;
       if(opt.mode!=='penta'&&visibleKeys&&!visibleKeys.has(s+':'+f))continue;
       let col=d==='root'?'#27d7ff':d==='third'?'#ff3ec9':d==='fourth'?'#ff8b3d':d==='fifth'?'#ffd53c':d==='seventh'?'#62ef75':'#91a3b1';
-      const g=svgEl('g',{opacity:1});const c=svgEl('circle',{cx:x,cy:y,r:13,fill:col,stroke:'#ffffffb0','stroke-width':1.6,filter:'url(#glow)','data-string':s,'data-fret':f});g.append(c);g.append(svgEl('text',{x,y:y+4,fill:d==='fifth'?'#3c2b00':'#06131b','font-size':noteName(pc).length>1?8.5:10.5,'font-weight':1000,'text-anchor':'middle','pointer-events':'none'},degreeLabel(pc)));svg.append(g)
+      const g=svgEl('g',{opacity:1});const c=svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb0','stroke-width':1.6,filter:'url(#glow)','data-string':s,'data-fret':f});g.append(c);g.append(svgEl('text',{x,y:isP?y:y+4,fill:d==='fifth'?'#3c2b00':'#06131b','font-size':isP?20:(noteName(pc).length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},degreeLabel(pc)));svg.append(g)
     }
   }
 
@@ -391,7 +391,7 @@
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){
       const centerF=f===0?fretPos(0)-15:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
       const hit=svgEl('circle',{cx:x,cy:y,r:17,fill:'transparent',stroke:'transparent','data-string':s,'data-fret':f,style:'cursor:pointer'});svg.append(hit);
-      if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)'}));svg.append(svgEl('text',{x,y:y+4,fill:'#06131b','font-size':10,'font-weight':1000,'text-anchor':'middle'},noteName(tpc)))}
+      if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)'}));svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto'},noteName(tpc)))}
     }
     svg.onclick=e=>{const c=e.target.closest('circle[data-string]');if(!c||state.quiz.locked)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c)};
   }

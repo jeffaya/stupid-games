@@ -4,25 +4,19 @@
    The fretboard renderer remains the visual priority; the learning legend is intentionally independent.
 */
 
-:root {
-  --bg: #05070b;
+:root{
   --panel: #0b1119cc;
-  --line: #223245;
   --cyan: #27d7ff;
   --pink: #ff3ec9;
   --yellow: #ffd53c;
-  --green: #32f0a6;
   --text: #edf8ff;
-  --muted: #8ba0b3;
-  --danger: #ff4d62;
-  --radius: 20px;
 }
 
-* {
+*{
   box-sizing: border-box;
 }
 
-html,body {
+html,body{
   margin: 0;
   background: #030509;
   color: var(--text);
@@ -31,12 +25,12 @@ html,body {
   overflow-x: hidden;
 }
 
-body {
+body{
   min-height: 100dvh;
   background: radial-gradient(circle at 15% 10%,#111c35 0,transparent 34%),radial-gradient(circle at 85% 70%,#2b0a2d 0,transparent 28%),#030509;
 }
 
-.ambient {
+.ambient{
   position: fixed;
   inset: auto;
   pointer-events: none;
@@ -44,7 +38,7 @@ body {
   opacity: .35;
 }
 
-.ambient-a {
+.ambient-a{
   width: 240px;
   height: 240px;
   background: #00c8ff;
@@ -52,7 +46,7 @@ body {
   top: 25%;
 }
 
-.ambient-b {
+.ambient-b{
   width: 300px;
   height: 300px;
   background: #ff00ba;
@@ -60,22 +54,22 @@ body {
   bottom: 5%;
 }
 
-.app-shell {
+.app-shell{
   min-height: 100dvh;
   position: relative;
   z-index: 1;
 }
 
-.screen {
+.screen{
   display: none;
   min-height: 100dvh;
 }
 
-.screen.active {
+.screen.active{
   display: flex;
 }
 
-.home-screen {
+.home-screen{
   padding: max(30px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));
   align-items: center;
   justify-content: center;
@@ -83,14 +77,14 @@ body {
   text-align: center;
 }
 
-.home-topline {
+.home-topline{
   font-size: 11px;
   letter-spacing: .32em;
   color: #7294aa;
   margin-bottom: 22px;
 }
 
-.hero-logo {
+.hero-logo{
   display: flex;
   flex-direction: column;
   line-height: .78;
@@ -98,7 +92,7 @@ body {
   filter: drop-shadow(0 0 18px #15c7ff55);
 }
 
-.hero-logo span {
+.hero-logo span{
   display: block;
   font-weight: 1000;
   font-style: italic;
@@ -106,29 +100,29 @@ body {
   text-shadow: 0 0 12px currentColor;
 }
 
-.hero-guitar {
+.hero-guitar{
   font-size: clamp(54px,13vw,110px);
   color: #f8fbff;
 }
 
-.hero-fret {
+.hero-fret{
   font-size: clamp(46px,11vw,94px);
   color: var(--cyan);
 }
 
-.hero-hero {
+.hero-hero{
   font-size: clamp(50px,12vw,100px);
   color: var(--pink);
 }
 
-.tagline {
+.tagline{
   margin: 26px 0 22px;
   letter-spacing: .18em;
   color: #a8c0d3;
   font-size: 12px;
 }
 
-.tagline span {
+.tagline span{
   color: #51758f;
 }
 
@@ -162,14 +156,14 @@ body {
 
 
 
-.home-actions {
+.home-actions{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   width: min(720px,100%);
 }
 
-.hero-btn {
+.hero-btn{
   min-height: 88px;
   border-radius: 18px;
   border: 1px solid #2a4055;
@@ -186,50 +180,50 @@ body {
   transition: .2s;
 }
 
-.hero-btn:hover {
+.hero-btn:hover{
   transform: translateY(-2px);
 }
 
-.hero-btn span {
+.hero-btn span{
   grid-row: 1/3;
   font-size: 28px;
 }
 
-.hero-btn strong {
+.hero-btn strong{
   font-size: 18px;
   letter-spacing: .05em;
 }
 
-.hero-btn small {
+.hero-btn small{
   color: #85a2b6;
 }
 
-.hero-btn.primary {
+.hero-btn.primary{
   border-color: #ff52df;
   box-shadow: 0 0 20px #ff36cf22,inset 0 0 30px #ff00c018;
 }
 
-.hero-btn.primary span {
+.hero-btn.primary span{
   color: var(--pink);
 }
 
-.hero-btn.secondary {
+.hero-btn.secondary{
   border-color: #2cccf8;
   box-shadow: 0 0 20px #2cccf822,inset 0 0 30px #00bdf018;
 }
 
-.hero-btn.secondary span {
+.hero-btn.secondary span{
   color: var(--cyan);
 }
 
-.ecosystem-link {
+.ecosystem-link{
   margin-top: 28px;
   color: #6f8ca0;
   text-decoration: none;
   font-size: 12px;
 }
 
-.topbar {
+.topbar{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -237,7 +231,7 @@ body {
   gap: 10px;
 }
 
-.icon-btn,.quiz-jump {
+.icon-btn{
   border: 1px solid #25384a;
   background: #09111b;
   color: #cce9f9;
@@ -247,7 +241,7 @@ body {
   font-weight: 800;
 }
 
-.icon-btn {
+.icon-btn{
   width: 42px;
 }
 
@@ -255,25 +249,25 @@ body {
 
 
 
-.practice-screen,.quiz-screen {
+.practice-screen,.quiz-screen{
   flex-direction: column;
 }
 
-.control-panel {
+.control-panel{
   padding: 4px 16px 10px;
   display: grid;
   grid-template-columns: 1.4fr 2fr 1fr;
   gap: 10px;
 }
 
-.control-group {
+.control-group{
   background: var(--panel);
   border: 1px solid #1f3142;
   border-radius: 16px;
   padding: 11px;
 }
 
-.control-group label,.pattern-controls label {
+.control-group label{
   font-size: 10px;
   color: #7f9aad;
   letter-spacing: .12em;
@@ -281,13 +275,13 @@ body {
   margin-bottom: 8px;
 }
 
-.control-options,.control-options {
+.control-options{
   display: flex;
   gap: 7px;
   flex-wrap: wrap;
 }
 
-.control-options button,.control-options button,.pattern-controls button {
+.control-options button{
   background: #09121d;
   border: 1px solid #2a4054;
   color: #d4e7f2;
@@ -298,7 +292,7 @@ body {
   cursor: pointer;
 }
 
-.control-options button.active,.control-options button.active,.pattern-controls button.active {
+.control-options button.active{
   border-color: #ff57d7;
   color: #fff;
   background: #2b0b2c;
@@ -311,7 +305,7 @@ body {
 
 
 
-.legend-inline {
+.legend-inline{
   display: flex;
   gap: 6px;
   align-items: center;
@@ -319,12 +313,12 @@ body {
   justify-content: flex-end;
 }
 
-.legend-inline small {
+.legend-inline small{
   color: #8ba0b3;
   margin-right: 7px;
 }
 
-.legend {
+.legend{
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -334,25 +328,25 @@ body {
   font-weight: 900;
 }
 
-.legend.root {
+.legend.root{
   background: var(--cyan);
   color: #032530;
   box-shadow: 0 0 14px #27d7ff;
 }
 
-.legend.third {
+.legend.third{
   background: var(--pink);
   color: #38042c;
   box-shadow: 0 0 14px #ff3ec9;
 }
 
-.legend.fifth {
+.legend.fifth{
   background: var(--yellow);
   color: #362800;
   box-shadow: 0 0 14px #ffd53c;
 }
 
-.legend.other {
+.legend.other{
   background: #91a3b1;
   color: #14212a;
 }
@@ -373,7 +367,7 @@ body {
 
 
 
-.fretboard-wrap {
+.fretboard-wrap{
   margin: 0 16px;
   border: 1px solid #263b4f;
   border-radius: 18px;
@@ -383,17 +377,17 @@ body {
   box-shadow: inset 0 0 30px #000,0 0 24px #00c8ff0c;
 }
 
-.practice-board {
+.practice-board{
   flex: 1;
   min-height: 330px;
 }
 
-.quiz-board {
+.quiz-board{
   flex: 1;
   min-height: 430px;
 }
 
-.fretboard-wrap svg {
+.fretboard-wrap svg{
   width: 100%;
   height: 100%;
   display: block;
@@ -401,37 +395,37 @@ body {
   user-select: none;
 }
 
-.practice-hint {
+.practice-hint{
   padding: 9px 16px max(14px,env(safe-area-inset-bottom));
   text-align: center;
   color: #718b9e;
   font-size: 12px;
 }
 
-.quiz-head {
+.quiz-head{
   text-align: center;
   padding: 4px 16px 12px;
 }
 
 
 
-.quiz-head h2 {
+.quiz-head h2{
   font-size: clamp(30px,8vw,56px);
   margin: 8px 0 2px;
   font-style: italic;
   text-shadow: 0 0 18px #ff3ec955;
 }
 
-.quiz-head p {
+.quiz-head p{
   margin: 0;
   color: #bcd4e2;
 }
 
-.quiz-head p strong {
+.quiz-head p strong{
   color: var(--cyan);
 }
 
-.quiz-feedback {
+.quiz-feedback{
   margin-top: 8px;
   color: #7894a7;
   font-size: 12px;
@@ -442,7 +436,7 @@ body {
 
 
 
-.modal-backdrop {
+.modal-backdrop{
   position: fixed;
   inset: 0;
   background: #020407df;
@@ -453,11 +447,11 @@ body {
   z-index: 20;
 }
 
-.modal-backdrop.show {
+.modal-backdrop.show{
   display: flex;
 }
 
-.result-modal {
+.result-modal{
   width: min(430px,100%);
   background: #090f17;
   border: 1px solid #31495e;
@@ -467,34 +461,34 @@ body {
   box-shadow: 0 0 60px #ff35cb22,0 0 80px #00c8ff18;
 }
 
-.result-kicker {
+.result-kicker{
   font-size: 10px;
   letter-spacing: .2em;
   color: #7493a7;
 }
 
-.result-modal h2 {
+.result-modal h2{
   font-size: 42px;
   color: var(--pink);
   margin: 10px 0;
   text-shadow: 0 0 22px currentColor;
 }
 
-.result-score strong {
+.result-score strong{
   font-size: 64px;
   color: var(--cyan);
 }
 
-.result-score span {
+.result-score span{
   display: block;
   color: #7f9aad;
 }
 
-.result-modal p {
+.result-modal p{
   color: #a5bbca;
 }
 
-.result-modal button {
+.result-modal button{
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -503,19 +497,19 @@ body {
   cursor: pointer;
 }
 
-.modal-primary {
+.modal-primary{
   background: linear-gradient(90deg,#ff32c7,#7f43ff);
   border: 0;
   color: #fff;
 }
 
-.modal-secondary {
+.modal-secondary{
   background: #0a1520;
   border: 1px solid #2d455a;
   color: #fff;
 }
 
-.result-modal a {
+.result-modal a{
   display: block;
   color: #7f9aad;
   text-decoration: none;
@@ -524,35 +518,35 @@ body {
 }
 
 @media (max-width:800px) {
-  .home-actions {
+  .home-actions{
     grid-template-columns: 1fr;
   }
 
   
 
-  .control-panel {
+  .control-panel{
     grid-template-columns: 1fr;
   }
 
-  .control-group {
+  .control-group{
     padding: 8px;
   }
 
   
 
-  .legend-inline {
+  .legend-inline{
     justify-content: flex-start;
   }
 
-  .practice-board {
+  .practice-board{
     min-height: 56dvh;
   }
 
-  .quiz-board {
+  .quiz-board{
     min-height: 55dvh;
   }
 
-  .hero-logo {
+  .hero-logo{
     margin-top: 6vh;
   }
 
@@ -560,73 +554,73 @@ body {
 
   
 
-  .control-options {
+  .control-options{
     flex-wrap: nowrap;
     overflow-x: auto;
     padding-bottom: 2px;
   }
 
-  .control-options button {
+  .control-options button{
     flex: 0 0 auto;
   }
 }
 
 @media (min-width:801px) {
-  .practice-screen .fretboard-wrap,.quiz-screen .fretboard-wrap {
+  .practice-screen .fretboard-wrap,.quiz-screen .fretboard-wrap{
     max-height: 60vh;
   }
 
-  .quiz-screen .fretboard-wrap {
+  .quiz-screen .fretboard-wrap{
     min-height: 420px;
   }
 }
 
-body {
+body{
   font-family: "Barlow Condensed",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-button {
+button{
   font-family: inherit;
 }
 
-.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2 {
+.hero-logo span,.quiz-head h2,.result-modal h2{
   font-family: "Metal Mania","Barlow Condensed",sans-serif;
   font-weight: 400;
   letter-spacing: .035em;
 }
 
-.hero-logo span {
+.hero-logo span{
   letter-spacing: -.025em;
 }
 
-.hero-guitar {
+.hero-guitar{
   font-size: clamp(58px,13vw,116px);
 }
 
-.hero-fret {
+.hero-fret{
   font-size: clamp(48px,11vw,98px);
 }
 
-.hero-hero {
+.hero-hero{
   font-size: clamp(54px,12vw,106px);
 }
 
-.hero-btn,.icon-btn,.quiz-jump,.control-group,.control-options button,.control-options button,.pattern-controls button,.shape-controls button,.fretboard-wrap,.attempt-pill,.result-modal,.modal-secondary {
+.hero-btn,.icon-btn,.control-group,.control-options button,.fretboard-wrap,.result-modal,.modal-secondary{
   border-width: 2px;
 }
 
-.hero-btn {
+.hero-btn{
   border-style: solid;
   min-height: 94px;
 }
 
-.control-options button,.control-options button,.pattern-controls button {
+.control-options button{
   border-width: 2px;
 }
 
 
 
-.icon-btn,.quiz-jump {
+.icon-btn{
   border-width: 2px;
   display: inline-flex;
   align-items: center;
@@ -636,7 +630,7 @@ button {
   flex: 0 0 auto;
 }
 
-.icon-btn {
+.icon-btn{
   width: 44px;
   height: 44px;
   font-size: 22px;
@@ -646,12 +640,12 @@ button {
 
 
 
-.home-screen {
+.home-screen{
   position: relative;
   padding-bottom: max(76px,calc(env(safe-area-inset-bottom) + 64px));
 }
 
-.hero-icon {
+.hero-icon{
   width: 48px;
   height: 48px;
   display: inline-flex !important;
@@ -660,24 +654,24 @@ button {
   grid-row: 1/3 !important;
 }
 
-.hero-icon svg {
+.hero-icon svg{
   width: 38px;
   height: 38px;
   fill: currentColor;
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.hero-btn strong {
+.hero-btn strong{
   font-size: 20px;
   letter-spacing: .07em;
 }
 
-.hero-btn small {
+.hero-btn small{
   font-size: 14px;
   line-height: 1.1;
 }
 
-.ecosystem-link {
+.ecosystem-link{
   position: absolute;
   left: 50%;
   bottom: max(20px,env(safe-area-inset-bottom));
@@ -696,13 +690,13 @@ button {
   transition: .2s;
 }
 
-.ecosystem-link:hover {
+.ecosystem-link:hover{
   color: #fff;
   border-color: var(--cyan);
   box-shadow: 0 0 20px #27d7ff44;
 }
 
-.ecosystem-link strong {
+.ecosystem-link strong{
   color: var(--cyan);
   font-size: 18px;
   margin-left: 5px;
@@ -710,15 +704,15 @@ button {
 
 
 
-.drawer-head,.mobile-menu-btn,.drawer-backdrop {
+.drawer-head,.mobile-menu-btn,.drawer-backdrop{
   display: none;
 }
 
-.responsive-drawer {
+.responsive-drawer{
   display: contents;
 }
 
-.legend.seventh {
+.legend.seventh{
   background: #62ef75;
   color: #06280c;
   box-shadow: 0 0 14px #62ef75;
@@ -727,29 +721,29 @@ button {
 
 
 @media (max-width:800px) {
-  .practice-screen {
+  .practice-screen{
     height: 100dvh;
     min-height: 100dvh;
     overflow: hidden;
   }
 
-  .practice-screen .topbar {
+  .practice-screen .topbar{
     flex: 0 0 auto;
     padding-bottom: 7px;
   }
 
-  .desktop-back {
+  .desktop-back{
     display: none;
   }
 
-  .mobile-menu-btn {
+  .mobile-menu-btn{
     display: inline-flex;
     flex-direction: column;
     gap: 4px;
     padding: 0 !important;
   }
 
-  .mobile-menu-btn span {
+  .mobile-menu-btn span{
     display: block;
     width: 20px;
     height: 2px;
@@ -758,7 +752,7 @@ button {
     box-shadow: 0 0 7px #27d7ff55;
   }
 
-  .responsive-drawer {
+  .responsive-drawer{
     display: block;
     position: fixed;
     left: 0;
@@ -775,11 +769,11 @@ button {
     overflow-y: auto;
   }
 
-  .responsive-drawer.open {
+  .responsive-drawer.open{
     transform: translateX(0);
   }
 
-  .drawer-head {
+  .drawer-head{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -787,7 +781,7 @@ button {
     padding: 0 2px;
   }
 
-  .drawer-head strong {
+  .drawer-head strong{
     font-family: "Permanent Marker","Barlow Condensed",sans-serif;
     font-size: 22px;
     font-weight: 400;
@@ -796,7 +790,7 @@ button {
     text-shadow: 0 0 10px #ff3ec977;
   }
 
-  .drawer-backdrop {
+  .drawer-backdrop{
     display: block;
     position: fixed;
     inset: 0;
@@ -807,17 +801,17 @@ button {
     transition: opacity .22s;
   }
 
-  .drawer-backdrop.show {
+  .drawer-backdrop.show{
     opacity: 1;
     pointer-events: auto;
   }
 
-  .control-panel {
+  .control-panel{
     display: block;
     padding: 0;
   }
 
-  .control-group {
+  .control-group{
     margin-bottom: 10px;
     padding: 11px;
     border-width: 2px;
@@ -827,24 +821,24 @@ button {
 
   
 
-  .control-options {
+  .control-options{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     overflow: visible;
     gap: 7px;
   }
 
-  .control-options button {
+  .control-options button{
     min-width: 0;
     padding: 9px 5px;
   }
 
-  .control-options {
+  .control-options{
     display: grid;
     grid-template-columns: repeat(3,1fr);
   }
 
-  #qualityControls {
+  #qualityControls{
     grid-template-columns: 1fr 1fr;
   }
 
@@ -854,7 +848,7 @@ button {
 
   
 
-  .legend-inline {
+  .legend-inline{
     width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -864,17 +858,17 @@ button {
     scrollbar-width: none;
   }
 
-  .legend-inline::-webkit-scrollbar {
+  .legend-inline::-webkit-scrollbar{
     display: none;
   }
 
-  .legend-inline small {
+  .legend-inline small{
     margin-right: 4px;
     white-space: nowrap;
     font-size: 10px;
   }
 
-  .legend {
+  .legend{
     width: 21px;
     height: 21px;
     flex: 0 0 21px;
@@ -885,13 +879,13 @@ button {
 
   
 
-  .practice-board {
+  .practice-board{
     flex: 1 1 auto;
     min-height: 0;
     margin: 0 10px 6px;
   }
 
-  .practice-hint {
+  .practice-hint{
     display: none;
   }
 
@@ -899,100 +893,100 @@ button {
 
   
 
-  .home-screen {
+  .home-screen{
     justify-content: flex-start;
     padding-top: max(28px,env(safe-area-inset-top));
     overflow-y: auto;
   }
 
-  .hero-logo {
+  .hero-logo{
     margin-top: 2vh;
   }
 
-  .ecosystem-link {
+  .ecosystem-link{
     font-size: 14px;
   }
 }
 
-.hero-logo span,.section-title,.practice-meta strong,.quiz-head h2,.result-modal h2 {
+.hero-logo span,.quiz-head h2,.result-modal h2{
   font-family: "Permanent Marker","Barlow Condensed",sans-serif;
   font-weight: 400;
 }
 
-.hero-logo {
+.hero-logo{
   transform: skew(-8deg) rotate(-2deg);
   filter: drop-shadow(0 0 16px #15c7ff55);
 }
 
-.hero-logo span {
+.hero-logo span{
   text-shadow: 0 0 8px currentColor,0 0 20px currentColor;
 }
 
-.hero-guitar {
+.hero-guitar{
   color: #f8fbff !important;
   text-shadow: 0 0 8px #fff,0 0 18px #c9d7ff !important;
 }
 
-.hero-fret {
+.hero-fret{
   color: var(--cyan) !important;
 }
 
-.hero-hero {
+.hero-hero{
   color: var(--pink) !important;
 }
 
-.home-screen {
+.home-screen{
   justify-content: center;
 }
 
 
 
-.hero-btn:hover {
+.hero-btn:hover{
   transform: none;
 }
 
-.hero-btn {
+.hero-btn{
   transition: border-color .18s,box-shadow .18s,background .18s;
 }
 
-.hero-btn:active {
+.hero-btn:active{
   transform: none;
 }
 
-.practice-pick svg>path {
+.practice-pick svg>path{
   fill: currentColor;
 }
 
 
 
 @media (hover:hover) {
-  .hero-btn.primary:hover {
+  .hero-btn.primary:hover{
     border-color: #ff8be7;
     box-shadow: 0 0 28px #ff36cf3a,inset 0 0 34px #ff00c020;
   }
 
-  .hero-btn.secondary:hover {
+  .hero-btn.secondary:hover{
     border-color: #6fe0ff;
     box-shadow: 0 0 28px #2cccf83a,inset 0 0 34px #00bdf020;
   }
 }
 
 @media (max-width:800px) {
-  .home-screen {
+  .home-screen{
     justify-content: center;
     overflow-y: auto;
   }
 
-  .hero-logo {
+  .hero-logo{
     margin-top: 0;
   }
 }
 
-.hero-icon svg,.quiz-jump-icon svg {
+.hero-icon svg{
   overflow: visible;
 }
 
-.hero-icon .icon-shell,.quiz-jump-icon .icon-shell {
+.hero-icon .icon-shell{
   fill: none;
   stroke: currentColor;
   stroke-width: 3;
@@ -1004,11 +998,11 @@ button {
 
 
 
-.hero-icon circle {
+.hero-icon circle{
   fill: currentColor;
 }
 
-.hero-icon .icon-q,.quiz-jump-icon .icon-q {
+.hero-icon .icon-q{
   fill: currentColor;
 }
 
@@ -1026,11 +1020,11 @@ button {
 
 
 
-.control-panel {
+.control-panel{
   grid-template-columns: 2fr .9fr 1.35fr;
 }
 
-.control-group {
+.control-group{
   display: flex;
   align-items: end;
   gap: 7px;
@@ -1038,7 +1032,7 @@ button {
   flex-wrap: wrap;
 }
 
-.control-group label {
+.control-group label{
   font-size: 10px;
   color: #7f9aad;
   letter-spacing: .12em;
@@ -1046,7 +1040,7 @@ button {
   margin: 0 5px 10px 0;
 }
 
-.control-group button {
+.control-group button{
   background: #09121d;
   border: 2px solid #2a4054;
   color: #d4e7f2;
@@ -1057,20 +1051,20 @@ button {
   cursor: pointer;
 }
 
-.control-group button.active {
+.control-group button.active{
   border-color: #27d7ff;
   color: #fff;
   background: #082433;
   box-shadow: 0 0 14px #27d7ff44;
 }
 
-.practice-legend {
+.practice-legend{
   padding: 9px 18px 2px;
   justify-content: flex-end;
   flex: 0 0 auto;
 }
 
-.practice-legend small {
+.practice-legend small{
   white-space: nowrap;
 }
 
@@ -1085,7 +1079,7 @@ button {
 
   
 
-  .control-group {
+  .control-group{
     position: static;
     background: none;
     padding: 10px 0 0;
@@ -1093,18 +1087,18 @@ button {
     gap: 7px;
   }
 
-  .control-group label {
+  .control-group label{
     width: 100%;
     margin: 0 0 2px;
   }
 
-  .control-group button {
+  .control-group button{
     flex: 1;
     min-width: 0;
     padding: 9px 5px;
   }
 
-  .practice-legend {
+  .practice-legend{
     width: auto;
     max-width: 100%;
     margin: 0 10px;
@@ -1115,39 +1109,39 @@ button {
     scrollbar-width: none;
   }
 
-  .practice-legend::-webkit-scrollbar {
+  .practice-legend::-webkit-scrollbar{
     display: none;
   }
 }
 
-.home-actions {
+.home-actions{
   grid-template-columns: repeat(3,1fr);
   width: min(1040px,100%);
 }
 
-.hero-btn.map-btn {
+.hero-btn.map-btn{
   border-color: #5cffb2;
   box-shadow: 0 0 20px #31f6a622,inset 0 0 30px #18e79816;
 }
 
-.hero-btn.map-btn .hero-icon {
+.hero-btn.map-btn .hero-icon{
   color: #5cffb2;
 }
 
-.map-note svg {
+.map-note svg{
   width: 42px;
   height: 42px;
   overflow: visible;
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.map-note .note-beam {
+.map-note .note-beam{
   fill: currentColor;
 }
 
 
 
-.fretmap-screen {
+.fretmap-screen{
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
@@ -1163,7 +1157,7 @@ button {
 
 
 
-.control-group {
+.control-group{
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1171,14 +1165,14 @@ button {
   padding: 2px 16px 9px;
 }
 
-.control-group label {
+.control-group label{
   font-size: 10px;
   color: #7f9aad;
   letter-spacing: .12em;
   margin-right: 5px;
 }
 
-.control-group button {
+.control-group button{
   background: #09121d;
   border: 2px solid #2a4054;
   color: #d4e7f2;
@@ -1189,14 +1183,14 @@ button {
   cursor: pointer;
 }
 
-.control-group button.active {
+.control-group button.active{
   border-color: #5cffb2;
   color: #fff;
   background: #09271d;
   box-shadow: 0 0 14px #36efa044;
 }
 
-.map-board {
+.map-board{
   flex: 1;
   min-height: 0;
   margin-bottom: 0;
@@ -1205,11 +1199,11 @@ button {
 
 
 @media (max-width:800px) {
-  .home-actions {
+  .home-actions{
     grid-template-columns: 1fr;
   }
 
-  .fretmap-screen .topbar {
+  .fretmap-screen .topbar{
     padding-bottom: 5px;
   }
 
@@ -1219,50 +1213,50 @@ button {
 
   
 
-  .control-group {
+  .control-group{
     justify-content: center;
     padding: 4px 10px 8px;
   }
 
-  .control-group label {
+  .control-group label{
     display: none;
   }
 
-  .control-group button {
+  .control-group button{
     flex: 1;
     max-width: 75px;
     padding: 8px 5px;
     min-width: 0;
   }
 
-  .map-board {
+  .map-board{
     margin: 0 10px;
   }
 
   
 }
 
-.hero-btn {
+.hero-btn{
   column-gap: 18px;
 }
 
-.hero-btn .hero-icon {
+.hero-btn .hero-icon{
   margin-right: 2px;
 }
 
-.fretmap-screen .topbar {
+.fretmap-screen .topbar{
   justify-content: flex-start;
 }
 
 
 
-.home-actions {
+.home-actions{
   grid-template-columns: 1fr !important;
   width: min(720px,100%);
   gap: 14px;
 }
 
-.ecosystem-link {
+.ecosystem-link{
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -1274,34 +1268,34 @@ button {
   letter-spacing: .04em;
 }
 
-.ecosystem-link:hover {
+.ecosystem-link:hover{
   color: #fff !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 
-.ecosystem-link strong {
+.ecosystem-link strong{
   color: var(--cyan);
   font-size: 18px;
   margin-left: 6px;
 }
 
-.legend-pair {
+.legend-pair{
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.legend-pair small {
+.legend-pair small{
   margin-right: 7px;
 }
 
-.legend-pair.legend-muted {
+.legend-pair.legend-muted{
   opacity: .24;
   filter: saturate(.35);
 }
 
-.practice-legend .legend-filter {
+.practice-legend .legend-filter{
   appearance: none;
   border: 0;
   background: transparent;
@@ -1316,30 +1310,30 @@ button {
   transition: background .16s ease,box-shadow .16s ease,opacity .16s ease,transform .16s ease;
 }
 
-.practice-legend .legend-filter:hover {
+.practice-legend .legend-filter:hover{
   background: #ffffff0b;
 }
 
-.practice-legend .legend-filter.active {
+.practice-legend .legend-filter.active{
   background: #101d2a;
   box-shadow: inset 0 0 0 2px #ffffff25,0 0 18px #26d8ff18;
 }
 
-.practice-legend .legend-filter.active .legend {
+.practice-legend .legend-filter.active .legend{
   transform: scale(1.08);
 }
 
-.practice-legend .legend-filter.legend-muted {
+.practice-legend .legend-filter.legend-muted{
   pointer-events: none;
 }
 
-.control-panel {
+.control-panel{
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.control-group {
+.control-group{
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1347,21 +1341,21 @@ button {
   padding: 0 16px 9px;
 }
 
-.control-group>label {
+.control-group>label{
   font-size: 10px;
   color: #7f9aad;
   letter-spacing: .12em;
   flex: 0 0 auto;
 }
 
-.control-options {
+.control-options{
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
-.control-options button {
+.control-options button{
   background: #09121d;
   border: 2px solid #2a4054;
   color: #d4e7f2;
@@ -1373,29 +1367,29 @@ button {
   transition: .16s;
 }
 
-.control-options button.active {
+.control-options button.active{
   border-color: #5cffb2;
   color: #07130f;
   background: #5cffb2;
   box-shadow: 0 0 16px #36efa066;
 }
 
-.control-options button:not(.active):hover {
+.control-options button:not(.active):hover{
   border-color: #4d718e;
 }
 
 @media (max-width:800px) {
-  .control-group {
+  .control-group{
     display: block;
     padding: 0 10px 8px;
   }
 
-  .control-group>label {
+  .control-group>label{
     display: block;
     margin: 0 0 6px 2px;
   }
 
-  .control-options {
+  .control-options{
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
@@ -1403,22 +1397,22 @@ button {
     scrollbar-width: none;
   }
 
-  .control-options::-webkit-scrollbar {
+  .control-options::-webkit-scrollbar{
     display: none;
   }
 
-  .control-options button {
+  .control-options button{
     flex: 0 0 auto;
     min-width: 44px;
     padding: 8px 10px;
   }
 
-  .practice-legend .legend-filter {
+  .practice-legend .legend-filter{
     flex: 0 0 auto;
   }
 }
 
-.sr-only {
+.sr-only{
   position: absolute !important;
   width: 1px !important;
   height: 1px !important;
@@ -1430,9 +1424,7 @@ button {
   border: 0 !important;
 }
 
-.practice-screen .topbar,
-.quiz-screen .topbar,
-.fretmap-screen .topbar {
+.practice-screen .topbar,.quiz-screen .topbar,.fretmap-screen .topbar{
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1440,7 +1432,7 @@ button {
 
 
 
-.fullscreen-btn {
+.fullscreen-btn{
   margin-left: auto;
   width: 44px;
   height: 44px;
@@ -1458,38 +1450,37 @@ button {
   transform: none !important;
 }
 
-.fullscreen-btn:hover,
-.fullscreen-btn:active {
+.fullscreen-btn:hover,.fullscreen-btn:active{
   transform: none !important;
 }
 
-.fullscreen-btn:hover {
+.fullscreen-btn:hover{
   border-color: #5a7b96;
   background: #0c1825;
   color: #fff;
   box-shadow: 0 0 16px #27d7ff20;
 }
 
-.fullscreen-btn svg {
+.fullscreen-btn svg{
   width: 21px;
   height: 21px;
   display: block;
   pointer-events: none;
 }
 
-.fullscreen-btn .icon-exit {
+.fullscreen-btn .icon-exit{
   display: none;
 }
 
-.fullscreen-btn.is-fullscreen .icon-enter {
+.fullscreen-btn.is-fullscreen .icon-enter{
   display: none;
 }
 
-.fullscreen-btn.is-fullscreen .icon-exit {
+.fullscreen-btn.is-fullscreen .icon-exit{
   display: block;
 }
 
-.topbar > .icon-btn:not(.mobile-menu-btn) {
+.topbar > .icon-btn:not(.mobile-menu-btn){
   border: 2px solid #2a4054;
   border-radius: 12px;
   background: #09121d;
@@ -1497,21 +1488,18 @@ button {
   transform: none !important;
 }
 
-.topbar > .icon-btn:not(.mobile-menu-btn):hover {
+.topbar > .icon-btn:not(.mobile-menu-btn):hover{
   border-color: #5a7b96;
   background: #0c1825;
   box-shadow: 0 0 16px #27d7ff20;
   transform: none !important;
 }
 
-button:hover,
-button:active,
-a:hover,
-a:active {
+button:hover,button:active,a:hover,a:active{
   transform: none !important;
 }
 
-.mobile-menu-btn {
+.mobile-menu-btn{
   display: none;
   align-items: center;
   justify-content: center;
@@ -1519,7 +1507,7 @@ a:active {
   gap: 4px;
 }
 
-.mobile-menu-btn span {
+.mobile-menu-btn span{
   width: 18px;
   height: 2px;
   display: block;
@@ -1529,24 +1517,24 @@ a:active {
 }
 
 @media (max-width:760px) {
-  .mobile-menu-btn {
+  .mobile-menu-btn{
     display: inline-flex;
   }
 }
 
-.legend.fourth {
+.legend.fourth{
   background: #ff8b3d;
   color: #351304;
   box-shadow: 0 0 14px #ff8b3d;
 }
 
-.legend-filter.filter-dimmed {
+.legend-filter.filter-dimmed{
   opacity: .28 !important;
   filter: saturate(.45) brightness(.72) !important;
   box-shadow: none !important;
 }
 
-.practice-legend-row {
+.practice-legend-row{
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1554,7 +1542,7 @@ a:active {
   padding: 7px 18px max(10px,env(safe-area-inset-bottom));
 }
 
-.practice-legend-row .practice-hint {
+.practice-legend-row .practice-hint{
   padding: 0;
   margin: 0;
   flex: 0 1 auto;
@@ -1562,36 +1550,32 @@ a:active {
   white-space: nowrap;
 }
 
-.practice-legend-row .practice-legend {
+.practice-legend-row .practice-legend{
   padding: 0;
   margin: 0;
   flex: 0 0 auto;
 }
 
-.control-group {
+.control-group{
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 
-.control-panel,
-.control-group,
-.control-group,
-.pattern-controls,
-.control-group {
+.control-panel,.control-group{
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 
 @media (min-width:768px) and (orientation:landscape) {
-  html,body {
+  html,body{
     height: 100%;
     overflow: hidden;
   }
 
-  .home-screen {
+  .home-screen{
     height: 100dvh !important;
     min-height: 100dvh !important;
     max-height: 100dvh !important;
@@ -1601,105 +1585,99 @@ a:active {
     padding-bottom: max(10px,env(safe-area-inset-bottom)) !important;
   }
 
-  .home-topline {
+  .home-topline{
     margin-bottom: 8px !important;
   }
 
-  .hero-logo span {
+  .hero-logo span{
     line-height: .76;
   }
 
-  .hero-guitar {
+  .hero-guitar{
     font-size: clamp(44px,8.5vh,78px) !important;
   }
 
-  .hero-fret {
+  .hero-fret{
     font-size: clamp(38px,7.3vh,68px) !important;
   }
 
-  .hero-hero {
+  .hero-hero{
     font-size: clamp(40px,7.8vh,72px) !important;
   }
 
-  .tagline {
+  .tagline{
     margin: 10px 0 !important;
   }
 
-  .home-actions {
+  .home-actions{
     gap: 8px !important;
   }
 
-  .hero-btn {
+  .hero-btn{
     min-height: 64px !important;
     padding: 9px 14px !important;
   }
 
-  .hero-btn .hero-icon {
+  .hero-btn .hero-icon{
     width: 34px;
     height: 34px;
   }
 
-  .hero-btn strong {
+  .hero-btn strong{
     font-size: 16px;
   }
 
-  .hero-btn small {
+  .hero-btn small{
     font-size: 12px;
   }
 
-  .ecosystem-link {
+  .ecosystem-link{
     margin-top: 8px !important;
     padding: 2px !important;
   }
 }
 
 @media (min-width:768px) and (orientation:landscape) {
-  .responsive-drawer {
+  .responsive-drawer{
     display: block !important;
   }
 
-  .practice-screen .control-panel {
+  .practice-screen .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     gap: 8px !important;
     padding: 2px 12px 4px !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     padding: 2px 0 !important;
     margin: 0 !important;
     min-width: 0 !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     flex: 1 1 470px;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     flex: 0 0 auto;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     flex: 0 0 auto;
   }
 
-  .practice-screen .control-group label,
-  .practice-screen .pattern-controls label,
-  .practice-screen .control-group label {
+  .practice-screen .control-group label{
     margin-bottom: 4px !important;
     font-size: 9px !important;
   }
 
-  .practice-screen .control-options,
-  .practice-screen .control-options {
+  .practice-screen .control-options{
     gap: 4px !important;
     flex-wrap: nowrap !important;
   }
 
-  .practice-screen .control-options button,
-  .practice-screen .control-options button,
-  .practice-screen .pattern-controls button,
-  .practice-screen .control-group button {
+  .practice-screen .control-options button,.practice-screen .control-group button{
     min-height: 28px !important;
     height: 28px !important;
     min-width: 0 !important;
@@ -1708,8 +1686,7 @@ a:active {
     line-height: 26px !important;
   }
 
-  .practice-screen .pattern-controls,
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     display: flex !important;
     align-items: center !important;
     gap: 4px !important;
@@ -1717,7 +1694,7 @@ a:active {
     flex-wrap: nowrap !important;
   }
 
-  .practice-screen .practice-board {
+  .practice-screen .practice-board{
     min-height: 0 !important;
   }
 }
@@ -1726,29 +1703,29 @@ a:active {
 
 
 @media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
-  .practice-screen {
+  .practice-screen{
     height: 100dvh;
     min-height: 100dvh;
     overflow: hidden;
   }
 
-  .practice-screen .topbar {
+  .practice-screen .topbar{
     flex: 0 0 auto;
     padding-bottom: 7px;
   }
 
-  .desktop-back {
+  .desktop-back{
     display: none !important;
   }
 
-  .mobile-menu-btn {
+  .mobile-menu-btn{
     display: inline-flex !important;
     flex-direction: column;
     gap: 4px;
     padding: 0 !important;
   }
 
-  .responsive-drawer {
+  .responsive-drawer{
     display: block !important;
     position: fixed;
     left: 0;
@@ -1765,11 +1742,11 @@ a:active {
     overflow-y: auto;
   }
 
-  .responsive-drawer.open {
+  .responsive-drawer.open{
     transform: translateX(0);
   }
 
-  .drawer-head {
+  .drawer-head{
     display: flex !important;
     align-items: center;
     justify-content: space-between;
@@ -1777,7 +1754,7 @@ a:active {
     padding: 0 2px;
   }
 
-  .drawer-backdrop {
+  .drawer-backdrop{
     display: block !important;
     position: fixed;
     inset: 0;
@@ -1788,38 +1765,38 @@ a:active {
     transition: opacity .22s;
   }
 
-  .drawer-backdrop.show {
+  .drawer-backdrop.show{
     opacity: 1;
     pointer-events: auto;
   }
 
-  .responsive-drawer .control-panel {
+  .responsive-drawer .control-panel{
     display: block !important;
     padding: 0 !important;
   }
 
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     margin-bottom: 10px !important;
     padding: 11px !important;
   }
 
-  .responsive-drawer .control-options {
+  .responsive-drawer .control-options{
     display: grid !important;
     grid-template-columns: repeat(4,1fr) !important;
     gap: 7px !important;
     overflow: visible !important;
   }
 
-  .responsive-drawer .control-options {
+  .responsive-drawer .control-options{
     display: grid !important;
     grid-template-columns: repeat(3,1fr) !important;
   }
 
-  .responsive-drawer #qualityControls {
+  .responsive-drawer #qualityControls{
     grid-template-columns: 1fr 1fr !important;
   }
 
-  .responsive-drawer .pattern-controls,.responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     position: static !important;
     background: none !important;
     padding: 8px 0 0 !important;
@@ -1828,27 +1805,27 @@ a:active {
     flex-wrap: wrap !important;
   }
 
-  .responsive-drawer .pattern-controls label,.responsive-drawer .control-group label {
+  .responsive-drawer .control-group label{
     width: 100%;
     margin: 0 0 2px !important;
   }
 
-  .practice-board {
+  .practice-board{
     flex: 1 1 auto !important;
     min-height: 0 !important;
     margin: 0 10px 6px !important;
   }
 
-  .practice-legend-row {
+  .practice-legend-row{
     padding: 4px 10px max(8px,env(safe-area-inset-bottom));
     gap: 6px;
   }
 
-  .practice-legend-row .practice-hint {
+  .practice-legend-row .practice-hint{
     display: none !important;
   }
 
-  .practice-legend-row .practice-legend {
+  .practice-legend-row .practice-legend{
     width: 100%;
     overflow-x: auto;
     justify-content: flex-start;
@@ -1856,91 +1833,76 @@ a:active {
     scrollbar-width: none;
   }
 
-  .practice-legend-row .practice-legend::-webkit-scrollbar {
+  .practice-legend-row .practice-legend::-webkit-scrollbar{
     display: none;
   }
 }
 
 @media (max-width:800px) {
-  .responsive-drawer .control-panel {
+  .responsive-drawer .control-panel{
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .responsive-drawer .control-group,
-  .responsive-drawer .pattern-controls,
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     width: 100% !important;
     box-sizing: border-box !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
 
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     padding: 8px 0 !important;
     margin-bottom: 4px !important;
   }
 
-  .responsive-drawer .control-group label,
-  .responsive-drawer .pattern-controls label,
-  .responsive-drawer .control-group label {
+  .responsive-drawer .control-group label{
     margin-left: 0 !important;
     padding-left: 0 !important;
     text-align: left !important;
   }
 
-  .responsive-drawer .control-options,
-  .responsive-drawer .control-options,
-  .responsive-drawer .pattern-controls,
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-options,.responsive-drawer .control-group{
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
-  .responsive-drawer .pattern-controls,
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     margin-top: 0 !important;
   }
 }
 
 @media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
-  .responsive-drawer .control-panel {
+  .responsive-drawer .control-panel{
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .responsive-drawer .control-group,
-  .responsive-drawer .pattern-controls,
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     width: 100% !important;
     box-sizing: border-box !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
 
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     padding: 8px 0 !important;
     margin-bottom: 4px !important;
   }
 
-  .responsive-drawer .control-group label,
-  .responsive-drawer .pattern-controls label,
-  .responsive-drawer .control-group label {
+  .responsive-drawer .control-group label{
     margin-left: 0 !important;
     padding-left: 0 !important;
     text-align: left !important;
   }
 
-  .responsive-drawer .control-options,
-  .responsive-drawer .control-options,
-  .responsive-drawer .pattern-controls,
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-options,.responsive-drawer .control-group{
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 }
 
-.control-group {
+.control-group{
   display: flex;
   align-items: flex-end;
   gap: 7px;
@@ -1951,7 +1913,7 @@ a:active {
   box-shadow: none;
 }
 
-.control-group>label {
+.control-group>label{
   font-size: 10px;
   color: #7f9aad;
   letter-spacing: .12em;
@@ -1959,13 +1921,13 @@ a:active {
   margin: 0 5px 10px 0;
 }
 
-.control-options {
+.control-options{
   display: flex;
   gap: 7px;
   flex-wrap: wrap;
 }
 
-.control-options button {
+.control-options button{
   background: #09121d;
   border: 2px solid #2a4054;
   color: #d4e7f2;
@@ -1976,24 +1938,21 @@ a:active {
   cursor: pointer;
 }
 
-.control-options button.active {
+.control-options button.active{
   border-color: #ff57d7;
   color: #fff;
   background: #2b0b2c;
   box-shadow: 0 0 14px #ff38c844;
 }
 
-.practice-screen .control-options button,
-.practice-screen .control-options button,
-.practice-screen .control-options button,
-.practice-screen .control-group button {
+.practice-screen .control-options button,.practice-screen .control-group button{
   min-width: 42px;
   padding: 7px 10px;
   line-height: normal;
 }
 
 @media (min-width:768px) and (orientation:landscape) {
-  .practice-screen .responsive-drawer {
+  .practice-screen .responsive-drawer{
     display: grid !important;
     grid-template-columns: minmax(430px,1.8fr) auto auto;
     grid-template-areas: "core context frets";
@@ -2002,7 +1961,7 @@ a:active {
     padding: 2px 12px 7px !important;
   }
 
-  .practice-screen .responsive-drawer .control-panel {
+  .practice-screen .responsive-drawer .control-panel{
     grid-area: core;
     display: grid !important;
     grid-template-columns: minmax(300px,1.5fr) auto auto !important;
@@ -2011,53 +1970,47 @@ a:active {
     align-items: end !important;
   }
 
-  .practice-screen .responsive-drawer .control-group {
+  .practice-screen .responsive-drawer .control-group{
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .practice-screen .responsive-drawer .control-group {
+  .practice-screen .responsive-drawer .control-group{
     min-width: 0 !important;
   }
 
-  .practice-screen .responsive-drawer .control-options,
-  .practice-screen .responsive-drawer .control-options {
+  .practice-screen .responsive-drawer .control-options{
     gap: 5px !important;
     flex-wrap: nowrap !important;
   }
 
-  .practice-screen .responsive-drawer .control-group label,
-  .practice-screen .control-group>label,
-  .practice-screen .control-group label {
+  .practice-screen .responsive-drawer .control-group label,.practice-screen .control-group>label,.practice-screen .control-group label{
     font-size: 10px !important;
     margin: 0 0 5px !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     grid-area: context;
     padding: 0 !important;
     display: block !important;
   }
 
-  .practice-screen .control-options {
+  .practice-screen .control-options{
     gap: 5px !important;
     flex-wrap: nowrap !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     grid-area: frets;
     padding: 0 !important;
     display: block !important;
   }
 
-  .practice-screen .control-group button {
+  .practice-screen .control-group button{
     margin-right: 3px;
   }
 
-  .practice-screen .control-options button,
-  .practice-screen .control-options button,
-  .practice-screen .control-options button,
-  .practice-screen .control-group button {
+  .practice-screen .control-options button,.practice-screen .control-group button{
     min-height: 32px !important;
     height: 32px !important;
     min-width: 40px !important;
@@ -2066,13 +2019,13 @@ a:active {
     line-height: normal !important;
   }
 
-  .practice-screen #modeControls button {
+  .practice-screen #modeControls button{
     min-width: auto !important;
   }
 }
 
 @media (max-width:800px) {
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     position: static;
     background: none;
     padding: 4px 0 0;
@@ -2083,19 +2036,19 @@ a:active {
     box-sizing: border-box;
   }
 
-  .responsive-drawer .control-group>label {
+  .responsive-drawer .control-group>label{
     width: 100%;
     margin: 0 0 2px;
   }
 
-  .responsive-drawer .control-options {
+  .responsive-drawer .control-options{
     display: flex;
     gap: 7px;
     flex-wrap: wrap;
     width: 100%;
   }
 
-  .responsive-drawer .control-options button {
+  .responsive-drawer .control-options button{
     flex: 1;
     min-width: 0;
     padding: 8px 10px;
@@ -2103,7 +2056,7 @@ a:active {
 }
 
 @media (min-width:801px) and (max-width:1100px) and (orientation:portrait) {
-  .responsive-drawer .control-group {
+  .responsive-drawer .control-group{
     position: static !important;
     background: none !important;
     padding: 8px 0 0 !important;
@@ -2114,48 +2067,46 @@ a:active {
     margin: 0 !important;
   }
 
-  .responsive-drawer .control-group>label {
+  .responsive-drawer .control-group>label{
     width: 100%;
     margin: 0 0 2px !important;
   }
 
-  .responsive-drawer .control-options {
+  .responsive-drawer .control-options{
     display: flex !important;
     gap: 7px !important;
     flex-wrap: wrap !important;
     width: 100% !important;
   }
 
-  .responsive-drawer .control-options button {
+  .responsive-drawer .control-options button{
     flex: 1;
     min-width: 0;
     padding: 9px 5px;
   }
 }
 
-.fretboard-wrap {
+.fretboard-wrap{
   background: #08090b;
   border-color: #50372b;
   box-shadow: inset 0 1px 0 #c4936730,inset 0 -18px 36px #0008,0 12px 34px #0008,0 0 28px #27d7ff0b;
 }
 
-.fretboard-wrap svg {
+.fretboard-wrap svg{
   filter: saturate(1.04) contrast(1.025);
 }
 
 @media (max-width:800px) {
-  .fretboard-wrap {
+  .fretboard-wrap{
     box-shadow: inset 0 1px 0 #c4936726,inset 0 -12px 24px #0007,0 8px 22px #0007;
   }
 
-  .fretboard-wrap svg {
+  .fretboard-wrap svg{
     filter: saturate(1.02);
   }
 }
 
-.fretboard-wrap,
-.practice-board.fretboard-wrap,
-.fretboard-wrap.practice-board {
+.fretboard-wrap,.practice-board.fretboard-wrap,.fretboard-wrap.practice-board{
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
@@ -2163,12 +2114,7 @@ a:active {
   padding: 0 !important;
 }
 
-.practice-board,
-.map-board,
-.quiz-board,
-#practiceBoard,
-#mapBoard,
-#quizBoard {
+.practice-board,.map-board,.quiz-board{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2176,70 +2122,53 @@ a:active {
   margin-right: auto !important;
 }
 
-.practice-board svg,
-.map-board svg,
-.quiz-board svg,
-#practiceBoard svg,
-#mapBoard svg,
-#quizBoard svg {
+.practice-board svg,.map-board svg,.quiz-board svg{
   display: block;
   margin: auto;
   max-width: 100%;
   max-height: 100%;
 }
 
-.practice-board svg,
-.map-board svg,
-.quiz-board svg {
+.practice-board svg,.map-board svg,.quiz-board svg{
   filter: saturate(.94) contrast(1.07) drop-shadow(0 12px 20px #0008);
 }
 
 @media (orientation:landscape) {
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+  .practice-board,.map-board,.quiz-board{
     width: min(100%,1800px);
   }
 }
 
 @media (orientation:portrait) {
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+  .practice-board,.map-board,.quiz-board{
     width: 100%;
     min-height: 0;
   }
 
-  .practice-board svg,.map-board svg,.quiz-board svg {
+  .practice-board svg,.map-board svg,.quiz-board svg{
     filter: saturate(.96) contrast(1.05) drop-shadow(0 7px 13px #0007);
   }
 }
 
-:root {
+:root{
   --fretboard-desktop-width: 96vw;
 }
 
-body {
+body{
   background: radial-gradient(circle at 7% 44%,rgba(0,183,255,.16),transparent 25%),
     radial-gradient(circle at 92% 73%,rgba(255,35,199,.13),transparent 26%),
     radial-gradient(circle at 52% 37%,rgba(34,89,120,.07),transparent 30%),
     #07090d;
 }
 
-.practice-board,
-.map-board,
-.quiz-board,
-#practiceBoard,
-#mapBoard,
-#quizBoard {
+.practice-board,.map-board,.quiz-board{
   width: var(--fretboard-desktop-width) !important;
   max-width: none !important;
   margin-inline: calc((100% - var(--fretboard-desktop-width))/2) !important;
   overflow: visible;
 }
 
-.practice-board svg,
-.map-board svg,
-.quiz-board svg,
-#practiceBoard svg,
-#mapBoard svg,
-#quizBoard svg {
+.practice-board svg,.map-board svg,.quiz-board svg{
   width: 100% !important;
   max-width: none !important;
   height: auto;
@@ -2247,24 +2176,19 @@ body {
 }
 
 @media (max-width:1024px), (orientation:portrait) {
-  .practice-board,.map-board,.quiz-board,#practiceBoard,#mapBoard,#quizBoard {
+  .practice-board,.map-board,.quiz-board{
     width: 100% !important;
     max-width: 100% !important;
     margin-inline: auto !important;
   }
 
-  .practice-board svg,.map-board svg,.quiz-board svg,#practiceBoard svg,#mapBoard svg,#quizBoard svg {
+  .practice-board svg,.map-board svg,.quiz-board svg{
     width: 100% !important;
     max-width: 100% !important;
   }
 }
 
-.practice-board,
-.map-board,
-.quiz-board,
-#practiceBoard,
-#mapBoard,
-#quizBoard {
+.practice-board,.map-board,.quiz-board{
   width: 100vw !important;
   max-width: none !important;
   margin-left: calc(50% - 50vw) !important;
@@ -2273,19 +2197,14 @@ body {
   padding-right: 0 !important;
 }
 
-.practice-board svg,
-.map-board svg,
-.quiz-board svg,
-#practiceBoard svg,
-#mapBoard svg,
-#quizBoard svg {
+.practice-board svg,.map-board svg,.quiz-board svg{
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
   display: block;
 }
 
-.result-modal .modal-action {
+.result-modal .modal-action{
   width: 100%;
   min-height: 48px;
   display: flex;
@@ -2299,14 +2218,14 @@ body {
   letter-spacing: .035em;
 }
 
-.result-modal .modal-action svg {
+.result-modal .modal-action svg{
   width: 20px;
   height: 20px;
   fill: currentColor;
   flex: 0 0 20px;
 }
 
-.result-modal .coffee-action {
+.result-modal .coffee-action{
   padding: 13px 16px;
   color: #fff;
   background: linear-gradient(90deg,#1a9ec1,#24b8c9);
@@ -2315,11 +2234,11 @@ body {
   font-size: 13px;
 }
 
-.result-modal .coffee-action:hover {
+.result-modal .coffee-action:hover{
   box-shadow: 0 0 25px #27d7ff42,inset 0 1px 0 #ffffff40;
 }
 
-.result-modal .other-games-link {
+.result-modal .other-games-link{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2330,13 +2249,13 @@ body {
   margin-top: 15px;
 }
 
-.result-modal .other-games-link span {
+.result-modal .other-games-link span{
   font-size: 18px;
   line-height: 1;
   color: #27d7ff;
 }
 
-:root {
+:root{
   --control-h: 34px;
   --control-gap: 6px;
   --control-border: #2a4054;
@@ -2344,18 +2263,11 @@ body {
   --control-active: #ff57d7;
 }
 
-.header-controls {
-  min-width: 0;
-}
 
-.header-controls .control-group {
-  min-width: 0;
-  margin: 0;
-  padding: 0 !important;
-}
 
-.header-controls .control-group>label,
-.responsive-drawer .control-group>label {
+
+
+.responsive-drawer .control-group>label{
   display: block;
   margin: 0 0 5px !important;
   padding: 0 !important;
@@ -2366,17 +2278,14 @@ body {
   font-weight: 700;
 }
 
-.header-controls .control-options,
-.responsive-drawer .control-options {
+.responsive-drawer .control-options{
   display: flex;
   align-items: center;
   gap: var(--control-gap);
   flex-wrap: nowrap;
 }
 
-.header-controls .control-options button,
-.responsive-drawer .control-options button,
-.control-options button {
+.responsive-drawer .control-options button,.control-options button{
   height: var(--control-h) !important;
   min-height: var(--control-h) !important;
   min-width: 42px !important;
@@ -2393,22 +2302,20 @@ body {
   box-shadow: none;
 }
 
-.header-controls .control-options button.active,
-.responsive-drawer .control-options button.active,
-.control-options button.active {
+.responsive-drawer .control-options button.active,.control-options button.active{
   border-color: var(--control-active) !important;
   background: #2b0b2c !important;
   color: #fff !important;
   box-shadow: 0 0 14px #ff38c844 !important;
 }
 
-.control-select {
+.control-select{
   display: none;
   position: relative;
   min-width: 92px;
 }
 
-.control-select .select-trigger {
+.control-select .select-trigger{
   width: 100%;
   height: var(--control-h);
   display: flex;
@@ -2426,13 +2333,13 @@ body {
   cursor: pointer;
 }
 
-.control-select .select-trigger b {
+.control-select .select-trigger b{
   font-size: 14px;
   color: var(--cyan);
   font-weight: 900;
 }
 
-.control-select .select-popover {
+.control-select .select-popover{
   display: none;
   position: absolute;
   z-index: 80;
@@ -2448,12 +2355,12 @@ body {
   box-shadow: 0 18px 45px #000d,0 0 20px #27d7ff18;
 }
 
-.control-select.select-open .select-popover {
+.control-select.select-open .select-popover{
   display: grid;
   gap: 4px;
 }
 
-.control-select .select-option {
+.control-select .select-option{
   height: 34px;
   padding: 0 10px;
   border: 1px solid transparent;
@@ -2466,13 +2373,13 @@ body {
   cursor: pointer;
 }
 
-.control-select .select-option.active {
+.control-select .select-option.active{
   border-color: #ff57d7;
   background: #2b0b2c;
   color: #fff;
 }
 
-.responsive-drawer {
+.responsive-drawer{
   display: contents;
 }
 
@@ -2485,7 +2392,7 @@ body {
 
 
 @media (min-width:1200px) {
-  .practice-screen .responsive-drawer {
+  .practice-screen .responsive-drawer{
     display: flex !important;
     align-items: flex-end !important;
     gap: 14px !important;
@@ -2493,7 +2400,7 @@ body {
     flex-wrap: wrap !important;
   }
 
-  .practice-screen .responsive-drawer .control-panel {
+  .practice-screen .responsive-drawer .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     gap: 14px !important;
@@ -2502,25 +2409,25 @@ body {
     min-width: 0 !important;
   }
 
-  .practice-screen .responsive-drawer .control-group {
+  .practice-screen .responsive-drawer .control-group{
     flex: 1 1 500px;
   }
 
-  .practice-screen .responsive-drawer .control-group,.practice-screen .responsive-drawer .control-group {
+  .practice-screen .responsive-drawer .control-group{
     flex: 0 0 auto;
   }
 
-  .practice-screen .control-group,.practice-screen .control-group {
+  .practice-screen .control-group{
     display: block !important;
     padding: 0 !important;
     flex: 0 0 auto;
   }
 
-  .responsive-drawer {
+  .responsive-drawer{
     display: block !important;
   }
 
-  .control-panel {
+  .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     justify-content: center !important;
@@ -2529,22 +2436,22 @@ body {
     flex-wrap: wrap !important;
   }
 
-  .control-group,.control-group {
+  .control-group{
     display: block !important;
     padding: 0 !important;
   }
 
-  .control-options {
+  .control-options{
     overflow: visible !important;
   }
 
-  .drawer-head {
+  .drawer-head{
     display: none !important;
   }
 }
 
 @media (min-width:768px) and (max-width:1199px) and (orientation:portrait) {
-  .practice-screen .responsive-drawer {
+  .practice-screen .responsive-drawer{
     display: flex !important;
     position: static !important;
     transform: none !important;
@@ -2559,68 +2466,68 @@ body {
     align-items: flex-end !important;
   }
 
-  .practice-screen .responsive-drawer .drawer-head {
+  .practice-screen .responsive-drawer .drawer-head{
     display: none !important;
   }
 
-  .practice-screen .responsive-drawer .control-panel {
+  .practice-screen .responsive-drawer .control-panel{
     display: contents !important;
   }
 
-  .practice-screen .control-group,.practice-screen .control-group {
+  .practice-screen .control-group{
     display: block !important;
     padding: 0 !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     flex: 1 1 0 !important;
     min-width: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .practice-screen .control-options {
+  .practice-screen .control-options{
     display: none !important;
   }
 
-  .practice-screen .control-select {
+  .practice-screen .control-select{
     display: block !important;
     min-width: 0;
     width: 100%;
   }
 
-  .responsive-drawer {
+  .responsive-drawer{
     display: block !important;
   }
 
-  .responsive-drawer .drawer-head {
+  .responsive-drawer .drawer-head{
     display: none !important;
   }
 
-  .control-panel {
+  .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     gap: 8px !important;
     padding: 4px 10px 7px !important;
   }
 
-  .control-panel .control-group {
+  .control-panel .control-group{
     flex: 1 1 0 !important;
     padding: 0 !important;
   }
 
-  .control-panel .control-options {
+  .control-panel .control-options{
     display: none !important;
   }
 
-  .control-panel .control-select {
+  .control-panel .control-select{
     display: block !important;
     width: 100%;
   }
 }
 
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape) {
-  .practice-screen .responsive-drawer {
+  .practice-screen .responsive-drawer{
     display: flex !important;
     align-items: flex-end !important;
     gap: 9px !important;
@@ -2629,7 +2536,7 @@ body {
     overflow: visible !important;
   }
 
-  .practice-screen .responsive-drawer .control-panel {
+  .practice-screen .responsive-drawer .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     gap: 9px !important;
@@ -2638,36 +2545,36 @@ body {
     flex: 1 1 auto !important;
   }
 
-  .practice-screen .control-group,.practice-screen .control-group {
+  .practice-screen .control-group{
     display: block !important;
     padding: 0 !important;
     flex: 0 0 auto !important;
   }
 
-  .practice-screen .control-group {
+  .practice-screen .control-group{
     min-width: 0 !important;
     flex: 1 1 auto !important;
   }
 
-  .practice-screen .control-options {
+  .practice-screen .control-options{
     gap: 4px !important;
   }
 
-  .practice-screen .control-options button,.practice-screen .control-options button {
+  .practice-screen .control-options button{
     min-width: 36px !important;
     padding: 0 7px !important;
     font-size: 10px !important;
   }
 
-  .responsive-drawer {
+  .responsive-drawer{
     display: block !important;
   }
 
-  .responsive-drawer .drawer-head {
+  .responsive-drawer .drawer-head{
     display: none !important;
   }
 
-  .control-panel {
+  .control-panel{
     display: flex !important;
     align-items: flex-end !important;
     gap: 9px !important;
@@ -2675,7 +2582,7 @@ body {
     overflow: visible !important;
   }
 
-  .control-panel .control-group {
+  .control-panel .control-group{
     padding: 0 !important;
   }
 
@@ -2689,7 +2596,7 @@ body {
 }
 
 @media (max-width:767px) {
-  .topbar {
+  .topbar{
     display: grid !important;
     grid-template-columns: 42px 42px minmax(0,1fr) 42px;
     align-items: center;
@@ -2697,18 +2604,18 @@ body {
     gap: 6px !important;
   }
 
-  .topbar>.icon-btn[data-go="home"] {
+  .topbar>.icon-btn[data-go="home"]{
     grid-column: 1;
   }
 
-  .topbar>.mobile-menu-btn {
+  .topbar>.mobile-menu-btn{
     display: inline-flex !important;
     grid-column: 2;
   }
 
   
 
-  .topbar>.fullscreen-btn {
+  .topbar>.fullscreen-btn{
     grid-column: 4;
   }
 
@@ -2718,7 +2625,7 @@ body {
 
   
 
-  .responsive-drawer,.responsive-drawer {
+  .responsive-drawer{
     display: block !important;
     position: fixed !important;
     left: 0 !important;
@@ -2735,36 +2642,36 @@ body {
     overflow-y: auto !important;
   }
 
-  .responsive-drawer.open,.responsive-drawer.open {
+  .responsive-drawer.open{
     transform: translateX(0) !important;
   }
 
-  .control-panel {
+  .control-panel{
     display: block !important;
     padding: 0 !important;
   }
 
-  .control-panel .control-group {
+  .control-panel .control-group{
     padding: 8px 0 !important;
     margin: 0 0 4px !important;
   }
 
-  .control-panel .control-options {
+  .control-panel .control-options{
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 7px !important;
     overflow: visible !important;
   }
 
-  .control-panel .control-options button {
+  .control-panel .control-options button{
     flex: 1 1 52px !important;
   }
 
-  .control-select {
+  .control-select{
     display: none !important;
   }
 
-  .quiz-head {
+  .quiz-head{
     padding-top: 2px !important;
     padding-bottom: 5px !important;
   }
@@ -2772,20 +2679,20 @@ body {
   
 }
 
-.practice-learning-area {
+.practice-learning-area{
   min-height: 0;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
 }
 
-.practice-board,.map-board,.quiz-board {
+.practice-board,.map-board,.quiz-board{
   min-height: 0 !important;
   flex: 1 1 auto !important;
 }
 
 @media (orientation:portrait) {
-  .practice-learning-area {
+  .practice-learning-area{
     display: grid !important;
     grid-template-columns: minmax(0,1fr) auto;
     grid-template-rows: minmax(0,1fr);
@@ -2794,7 +2701,7 @@ body {
     min-height: 0;
   }
 
-  .practice-learning-area .practice-board {
+  .practice-learning-area .practice-board{
     grid-column: 1;
     grid-row: 1;
     width: 100% !important;
@@ -2803,14 +2710,14 @@ body {
     margin: 0 !important;
   }
 
-  .practice-learning-area .practice-board svg {
+  .practice-learning-area .practice-board svg{
     width: 100% !important;
     height: 100% !important;
     max-height: 100% !important;
     object-fit: contain;
   }
 
-  .practice-learning-area .practice-legend-row {
+  .practice-learning-area .practice-legend-row{
     grid-column: 2;
     grid-row: 1;
     width: 76px;
@@ -2820,11 +2727,11 @@ body {
     justify-content: center !important;
   }
 
-  .practice-learning-area .practice-hint {
+  .practice-learning-area .practice-hint{
     display: none !important;
   }
 
-  .practice-learning-area .practice-legend {
+  .practice-learning-area .practice-legend{
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -2835,25 +2742,25 @@ body {
     padding: 0 !important;
   }
 
-  .practice-learning-area .legend-filter {
+  .practice-learning-area .legend-filter{
     width: 100%;
     padding: 3px !important;
     gap: 4px !important;
   }
 
-  .practice-learning-area .legend-filter small {
+  .practice-learning-area .legend-filter small{
     font-size: 9px !important;
     margin: 0 !important;
   }
 
-  .map-board,.quiz-board {
+  .map-board,.quiz-board{
     width: 100vw !important;
     max-width: none !important;
     min-height: 0 !important;
     flex: 1 1 auto !important;
   }
 
-  .map-board svg,.quiz-board svg {
+  .map-board svg,.quiz-board svg{
     height: 100% !important;
     width: 100% !important;
     max-height: 100% !important;
@@ -2862,23 +2769,23 @@ body {
 }
 
 @media (orientation:landscape) {
-  .practice-learning-area {
+  .practice-learning-area{
     display: flex !important;
     flex-direction: column !important;
     flex: 1 1 auto;
     min-height: 0;
   }
 
-  .practice-learning-area .practice-board {
+  .practice-learning-area .practice-board{
     flex: 1 1 auto !important;
     min-height: 0 !important;
   }
 
-  .practice-learning-area .practice-legend-row {
+  .practice-learning-area .practice-legend-row{
     flex: 0 0 auto !important;
   }
 
-  .practice-board,.map-board,.quiz-board {
+  .practice-board,.map-board,.quiz-board{
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(50% - 50vw) !important;
@@ -2887,7 +2794,7 @@ body {
 }
 
 @media (max-width:767px) {
-  .practice-screen .desktop-back {
+  .practice-screen .desktop-back{
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
@@ -2908,7 +2815,7 @@ body {
 
 
 /* Quiz is information-only: no drawer, ever. */
-.quiz-screen .mobile-menu-btn,.quiz-drawer,#quizDrawerBackdrop{display:none!important}
+.quiz-screen .mobile-menu-btn{display:none!important}
 .quiz-hud{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:min(920px,calc(100% - 32px));margin:4px auto 8px}
 .hud-stat{min-height:58px;border:1px solid rgba(92,175,220,.28);border-radius:14px;background:rgba(5,16,28,.72);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;box-shadow:inset 0 0 18px rgba(39,215,255,.035)}
 .hud-stat span{font-family:"Barlow Condensed",sans-serif;font-weight:800;letter-spacing:.14em;color:#8da8b9;font-size:14px}
@@ -2929,10 +2836,10 @@ body {
 
 /* Tablet portrait: selects are the intentional primary UI, not tiny radios. */
 @media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
-  .responsive-drawer,.responsive-drawer{display:block!important;position:static!important;transform:none!important;width:100%!important;height:auto!important;background:transparent!important;box-shadow:none!important;padding:0 18px 8px!important}
-  .responsive-drawer .drawer-head,.responsive-drawer .drawer-head{display:none!important}
-  .responsive-drawer .control-options,.responsive-drawer .control-options{display:none!important}
-  .responsive-drawer .control-select,.responsive-drawer .control-select{display:block!important}
+  .responsive-drawer{display:block!important;position:static!important;transform:none!important;width:100%!important;height:auto!important;background:transparent!important;box-shadow:none!important;padding:0 18px 8px!important}
+  .responsive-drawer .drawer-head{display:none!important}
+  .responsive-drawer .control-options{display:none!important}
+  .responsive-drawer .control-select{display:block!important}
   .responsive-drawer,.control-panel{display:flex!important;align-items:end!important;justify-content:center!important;gap:10px!important;flex-wrap:nowrap!important}
   .responsive-drawer>.control-panel{display:contents!important}
   .control-group{min-width:0!important;flex:1 1 0!important}
@@ -2942,7 +2849,7 @@ body {
 /* Tablet landscape: readable controls first; JS progressively switches groups to selects.
    If even that cannot fit, force the same drawer interaction as mobile. */
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
-  .responsive-drawer,.responsive-drawer{overflow:visible!important}
+  .responsive-drawer{overflow:visible!important}
   .control-options button,.select-trigger{min-height:var(--control-min-h)!important;min-width:52px!important;font-size:14px!important}
   
   
@@ -2956,7 +2863,7 @@ body {
 
 /* Mobile: Practice-style drawer is canonical. Map order is NOTES -> FRETBOARD in DOM. */
 @media (max-width:767px){
-  .responsive-drawer,.responsive-drawer{width:min(88vw,610px)!important}
+  .responsive-drawer{width:min(88vw,610px)!important}
   .control-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:22px!important}
   .control-panel .control-group{width:100%!important;margin:0!important}
   .control-panel .control-options{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important}
@@ -2989,11 +2896,11 @@ body {
 /* Desktop: one coherent centered control bar. Use available pixels instead of tiny controls. */
 @media (min-width:1200px){
   :root{--control-min-h:clamp(52px,4vw,78px);--control-gap:clamp(8px,1vw,16px)}
-  .responsive-drawer,.responsive-drawer{width:100%!important;max-width:100%!important;margin:0 auto!important;padding:8px clamp(18px,2vw,44px) 12px!important;display:flex!important;align-items:end!important;justify-content:center!important;gap:clamp(10px,1.1vw,22px)!important}
+  .responsive-drawer{width:100%!important;max-width:100%!important;margin:0 auto!important;padding:8px clamp(18px,2vw,44px) 12px!important;display:flex!important;align-items:end!important;justify-content:center!important;gap:clamp(10px,1.1vw,22px)!important}
   .responsive-drawer>.control-panel{display:contents!important}.control-panel{display:flex!important;align-items:end!important;justify-content:center!important;gap:clamp(10px,1.1vw,22px)!important}
   .control-group{flex:0 0 auto!important}.control-group label{font-size:clamp(13px,.85vw,20px)!important;margin-bottom:6px!important}
   .control-options{gap:var(--control-gap)!important}.control-options button{min-height:var(--control-min-h)!important;min-width:clamp(58px,4.2vw,92px)!important;padding:0 clamp(13px,1vw,22px)!important;font-size:clamp(15px,1vw,22px)!important;border-radius:clamp(11px,.8vw,17px)!important}
-  .control-group .control-options button,.control-group .control-options button{min-width:clamp(52px,3.5vw,78px)!important}
+  .control-group .control-options button{min-width:clamp(52px,3.5vw,78px)!important}
   .topbar>.icon-btn{width:clamp(58px,4.2vw,82px)!important;height:clamp(58px,4.2vw,82px)!important}
   .practice-board,.map-board,.quiz-board{margin-top:4px!important}
 }
@@ -3031,11 +2938,11 @@ body {
 .control-group .control-options button:hover{transform:none!important}
 
 /* Fret count is the same component in Practice and Map. */
-.control-group,.control-group,.control-group,.control-group{
+.control-group{
   padding:0!important;margin:0!important;display:block!important;background:transparent!important;border:0!important;box-shadow:none!important;
 }
-.control-group>label,.control-group>label,.control-group>label,.control-group>label{margin:0 0 7px!important}
-.control-options,.control-options{display:flex!important;align-items:center!important;gap:var(--control-gap)!important;flex-wrap:nowrap!important}
+.control-group>label{margin:0 0 7px!important}
+.control-options{display:flex!important;align-items:center!important;gap:var(--control-gap)!important;flex-wrap:nowrap!important}
 
 /* Header menu button only exists when a drawer is actually required. */
 .mobile-menu-btn{display:none!important}
@@ -3082,13 +2989,13 @@ body {
 /* Mobile drawers: roomy, readable, same component layout for Practice and Map. */
 @media (max-width:767px){
   .practice-screen .mobile-menu-btn,.fretmap-screen .mobile-menu-btn{display:inline-flex!important}
-  .responsive-drawer,.responsive-drawer{width:min(92vw,430px)!important;padding:16px 16px max(20px,env(safe-area-inset-bottom))!important}
+  .responsive-drawer{width:min(92vw,430px)!important;padding:16px 16px max(20px,env(safe-area-inset-bottom))!important}
   .drawer-head{margin-bottom:20px!important}
   .responsive-drawer .control-panel,.control-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:20px!important}
-  .responsive-drawer>.control-group,.responsive-drawer>.control-group{margin-top:20px!important}
-  .responsive-drawer .control-group,.responsive-drawer .control-group{padding:0!important;margin:0!important;width:100%!important}
-  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{margin:0 0 8px!important;font-size:13px!important}
-  .responsive-drawer .control-options,.responsive-drawer .control-options{width:100%!important;display:grid!important;gap:9px!important;overflow:visible!important}
+  .responsive-drawer>.control-group{margin-top:20px!important}
+  .responsive-drawer .control-group{padding:0!important;margin:0!important;width:100%!important}
+  .responsive-drawer .control-group>label{margin:0 0 8px!important;font-size:13px!important}
+  .responsive-drawer .control-options{width:100%!important;display:grid!important;gap:9px!important;overflow:visible!important}
   .responsive-drawer #rootControls{grid-template-columns:repeat(6,minmax(0,1fr))!important}
   .responsive-drawer #qualityControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .responsive-drawer #modeControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
@@ -3096,7 +3003,7 @@ body {
   .responsive-drawer #fretCountControls .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .responsive-drawer #mapNoteControls{grid-template-columns:repeat(4,minmax(0,1fr))!important}
   .responsive-drawer .control-group .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .responsive-drawer .control-options button,.responsive-drawer .control-options button{width:100%!important;min-width:0!important;min-height:52px!important;padding:0 6px!important;font-size:15px!important}
+  .responsive-drawer .control-options button{width:100%!important;min-width:0!important;min-height:52px!important;padding:0 6px!important;font-size:15px!important}
   .quiz-screen .mobile-menu-btn{display:none!important}
   
   
@@ -3106,7 +3013,7 @@ body {
 @media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
   .mobile-menu-btn{display:none!important}
   .practice-screen,.fretmap-screen,.quiz-screen{height:100dvh!important;overflow:hidden!important}
-  .responsive-drawer,.responsive-drawer{flex:0 0 auto!important}
+  .responsive-drawer{flex:0 0 auto!important}
   .practice-learning-area,.map-board,.quiz-board{min-height:0!important}
   .practice-board svg,.map-board svg,.quiz-board svg{max-width:92vw!important}
 }
@@ -3114,7 +3021,7 @@ body {
 /* Tablet landscape: show readable controls; progressively select, then drawer. */
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
   
-  .responsive-drawer,.responsive-drawer,.control-panel{max-width:100%!important}
+  .responsive-drawer,.control-panel{max-width:100%!important}
   .control-group .control-options button,.select-trigger{min-height:46px!important;min-width:48px!important;font-size:13px!important;padding:0 10px!important}
 }
 
@@ -3122,7 +3029,7 @@ body {
 @media (min-width:1200px){
   .mobile-menu-btn{display:none!important}
   .control-select{display:none!important}
-  .responsive-drawer,.responsive-drawer{position:static!important;transform:none!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+  .responsive-drawer{position:static!important;transform:none!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
   .responsive-drawer,.control-panel{display:flex!important;align-items:flex-end!important;justify-content:center!important;gap:clamp(12px,1.15vw,24px)!important}
   .responsive-drawer>.control-panel{display:contents!important}
   .control-group>label{font-size:clamp(14px,.9vw,19px)!important;margin-bottom:8px!important}
@@ -3130,7 +3037,7 @@ body {
     min-height:clamp(54px,4vw,76px)!important;min-width:clamp(62px,4.1vw,92px)!important;
     padding:0 clamp(14px,1vw,22px)!important;font-size:clamp(16px,1vw,21px)!important;
   }
-  .control-group .control-options button,.control-group .control-options button{min-width:clamp(56px,3.5vw,78px)!important}
+  .control-group .control-options button{min-width:clamp(56px,3.5vw,78px)!important}
   
 }
 
@@ -3189,25 +3096,23 @@ body {
 @media (max-width:767px){
   .section-heading strong{font-size:clamp(20px,6vw,28px)!important}
   .section-heading span{font-size:8px!important}
-  .responsive-drawer .control-panel,.responsive-drawer .control-panel{
+  .responsive-drawer .control-panel{
     display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:var(--ui-group-gap)!important;
   }
   .responsive-drawer>.control-group{margin-top:var(--ui-group-gap)!important}
-  .responsive-drawer .control-group,.responsive-drawer .control-group{width:100%!important}
-  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{font-size:13px!important}
-  .responsive-drawer .control-options,.responsive-drawer .control-options{
+  .responsive-drawer .control-group{width:100%!important}
+  .responsive-drawer .control-group>label{font-size:13px!important}
+  .responsive-drawer .control-options{
     display:grid!important;gap:9px!important;width:100%!important;overflow:visible!important;
   }
   /* NOTE is literally the same 2x6 component in Practice and Map. */
-  .responsive-drawer [data-control-group="root"] .control-options,
-  .responsive-drawer [data-control-group="note"] .control-options{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .responsive-drawer [data-control-group="root"] .control-options,.responsive-drawer [data-control-group="note"] .control-options{grid-template-columns:repeat(6,minmax(0,1fr))!important}
   .responsive-drawer [data-control-group="quality"] .control-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .responsive-drawer [data-control-group="mode"] .control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
   .responsive-drawer [data-control-group="context"] .control-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
   /* FRETBOARD is one canonical 4-button row everywhere. */
-  .responsive-drawer [data-control-group="fretboard"] .control-options,
   .responsive-drawer [data-control-group="fretboard"] .control-options{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-  .responsive-drawer .control-options>button,.responsive-drawer .control-options>button{
+  .responsive-drawer .control-options>button{
     width:100%!important;min-width:0!important;min-height:var(--ui-drawer-control-h)!important;padding:0 5px!important;font-size:14px!important;
   }
 }
@@ -3220,13 +3125,12 @@ body {
 /* Desktop: same controls, same labels, same sizing; no hamburger unless JS proves overflow. */
 @media (min-width:1200px){
   .practice-screen .mobile-menu-btn,.fretmap-screen .mobile-menu-btn{display:none!important}
-  .responsive-drawer .control-group>label,.responsive-drawer .control-group>label{font-size:clamp(14px,.9vw,19px)!important}
-  .responsive-drawer .control-group>.control-options>button,.responsive-drawer .control-group>.control-options>button{
+  .responsive-drawer .control-group>label{font-size:clamp(14px,.9vw,19px)!important}
+  .responsive-drawer .control-group>.control-options>button{
     min-height:clamp(54px,4vw,76px)!important;min-width:clamp(62px,4.1vw,92px)!important;
     padding:0 clamp(14px,1vw,22px)!important;font-size:clamp(16px,1vw,21px)!important;
   }
-  .responsive-drawer [data-control-group="root"]>.control-options>button,
-  .responsive-drawer [data-control-group="note"]>.control-options>button{min-width:clamp(56px,3.5vw,78px)!important}
+  .responsive-drawer [data-control-group="root"]>.control-options>button,.responsive-drawer [data-control-group="note"]>.control-options>button{min-width:clamp(56px,3.5vw,78px)!important}
 }
 
 /* ==========================================================================
@@ -3246,7 +3150,7 @@ body {
 @media (max-width:767px){
   .desktop-back{display:inline-flex!important}
   .mobile-menu-btn{display:inline-flex!important}
-  .responsive-drawer,.responsive-drawer{position:fixed!important;display:block!important}
+  .responsive-drawer{position:fixed!important;display:block!important}
   .control-group.is-select>.control-options{display:grid!important}
   .control-group.is-select>.control-select{display:none!important}
 }
@@ -3256,7 +3160,7 @@ body {
   .mobile-menu-btn{display:none!important}
   .desktop-back,.topbar>[data-go="home"]{display:inline-flex!important}
   .drawer-head,.drawer-backdrop{display:none!important}
-  .responsive-drawer,.responsive-drawer,.responsive-drawer{
+  .responsive-drawer{
     position:static!important;inset:auto!important;width:100%!important;max-width:none!important;height:auto!important;
     transform:none!important;transition:none!important;overflow:visible!important;background:transparent!important;
     border:0!important;box-shadow:none!important;padding:0 14px 8px!important;display:flex!important;
@@ -3271,8 +3175,7 @@ body {
     flex:0 0 auto!important;min-width:var(--control-min-w)!important;min-height:var(--control-min-h)!important;
     height:var(--control-min-h)!important;padding:0 10px!important;font-size:12px!important;
   }
-  .control-group[data-control-group="root"]>.control-options>button,
-  .control-group[data-control-group="note"]>.control-options>button{min-width:52px!important}
+  .control-group[data-control-group="root"]>.control-options>button,.control-group[data-control-group="note"]>.control-options>button{min-width:52px!important}
   .control-group[data-control-group="mode"]>.control-options>button{min-width:86px!important}
   .control-group[data-control-group="context"]>.control-options>button{min-width:54px!important}
   .control-group[data-control-group="fretboard"]>.control-options>button{min-width:62px!important}
@@ -3285,7 +3188,7 @@ body {
 @media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
   .practice-screen,.fretmap-screen,.quiz-screen{height:100dvh!important;min-height:100dvh!important;overflow:hidden!important}
   .practice-screen .topbar,.fretmap-screen .topbar,.quiz-screen .topbar{flex:0 0 auto!important}
-  .responsive-drawer,.responsive-drawer{flex:0 0 auto!important;padding-top:2px!important}
+  .responsive-drawer{flex:0 0 auto!important;padding-top:2px!important}
   .practice-learning-area{flex:1 1 0!important;min-height:0!important;display:flex!important;align-items:stretch!important}
   .practice-learning-area .practice-board{flex:1 1 0!important;min-height:0!important;margin:0!important}
   .practice-learning-area .practice-board svg{height:100%!important;max-height:none!important;width:auto!important;max-width:96vw!important}
@@ -3293,7 +3196,7 @@ body {
 
 /* Landscape tablet: readable controls first; the adaptive JS converts expensive groups to selects. */
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
-  .responsive-drawer,.responsive-drawer{gap:8px!important;padding-left:10px!important;padding-right:10px!important}
+  .responsive-drawer{gap:8px!important;padding-left:10px!important;padding-right:10px!important}
   .control-group>.control-options>button{min-height:40px!important;height:40px!important}
   .control-group>label{font-size:10px!important;margin-bottom:5px!important}
 }
@@ -3304,7 +3207,7 @@ body {
    Baseline: V6.5. Fretboard geometry intentionally untouched in this pass.
    One drawer, one panel, one group, one heading across Practice / Map / Quiz.
    ========================================================================== */
-:root{--phone-landscape-max-height:599px}
+:root{}
 
 /* Shared title component. */
 .section-heading{flex:1 1 auto!important;min-width:0!important;margin:0 auto!important;padding:0 12px!important;text-align:center!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
@@ -3477,8 +3380,7 @@ body {
     min-width:0!important;
     box-sizing:border-box!important;
   }
-  .responsive-drawer .control-group[data-control-group="root"]>.control-options,
-  .responsive-drawer .control-group[data-control-group="note"]>.control-options{
+  .responsive-drawer .control-group[data-control-group="root"]>.control-options,.responsive-drawer .control-group[data-control-group="note"]>.control-options{
     grid-template-columns:repeat(6,minmax(0,1fr))!important;
   }
   .responsive-drawer .control-group[data-control-group="quality"]>.control-options{
@@ -3525,9 +3427,7 @@ body {
   }
   .practice-screen.active,.fretmap-screen.active,.quiz-screen.active{display:flex!important}
 
-  .practice-screen>.topbar,.fretmap-screen>.topbar,.quiz-screen>.topbar,
-  .practice-screen>.responsive-drawer,.fretmap-screen>.responsive-drawer,
-  .quiz-screen>.quiz-hud,.quiz-screen>.quiz-head{
+  .practice-screen>.topbar,.fretmap-screen>.topbar,.quiz-screen>.topbar,.practice-screen>.responsive-drawer,.fretmap-screen>.responsive-drawer,.quiz-screen>.quiz-hud,.quiz-screen>.quiz-head{
     flex:0 0 auto!important;
   }
 
@@ -3544,10 +3444,7 @@ body {
   }
 
   /* One sizing contract for all three modes. Overrides the historical 60/72vh rules. */
-  .fretboard-stage,
-  .practice-screen .fretboard-stage,
-  .fretmap-screen .fretboard-stage,
-  .quiz-screen .fretboard-stage{
+  .fretboard-stage,.practice-screen .fretboard-stage,.fretmap-screen .fretboard-stage,.quiz-screen .fretboard-stage{
     position:relative!important;
     flex:1 1 0!important;
     width:100vw!important;
@@ -3563,10 +3460,7 @@ body {
     overflow:hidden!important;
   }
 
-  .fretboard-stage>svg,
-  .practice-screen .fretboard-stage>svg,
-  .fretmap-screen .fretboard-stage>svg,
-  .quiz-screen .fretboard-stage>svg{
+  .fretboard-stage>svg,.practice-screen .fretboard-stage>svg,.fretmap-screen .fretboard-stage>svg,.quiz-screen .fretboard-stage>svg{
     display:block!important;
     flex:0 1 auto!important;
     width:auto!important;
@@ -3590,4 +3484,58 @@ body {
     pointer-events:none!important;
   }
   .practice-learning-area>.practice-legend-row .practice-legend{pointer-events:auto!important}
+}
+
+/* =========================================================
+   V8.0 — HOME POLISH
+   Home-only interaction polish. No fretboard/gameplay changes.
+   ========================================================= */
+.home-screen .home-actions{
+  gap:20px !important;
+}
+.home-screen .hero-btn{
+  transform:none !important;
+  transition:border-color .18s ease, box-shadow .18s ease, background-color .18s ease, filter .18s ease !important;
+}
+.home-screen .hero-btn:hover,.home-screen .hero-btn:focus-visible{
+  transform:none !important;
+  background:#0b1521e8 !important;
+  outline:none;
+}
+.home-screen .hero-btn.primary:hover,.home-screen .hero-btn.primary:focus-visible{
+  border-color:#ff72e5 !important;
+  box-shadow:0 0 12px #ff3ec966,0 0 30px #ff3ec940,inset 0 0 34px #ff00c022 !important;
+}
+.home-screen .hero-btn.secondary:hover,.home-screen .hero-btn.secondary:focus-visible{
+  border-color:#67e6ff !important;
+  box-shadow:0 0 12px #27d7ff66,0 0 30px #27d7ff40,inset 0 0 34px #00bdf022 !important;
+}
+.home-screen .hero-btn.map-btn:hover,.home-screen .hero-btn.map-btn:focus-visible{
+  border-color:#d4f6ff !important;
+  box-shadow:0 0 12px #27d7ff55,0 0 26px #ff3ec92e,inset 0 0 34px #27d7ff18 !important;
+}
+.home-screen .ecosystem-link,.home-screen .ecosystem-link:hover,.home-screen .ecosystem-link:focus-visible{
+  transform:translateX(-50%) !important;
+}
+.home-screen .ecosystem-link{
+  text-decoration:none !important;
+  text-decoration-thickness:1px !important;
+  text-underline-offset:5px !important;
+  transition:color .16s ease,text-decoration-color .16s ease !important;
+}
+.home-screen .ecosystem-link:hover,.home-screen .ecosystem-link:focus-visible{
+  color:#eaf9ff !important;
+  text-decoration-line:underline !important;
+  text-decoration-color:#27d7ff !important;
+  outline:none;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.home-screen .ecosystem-link strong{
+  display:inline-block;
+  transform:none !important;
+  transition:none !important;
+}
+@media (max-width:767px){
+  .home-screen .home-actions{gap:16px !important;}
 }
