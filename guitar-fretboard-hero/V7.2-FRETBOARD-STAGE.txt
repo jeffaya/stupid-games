@@ -1,0 +1,9 @@
+Guitar Fretboard Hero V7.2 — Shared Fretboard Stage
+
+Base: V7.1.1.
+Scope: tablet portrait fretboard layout only.
+- Shared .fretboard-stage on Practice, Fretboard Map and Quiz.
+- Stage consumes all remaining viewport height below each mode chrome.
+- Removes historical 60vh/72dvh constraints through the final canonical override.
+- Practice legend remains an absolute overlay and does not affect board geometry.
+- Fretboard Core, controls and gameplay unchanged.

@@ -1,0 +1,128 @@
+V6.5 CSS cleanup audit
+Removed high-confidence unused selectors: 113
+
+.guitar-visual
+.neck-glow
+.neck-line
+.n1
+.n2
+.n3
+.n4
+.n5
+.n6
+.note-dot
+.d1
+.d2
+.d3
+.d4
+.d5
+.mini-logo
+.mini-logo span
+.practice-meta
+.practice-meta strong
+.practice-meta>div>span
+.pattern-controls
+.pattern-controls label
+.shape-controls
+.shape-controls button
+.shape-controls div
+.shape-controls strong,.shape-controls span
+.shape-controls span
+.hidden
+.roundline
+.attempt-pill
+.quiz-bottom
+.guitar-visual
+.practice-meta
+.pattern-controls
+.shape-controls
+.shape-controls button
+.quiz-jump
+.quiz-jump-icon
+.section-title
+.legend.ninth
+.pattern-controls
+.pattern-controls label
+.practice-meta
+.practice-meta strong
+.practice-meta>div>span
+.shape-controls
+.shape-controls button
+.quiz-jump
+.section-title
+.guitar-visual
+.practice-pick .pick-neck path
+.hero-icon .icon-cut
+.hero-icon .icon-line
+.hero-icon .icon-spark,.quiz-jump-icon .icon-spark
+.quiz-jump-icon
+.quiz-jump-icon svg
+.quiz-jump
+.practice-heading
+.practice-heading strong
+.practice-heading span
+.practice-heading strong
+.practice-heading span
+.quiz-jump
+.quiz-jump>span:last-child
+.quiz-jump-icon,.quiz-jump-icon svg
+.map-note .note-glint
+.map-heading
+.map-heading strong
+.map-heading span
+.map-nav
+.map-nav-btn
+.map-hint
+.map-heading strong
+.map-heading span
+.map-nav-btn
+.map-hint
+.fretmap-screen .map-heading
+.practice-heading,
+.map-heading,
+.quiz-screen .mini-logo
+.quiz-drawer-info
+.quiz-drawer-info span
+.quiz-drawer-info strong
+.quiz-drawer p
+.header-controls.compact-root [data-control-group="root"] .control-options
+.header-controls.compact-root [data-control-group="root"] .control-select
+.header-controls.compact-frets [data-control-group="fretboard"] .control-options
+.header-controls.compact-frets [data-control-group="fretboard"] .control-select
+.topbar>.practice-heading,.topbar>.map-heading,.topbar>.mini-logo
+.practice-heading strong,.map-heading strong
+.practice-heading span,.map-heading span
+.mini-logo
+.map-hint
+.select-fretboard [data-control-group="fretboard"] .control-options,
+.select-note [data-control-group="root"] .control-options,
+.select-note [data-control-group="note"] .control-options,
+.select-context [data-control-group="context"] .control-options,
+.select-key [data-control-group="quality"] .control-options,
+.select-mode [data-control-group="mode"] .control-options
+.select-fretboard [data-control-group="fretboard"]>.control-select,
+.select-note [data-control-group="root"]>.control-select,
+.select-note [data-control-group="note"]>.control-select,
+.select-context [data-control-group="context"]>.control-select,
+.select-key [data-control-group="quality"]>.control-select,
+.select-mode [data-control-group="mode"]>.control-select
+.force-drawer .mobile-menu-btn
+.force-drawer .practice-drawer,.force-drawer .map-drawer
+.force-drawer .practice-drawer.open,.force-drawer .map-drawer.open
+.force-drawer .drawer-head
+.force-drawer .control-panel,.force-drawer .map-toolbar
+.force-drawer .control-group
+.force-drawer .control-options
+.force-drawer .control-select
+.quiz-screen .mini-logo
+.quiz-heading,.map-heading,.practice-heading
+.quiz-heading strong,.map-heading strong,.practice-heading strong
+.quiz-heading strong
+.quiz-heading strong::first-line
+.quiz-heading span,.map-heading span,.practice-heading span
+.map-hint
+.quiz-heading strong
+.quiz-heading span
+.map-hint
+.practice-screen.force-drawer .mobile-menu-btn,.fretmap-screen.force-drawer .mobile-menu-btn
+.quiz-heading strong,.map-heading strong,.practice-heading strong

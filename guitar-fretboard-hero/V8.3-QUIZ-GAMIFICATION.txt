@@ -1,0 +1,4 @@
+V8.3 — Quiz Gamification
+Based physically on V8.2 cleanup golden master.
+Quiz only: rising timer, score, x1–x5 streak, live rank progression, animated HUD feedback, weighted fret windows by multiplier, any correct occurrence validates, wrong answer keeps score and timer but resets multiplier to x1.
+Practice, Fretboard Map, Home and shared visual identity are otherwise unchanged.

@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://stupid-games.seignemorte.com/sitemap.xml
+Sitemap: https://guitar-fretboard-hero.seignemorte.com/sitemap.xml
