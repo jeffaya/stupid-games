@@ -1,37 +1,16 @@
 {
-  "name": "Guitar Fretboard Hero",
-  "short_name": "Fretboard Hero",
-  "description": "Free interactive guitar fretboard trainer for pentatonic scales, triads, chords, note mapping and quizzes.",
-  "id": "./",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "any",
-  "background_color": "#05070b",
-  "theme_color": "#05070b",
-  "categories": [
-    "education",
-    "music",
-    "games"
-  ],
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+  "name":"Guitar Fretboard Hero",
+  "short_name":"Fretboard Hero",
+  "id":"./",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#05070b",
+  "theme_color":"#05070b",
+  "icons":[
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
