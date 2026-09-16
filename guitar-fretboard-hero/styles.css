@@ -3501,3 +3501,93 @@ body {
     grid-template-columns:repeat(2,minmax(0,1fr))!important;
   }
 }
+
+
+/* ========================================================================== 
+   V7.2 — SHARED FRETBOARD STAGE / TABLET PORTRAIT
+   The board stage owns every remaining pixel below each mode's chrome.
+   Practice legend is an overlay and never participates in stage sizing.
+   Fretboard Core rendering and validated V6.9.2 controls are untouched.
+   ========================================================================== */
+.fretboard-stage{
+  min-width:0;
+  min-height:0;
+}
+
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+  .practice-screen,.fretmap-screen,.quiz-screen{
+    display:none;
+    flex-direction:column!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    max-height:100dvh!important;
+    overflow:hidden!important;
+  }
+  .practice-screen.active,.fretmap-screen.active,.quiz-screen.active{display:flex!important}
+
+  .practice-screen>.topbar,.fretmap-screen>.topbar,.quiz-screen>.topbar,
+  .practice-screen>.responsive-drawer,.fretmap-screen>.responsive-drawer,
+  .quiz-screen>.quiz-hud,.quiz-screen>.quiz-head{
+    flex:0 0 auto!important;
+  }
+
+  /* Practice has one extra wrapper because its legend belongs to the mode layer. */
+  .practice-learning-area{
+    position:relative!important;
+    display:flex!important;
+    flex:1 1 0!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    align-items:stretch!important;
+  }
+
+  /* One sizing contract for all three modes. Overrides the historical 60/72vh rules. */
+  .fretboard-stage,
+  .practice-screen .fretboard-stage,
+  .fretmap-screen .fretboard-stage,
+  .quiz-screen .fretboard-stage{
+    position:relative!important;
+    flex:1 1 0!important;
+    width:100vw!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    max-width:none!important;
+    margin:0 calc(50% - 50vw)!important;
+    padding:0!important;
+    display:flex!important;
+    align-items:stretch!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+  }
+
+  .fretboard-stage>svg,
+  .practice-screen .fretboard-stage>svg,
+  .fretmap-screen .fretboard-stage>svg,
+  .quiz-screen .fretboard-stage>svg{
+    display:block!important;
+    flex:0 1 auto!important;
+    width:auto!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    max-width:96vw!important;
+    margin:0 auto!important;
+  }
+
+  .practice-learning-area>.practice-legend-row{
+    position:absolute!important;
+    right:max(7px,env(safe-area-inset-right))!important;
+    top:50%!important;
+    transform:translateY(-50%)!important;
+    z-index:8!important;
+    width:auto!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    pointer-events:none!important;
+  }
+  .practice-learning-area>.practice-legend-row .practice-legend{pointer-events:auto!important}
+}

@@ -109,16 +109,11 @@
   function renderFretboardMap(){
     requestAnimationFrame(refreshAllSelects);
     const svg=$('#mapFretboard'); if(!svg)return;
-    const isP=portrait(),maxFret=Math.min(21,state.mapMaxFret),W=isP?520:1500,H=isP?1500:430;
-    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
+    const maxFret=Math.min(21,state.mapMaxFret);
     $$('#mapFretControls button[data-map-frets]').forEach(b=>b.classList.toggle('active',Number(b.dataset.mapFrets)===maxFret));
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
-    const defs=svgEl('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs.append(filter);svg.append(defs);premiumSurface(svg,isP,W,H,'map');
-    const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
-    const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret),stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5),visualStringPos=s=>stringPos(isP?s:5-s);
-    for(let f=0;f<=maxFret;f++){const p=fretPos(f);premiumFret(svg,isP,p,W,H,f===0,'map');if(f===0||[3,5,7,9,12,15,17,19,21].includes(f)){const lp=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;svg.append(svgEl('text',isP?{x:28,y:lp+5,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'}:{x:lp,y:H-15,fill:'#8fa8b9','font-size':13,'font-weight':800,'text-anchor':'middle'},String(f)))}}
-    [3,5,7,9,12,15,17,19,21].filter(f=>f<=maxFret).forEach(f=>{const p=(fretPos(f-1)+fretPos(f))/2;if(f===12){[-14,14].forEach(o=>svg.append(svgEl('circle',isP?{cx:W/2+o,cy:p,r:4,fill:'#53616c'}:{cx:p,cy:H/2+o,r:4,fill:'#53616c'})))}else svg.append(svgEl('circle',isP?{cx:W/2,cy:p,r:4,fill:'#53616c'}:{cx:p,cy:H/2,r:4,fill:'#53616c'}))});
-    tuning.forEach((st,s)=>{const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,'map');svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
+    const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'map',maxFret});
+    const defs=svg.querySelector('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs?.append(filter);
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?12:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y:y+4,fill:'#071016','font-size':name.length>1?8.5:10.5,'font-weight':1000,'text-anchor':'middle'},name))}
   }
 
@@ -160,7 +155,12 @@
     const fretGlow=svgEl('filter',{id:prefix+'FretGlow',x:'-100%',y:'-30%',width:'300%',height:'160%'});
     fretGlow.append(svgEl('feGaussianBlur',{stdDeviation:'1.15',result:'blur'}));
     const fm=svgEl('feMerge');fm.append(svgEl('feMergeNode',{in:'blur'}),svgEl('feMergeNode',{in:'SourceGraphic'}));fretGlow.append(fm);
-    defs.append(wood,neckLight,steel,wound,grain,shadow,fretGlow);svg.append(defs);
+    // V7.1.1 restrained gunmetal nail-head inlays: readable landmarks without competing with learning notes.
+    const inlay=svgEl('radialGradient',{id:prefix+'Inlay',cx:'36%',cy:'32%',r:'70%'});
+    [['0%','#b7bec3'],['24%','#858d93'],['58%','#596168'],['82%','#3b4248'],['100%','#242a2f']].forEach(([offset,stop])=>inlay.append(svgEl('stop',{offset,'stop-color':stop})));
+    const inlayShadow=svgEl('filter',{id:prefix+'InlayShadow',x:'-80%',y:'-80%',width:'260%',height:'260%'});
+    inlayShadow.append(svgEl('feDropShadow',{dx:'1.1',dy:'1.5',stdDeviation:'1.15','flood-color':'#000','flood-opacity':'.62'}));
+    defs.append(wood,neckLight,steel,wound,grain,shadow,fretGlow,inlay,inlayShadow);svg.append(defs);
   }
   function premiumSurface(svg,isP,W,H,prefix){
     premiumDefs(svg,prefix);
@@ -208,6 +208,51 @@
     // Razor specular reflection on the crown.
     const hi=isP?{...attrs,x1:p-.55,x2:p-.55}:{...attrs,y1:p-.55,y2:p-.55};
     svg.append(svgEl('line',{...hi,stroke:'#fff','stroke-width':.42,opacity:.9,'stroke-linecap':'round'}));
+  }
+
+
+  // V7 FRETBOARD CORE — one structural/visual neck renderer for Practice, Map and Quiz.
+  // Modes only add their own overlays, notes and interactions on top of this shared core.
+  function renderFretboardCore(svg,{prefix,maxFret,onSurface}={}){
+    const isP=portrait(),W=isP?520:1500,H=isP?1500:430;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
+    const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
+    const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret);
+    const stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5);
+    const visualStringPos=s=>stringPos(isP?s:5-s);
+    premiumSurface(svg,isP,W,H,prefix);
+    if(onSurface)onSurface({svg,isP,W,H,fretStart,fretEnd,stringStart,stringEnd,fretPos,stringPos,visualStringPos,maxFret});
+    for(let f=0;f<=maxFret;f++){
+      const p=fretPos(f);premiumFret(svg,isP,p,W,H,f===0,prefix);
+      if(f===0||[3,5,7,9,12,15,17,19,21].includes(f)){
+        const lp=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;
+        svg.append(svgEl('text',isP?{x:18,y:lp+5,fill:'#8fa2b0','font-size':14,'font-weight':800,'text-anchor':'middle'}:{x:lp,y:H-14,fill:'#8fa2b0','font-size':14,'font-weight':800,'text-anchor':'middle'},String(f)));
+      }
+    }
+    // Standard markers: singles are centred between D/G. At fret 12, the two markers
+    // are centred in the neighbouring string lanes: A/D and G/B.
+    const centerBetween=(a,b)=>(visualStringPos(a)+visualStringPos(b))/2;
+    const singleInlayCenter=centerBetween(2,3);
+    const drawInlay=(f,cross)=>{
+      const p=(fretPos(f-1)+fretPos(f))/2;
+      const base=isP?{cx:cross,cy:p}:{cx:p,cy:cross};
+      svg.append(svgEl('circle',{...base,r:9.1,fill:'#090c0f',opacity:.58,filter:`url(#${prefix}InlayShadow)`}));
+      svg.append(svgEl('circle',{...base,r:7.8,fill:`url(#${prefix}Inlay)`,stroke:'#8c969d','stroke-width':.8,opacity:.88}));
+      svg.append(svgEl('circle',{...base,r:5.55,fill:'none',stroke:'#20262b','stroke-width':.9,opacity:.64}));
+      const highlight=isP?{cx:cross-1.8,cy:p-1.9}:{cx:p-1.8,cy:cross-1.9};
+      svg.append(svgEl('circle',{...highlight,r:1.25,fill:'#dce2e6',opacity:.42}));
+    };
+    [3,5,7,9,12,15,17,19,21].filter(f=>f<=maxFret).forEach(f=>{
+      if(f===12){
+        drawInlay(f,centerBetween(1,2)); // G/B
+        drawInlay(f,centerBetween(3,4)); // D/A
+      }else drawInlay(f,singleInlayCenter);
+    });
+    tuning.forEach((st,s)=>{
+      const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,prefix);
+      svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name));
+    });
+    return {svg,isP,W,H,fretStart,fretEnd,stringStart,stringEnd,fretPos,stringPos,visualStringPos,maxFret};
   }
 
   function patternWindows(){
@@ -305,28 +350,13 @@
   }
 
   function renderFretboard(svg,opt){
-    const isP=portrait(),maxFret=Math.min(21,state.maxFret), W=isP?520:1500,H=isP?1500:430;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
-    const padA=isP?80:58,padB=isP?58:80; const fretStart=isP?110:90,fretEnd=isP?H-70:W-40; const stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
-    const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret), stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5), visualStringPos=s=>stringPos(isP?s:5-s);
-    const defs=svgEl('defs'); const glow=svgEl('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'5',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs);premiumSurface(svg,isP,W,H,'practice');
-    if(opt.mode==='penta'){
+    const maxFret=Math.min(21,state.maxFret);
+    const core=renderFretboardCore(svg,{prefix:'practice',maxFret,onSurface:({isP,W,H,fretPos})=>{
+      if(opt.mode!=='penta')return;
       const colors=['#ff3ec9','#35e78f','#ff5366','#ffd53c','#27d7ff'];
       patternWindows().forEach(w=>{if(w.minFret>maxFret)return;if(state.pattern!=='all'&&String(w.id)!==String(state.pattern))return;const visibleMax=Math.min(w.maxFret,maxFret),a=fretPos(Math.max(0,w.minFret-1)),b=fretPos(visibleMax);const attrs=isP?{x:45,y:a,width:W-90,height:Math.max(8,b-a),fill:colors[w.id-1]+'15',stroke:colors[w.id-1], 'stroke-width':2,rx:12}:{x:a,y:32,width:Math.max(8,b-a),height:H-62,fill:colors[w.id-1]+'15',stroke:colors[w.id-1],'stroke-width':2,rx:12};svg.append(svgEl('rect',attrs));const tx=isP?W-10:a+8,ty=isP?a+20:52;svg.append(svgEl('text',{x:tx,y:ty,fill:colors[w.id-1],'font-size':14,'font-weight':900,'text-anchor':isP?'end':'start'},`P${w.id}`))})
-    }
-    // frets and numbers. Fret labels sit inside the fret they identify (as on scale/tab diagrams), not on the fret wire.
-    for(let f=0;f<=maxFret;f++){
-      const p=fretPos(f);
-      premiumFret(svg,isP,p,W,H,f===0,'practice');
-      if([0,3,5,7,9,12,15,17,19,21].includes(f)){
-        const labelPos=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;
-        const t=svgEl('text',isP?{x:18,y:labelPos+5,fill:'#8fa2b0','font-size':14}:{x:labelPos,y:H-14,fill:'#8fa2b0','font-size':14,'text-anchor':'middle'},String(f));
-        svg.append(t);
-      }
-    }
-    // inlays
-    [3,5,7,9,12,15,17,19,21].filter(f=>f<=maxFret).forEach(f=>{const p=(fretPos(f-1)+fretPos(f))/2;if(f===12){[-14,14].forEach(o=>svg.append(svgEl('circle',isP?{cx:W/2+o,cy:p,r:5,fill:'#59636b'}:{cx:p,cy:H/2+o,r:5,fill:'#59636b'})))}else svg.append(svgEl('circle',isP?{cx:W/2,cy:p,r:5,fill:'#59636b'}:{cx:p,cy:H/2,r:5,fill:'#59636b'}))});
-    // strings. Portrait keeps the physical low→high order left-to-right; desktop follows tablature convention top-to-bottom: e B G D A E.
-    tuning.forEach((st,s)=>{const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,'practice');svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
+    }});
+    const {isP,fretPos,visualStringPos}=core;
     const activeSet=opt.mode==='penta'?new Set(pentaPCs()):new Set([rootPC(),thirdPC(),fifthPC()]);
     const visibleKeys=opt.visibleKeys||null;
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){
@@ -354,25 +384,18 @@
   }
   function renderQuizBoard(){const svg=$('#quizFretboard');const q=state.quiz?.current;if(!q)return;const prev={root:state.root,quality:state.quality};state.root=q.root;state.quality=q.quality;renderFretboardQuiz(svg,q);state.root=prev.root;state.quality=prev.quality}
   function renderFretboardQuiz(svg,q){
-    const isP=portrait(),maxFret=Math.min(21,defaultFretCount()),W=isP?520:1500,H=isP?1500:430;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret),stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5),visualStringPos=s=>stringPos(isP?s:5-s);
-    const defs=svgEl('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs.append(glow);svg.append(defs);premiumSurface(svg,isP,W,H,'quiz');
-    for(let f=0;f<=maxFret;f++){
-      const p=fretPos(f);
-      premiumFret(svg,isP,p,W,H,f===0,'quiz');
-      if([0,3,5,7,9,12,15,17,19,21].includes(f)){
-        const labelPos=f===0?fretPos(0):(fretPos(f-1)+fretPos(f))/2;
-        svg.append(svgEl('text',isP?{x:18,y:labelPos+5,fill:'#8193a0','font-size':14}:{x:labelPos,y:H-14,fill:'#8193a0','font-size':14,'text-anchor':'middle'},String(f)));
-      }
-    }
-    tuning.forEach((st,s)=>{const p=visualStringPos(s),gauge=2.15-s*.22;svg.append(svgEl('line',isP?{x1:p,x2:p,y1:fretStart,y2:fretEnd,stroke:'#d0d7dd','stroke-width':gauge}:{x1:fretStart,x2:fretEnd,y1:p,y2:p,stroke:'#d0d7dd','stroke-width':gauge}));svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name))});
+    const maxFret=Math.min(21,defaultFretCount());
+    const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'quiz',maxFret});
+    const defs=svg.querySelector('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs?.append(glow);
     const tpc=targetPC(q);
     for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){
       const centerF=f===0?fretPos(0)-15:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
-      const hit=svgEl('circle',{cx:x,cy:y,r:17,fill:'transparent',stroke:'transparent','data-string':s,'data-fret':f,style:'cursor:pointer'});svg.append(hit)
+      const hit=svgEl('circle',{cx:x,cy:y,r:17,fill:'transparent',stroke:'transparent','data-string':s,'data-fret':f,style:'cursor:pointer'});svg.append(hit);
       if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)'}));svg.append(svgEl('text',{x,y:y+4,fill:'#06131b','font-size':10,'font-weight':1000,'text-anchor':'middle'},noteName(tpc)))}
     }
     svg.onclick=e=>{const c=e.target.closest('circle[data-string]');if(!c||state.quiz.locked)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c)};
   }
+
   function answerQuiz(s,f,node){const qz=state.quiz,q=qz.current;const pc=noteAt(s,f);qz.attempts++;if(pc===targetPC(q)){qz.correct++;qz.combo++;qz.locked=true;state.quizReveal=pc;$('#quizFeedback').textContent=`Correct — ${noteName(pc)} is the ${q.target==='root'?'root':q.target==='third'?(q.quality==='minor'?'♭3rd':'3rd'):'5th'} of ${q.root} ${q.quality}.`;renderQuizBoard();updateQuizStats();setTimeout(()=>{state.quizReveal=null;nextQuestion()},850)}else{qz.combo=0;node.setAttribute('fill','#ff4d62');node.setAttribute('stroke','#ff8897');node.setAttribute('filter','url(#qglow)');$('#quizFeedback').textContent=`Not this one — try again.`;updateQuizStats();setTimeout(()=>{if(node.isConnected){node.setAttribute('fill','transparent');node.setAttribute('stroke','transparent');node.removeAttribute('filter')}},280)}}
   function quizRank(a){
     const exact={
