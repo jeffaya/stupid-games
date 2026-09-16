@@ -1,0 +1,26 @@
+GUITAR FRETBOARD HERO — V7.0 FRETBOARD CORE
+
+Baseline: V6.9.2 (menus/controllers frozen).
+Scope of this major version: structural fretboard rendering only.
+
+Shared by Practice, Fretboard Map and Quiz:
+- same premium fretboard surface
+- same premium frets and nut
+- same premium strings, gauges, wound-string texture, shadows and highlights
+- same tuning labels
+- same fret numbers
+- same inlay/position markers (3, 5, 7, 9, double 12, 15, 17, 19, 21)
+- same portrait/landscape SVG geometry and proportions
+
+Mode-specific layers remain separate:
+- Practice: scale/triad/chord notes and pentatonic position windows
+- Map: note-map dots and filters
+- Quiz: transparent clickable targets and answer reveal
+
+Intentionally NOT changed in V7.0:
+- menu/controller CSS and behavior from V6.9.2
+- fretboard container/stage sizing
+- portrait height utilization
+- quiz mechanics
+
+Next isolated step after validation: unify fretboard stage sizing using Map portrait as the reference.

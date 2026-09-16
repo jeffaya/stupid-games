@@ -1,0 +1,8 @@
+V8.4 — QUIZ ARCADE HUD
+- Quiz-only HUD redesign; Practice, Map and Home untouched.
+- Score roll-up + floating gain feedback.
+- Multiplier charge / break feedback and ON FIRE state at x5.
+- Live rank progress meter toward next rank.
+- Strong rank-up sweep / card animation.
+- Mobile portrait uses a compact two-row HUD; landscape remains a thin strip.
+- Existing V8.3 scoring, fret windows, answer logic and rank matrix preserved.
