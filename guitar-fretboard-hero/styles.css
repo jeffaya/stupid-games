@@ -3684,3 +3684,56 @@ body{
 }
 @media (max-width:767px) and (orientation:landscape){.quiz-hud{display:flex!important}}
 @media(prefers-reduced-motion:reduce){.quiz-hud .hud-time.time-warning strong,.quiz-hud .hud-time.time-critical strong{animation:none!important}}
+
+/* ========================================================================== 
+   V8.6.2 — QUIZ MOBILE COMPACT HUD
+   Quiz-only mobile portrait refinement. Practice, Map and Fretboard Core are
+   intentionally untouched. One-line HUD returns vertical space to the board.
+   ========================================================================== */
+@media (max-width:767px) and (orientation:portrait){
+  .quiz-screen .quiz-hud{
+    display:grid!important;
+    grid-template-columns:1fr .72fr minmax(0,1.35fr) .92fr!important;
+    grid-template-areas:"score combo rank time"!important;
+    width:calc(100% - 12px)!important;
+    min-height:44px!important;
+    height:44px!important;
+    margin:2px auto 4px!important;
+    border-radius:11px!important;
+  }
+  .quiz-screen .quiz-hud .hud-stat{
+    min-height:42px!important;
+    height:42px!important;
+    padding:3px 5px!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    gap:1px!important;
+  }
+  .quiz-screen .quiz-hud .hud-stat+.hud-stat::before{
+    display:block!important;
+    top:18%!important;
+    height:64%!important;
+  }
+  .quiz-screen .quiz-hud .hud-stat span{
+    font-size:7px!important;
+    line-height:1!important;
+    letter-spacing:.09em!important;
+  }
+  .quiz-screen .quiz-hud .hud-stat strong{
+    font-size:14px!important;
+    line-height:1!important;
+  }
+  .quiz-screen .quiz-hud .hud-score{grid-area:score!important}
+  .quiz-screen .quiz-hud .hud-combo{grid-area:combo!important}
+  .quiz-screen .quiz-hud .hud-rank{grid-area:rank!important;padding:3px 5px 6px!important}
+  .quiz-screen .quiz-hud .hud-time{grid-area:time!important}
+  .quiz-screen .quiz-hud .hud-score strong{font-size:18px!important}
+  .quiz-screen .quiz-hud .hud-combo strong{font-size:17px!important}
+  .quiz-screen .quiz-hud .hud-rank strong{font-size:9px!important;line-height:1!important}
+  .quiz-screen .quiz-hud .hud-time strong{font-size:15px!important}
+  .quiz-screen .quiz-hud .rank-meter{bottom:3px!important;left:8%!important;right:8%!important;height:2px!important}
+  .quiz-screen #scoreGain{font-size:10px!important;right:0!important;top:-6px!important}
+  .quiz-screen .quiz-hud.hud-on-fire .hud-combo::after,
+  .quiz-screen .quiz-hud.hud-hot .hud-combo::after{font-size:5px!important;top:2px!important;right:2px!important}
+  .quiz-screen .quiz-board{flex:1 1 0!important;min-height:0!important;margin-top:0!important}
+}
