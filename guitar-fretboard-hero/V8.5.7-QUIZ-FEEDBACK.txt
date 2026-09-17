@@ -1,0 +1,8 @@
+V8.5.7 — Quiz feedback polish
+- Removed rank ladder list padding (desktop + mobile).
+- Quiz key is fuchsia neon.
+- ROOT / 3rd / 5th target is cyan neon; "Find the" stays white.
+- Key and target animate on every new question.
+- Correct answer reuses the quiz-only hit zone in green.
+- Earned points float directly above the correct hit zone.
+- Practice and Fretboard Map unchanged.

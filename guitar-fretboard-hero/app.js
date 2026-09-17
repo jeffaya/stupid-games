@@ -416,9 +416,11 @@
   function nextQuestion(){
     const qz=state.quiz;if(qz.timer){clearInterval(qz.timer);qz.timer=null}if(qz.round>=10){finishQuiz();return}
     qz.round++;const questionMultiplier=Math.max(1,Math.min(5,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.questionStarted=performance.now();qz.inputEnabledAt=qz.questionStarted+300;
-    $('#roundNum').textContent=qz.round;$('#quizChord').textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
+    $('#roundNum').textContent=qz.round;const chordEl=$('#quizChord');chordEl.textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
     const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3rd':'3rd'):'5th';
-    $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;$('#quizFeedback').textContent=`Frets ${qz.current.window[0]}–${qz.current.window[1]} • Touch any correct occurrence.`;
+    $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;const targetEl=$('#quizPrompt strong');
+    [chordEl,targetEl].forEach(el=>{if(!el)return;el.classList.remove('quiz-target-change');void el.offsetWidth;el.classList.add('quiz-target-change')});
+    $('#quizFeedback').textContent=`Frets ${qz.current.window[0]}–${qz.current.window[1]} • Touch any correct occurrence.`;
     updateQuizStats();updateQuizTimer();qz.timer=setInterval(updateQuizTimer,100);renderQuizBoard();
   }
   function updateQuizTimer(){if(!state.quiz||state.quiz.locked)return;const sec=(performance.now()-state.quiz.questionStarted)/1000;const n=$('#quizTime');if(n)n.textContent=sec.toFixed(1)}
@@ -459,8 +461,15 @@
       const hit=isP
         ?svgEl('rect',{x:sa,y:fa,width:sb-sa,height:fb-fa,rx:7,class:'quiz-hit-zone',fill:'transparent','data-string':s,'data-fret':f})
         :svgEl('rect',{x:fa,y:sa,width:fb-fa,height:sb-sa,rx:7,class:'quiz-hit-zone',fill:'transparent','data-string':s,'data-fret':f});
+      const reveal=state.quizReveal,isCorrectReveal=reveal&&reveal.string===s&&reveal.fret===f;
+      if(isCorrectReveal)hit.classList.add('quiz-hit-correct');
       svg.append(hit);
-      if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)','pointer-events':'none'}));svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},noteName(tpc)))}
+      if(isCorrectReveal){
+        svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)','pointer-events':'none'}));
+        svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},noteName(tpc)));
+        const scoreX=isP?Math.min(sb-4,x+Math.max(25,(sb-sa)*.28)):x,scoreY=isP?y-30:Math.max(sa+12,y-22);
+        svg.append(svgEl('text',{x:scoreX,y:scoreY,class:'quiz-hit-score','font-size':isP?18:15},`+${reveal.gain.toLocaleString('en-US')}`));
+      }
     }
     const renderedQuestionId=state.quiz?.questionId;svg.onclick=e=>{const qz=state.quiz,c=e.target.closest('.quiz-hit-zone[data-string]');if(!qz||!c||qz.locked||qz.questionId!==renderedQuestionId||performance.now()<qz.inputEnabledAt)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c,renderedQuestionId)};
   }
@@ -470,7 +479,7 @@
       qz.locked=true;qz.correct++;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const seconds=(performance.now()-qz.questionStarted)/1000;$('#quizTime').textContent=seconds.toFixed(1);
       const oldRank=qz.score>0?quizRank(qz.score,qz.errors).rank:null,usedMultiplier=qz.multiplier,base=quizBasePoints(seconds),gain=Math.round(base*QUIZ_MULTIPLIERS[usedMultiplier]),previousScore=qz.score;qz.score+=gain;
       const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score,qz.errors).rank;
-      state.quizReveal=pc;$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
+      state.quizReveal={pc,string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
       renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore,instant:seconds<=2});
       setTimeout(()=>{state.quizReveal=null;nextQuestion()},950);
     }else{
