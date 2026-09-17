@@ -441,13 +441,28 @@
     const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'quiz',maxFret:localMax,fretOffset:startFret});
     const defs=svg.querySelector('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs?.append(glow);
     const tpc=targetPC(q);
-    const centerForFret=f=>{if(hasOpen&&f===0)return fretPos(0)-15;const local=hasOpen?f:(f-startFret+1);return(fretPos(local-1)+fretPos(local))/2};
+    const localForFret=f=>hasOpen?f:(f-startFret+1);
+    const fretBounds=f=>{
+      if(hasOpen&&f===0){const nut=fretPos(0);return[nut-38,nut]}
+      const local=localForFret(f);return[fretPos(local-1),fretPos(local)];
+    };
+    const stringBounds=s=>{
+      const center=visualStringPos(s),prev=s>0?visualStringPos(s-1):null,next=s<5?visualStringPos(s+1):null;
+      const a=prev===null?center-(next-center)/2:(center+prev)/2,b=next===null?center+(center-prev)/2:(center+next)/2;
+      return[Math.min(a,b),Math.max(a,b)];
+    };
+    const centerForFret=f=>{const [a,b]=fretBounds(f);return(a+b)/2};
+    // Quiz-only interaction layer: each hit zone covers the full string lane between two frets.
+    // Practice and Fretboard Map continue to use the shared core without this overlay.
     for(let s=0;s<6;s++)for(let f=startFret;f<=endFret;f++){
-      const centerF=centerForFret(f),centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
-      const hit=svgEl('circle',{cx:x,cy:y,r:isP?23:17,fill:'transparent',stroke:'transparent','data-string':s,'data-fret':f,style:'cursor:pointer'});svg.append(hit);
-      if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)'}));svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto'},noteName(tpc)))}
+      const [fa,fb]=fretBounds(f),[sa,sb]=stringBounds(s),centerF=(fa+fb)/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
+      const hit=isP
+        ?svgEl('rect',{x:sa,y:fa,width:sb-sa,height:fb-fa,rx:7,class:'quiz-hit-zone',fill:'transparent','data-string':s,'data-fret':f})
+        :svgEl('rect',{x:fa,y:sa,width:fb-fa,height:sb-sa,rx:7,class:'quiz-hit-zone',fill:'transparent','data-string':s,'data-fret':f});
+      svg.append(hit);
+      if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)','pointer-events':'none'}));svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},noteName(tpc)))}
     }
-    const renderedQuestionId=state.quiz?.questionId;svg.onclick=e=>{const qz=state.quiz,c=e.target.closest('circle[data-string]');if(!qz||!c||qz.locked||qz.questionId!==renderedQuestionId||performance.now()<qz.inputEnabledAt)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c,renderedQuestionId)};
+    const renderedQuestionId=state.quiz?.questionId;svg.onclick=e=>{const qz=state.quiz,c=e.target.closest('.quiz-hit-zone[data-string]');if(!qz||!c||qz.locked||qz.questionId!==renderedQuestionId||performance.now()<qz.inputEnabledAt)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c,renderedQuestionId)};
   }
   function answerQuiz(s,f,node,questionId){
     const qz=state.quiz;if(!qz||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;const q=qz.current,pc=noteAt(s,f);qz.attempts++;
@@ -459,17 +474,40 @@
       renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore,instant:seconds<=2});
       setTimeout(()=>{state.quizReveal=null;nextQuestion()},950);
     }else{
-      qz.errors++;const changed=qz.multiplier!==1;qz.multiplier=1;node.setAttribute('fill','#ff4d62');node.setAttribute('stroke','#ff8897');node.setAttribute('filter','url(#qglow)');$('#quizFeedback').textContent='Not this one — try again.';updateQuizStats({multiplierChanged:changed,error:true});
-      setTimeout(()=>{if(node.isConnected){node.setAttribute('fill','transparent');node.setAttribute('stroke','transparent');node.removeAttribute('filter')}},280);
+      qz.errors++;const changed=qz.multiplier!==1;qz.multiplier=1;node.classList.add('quiz-hit-error');$('#quizFeedback').textContent='Not this one — try again.';updateQuizStats({multiplierChanged:changed,error:true});
+      setTimeout(()=>{if(node.isConnected)node.classList.remove('quiz-hit-error')},280);
     }
   }
+  function rankRangeLabel(index){
+    const row=QUIZ_RANKS[index],min=row[0];
+    if(index===0)return '55,000+ · NO ERRORS';
+    const max=QUIZ_RANKS[index-1][0]-1;
+    return `${min.toLocaleString('en-US')}–${max.toLocaleString('en-US')} PTS`;
+  }
+  function renderRankLadder(){
+    const qz=state.quiz||{score:0,errors:0},current=quizRank(qz.score,qz.errors),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
+    if(!list||!summary||currentIndex<0)return;
+    summary.innerHTML=`<span>YOUR RANK</span><strong>${currentIndex+1} / ${QUIZ_RANKS.length}</strong><b>${current.emoji} ${current.rank}</b><em>${qz.score.toLocaleString('en-US')} PTS</em>`;
+    list.innerHTML='';
+    QUIZ_RANKS.forEach((row,index)=>{
+      const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-you':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
+      const position=index+1;
+      item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b><small>${rankRangeLabel(index)}</small></span>${index===currentIndex?'<span class="rank-ladder-you">YOU</span>':''}`;
+      list.append(item);
+    });
+    requestAnimationFrame(()=>{const you=list.querySelector('.is-you');if(you)you.scrollIntoView({block:'center',behavior:'auto'})});
+  }
+  function showRankLadder(){renderRankLadder();const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(score)score.hidden=true;if(ladder)ladder.hidden=false}
+  function showScoreResult(){const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(ladder)ladder.hidden=true;if(score)score.hidden=false}
   function finishQuiz(){
     const qz=state.quiz;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const {emoji,rank,copy}=quizRank(qz.score,qz.errors);
     $('#resultRank').textContent=`${emoji} ${rank}`;$('#resultAttempts').textContent=qz.score.toLocaleString('en-US');
     const accuracy=qz.attempts?Math.round((qz.correct/qz.attempts)*100):100;$('#resultCopy').textContent=`${copy} ${accuracy}% accuracy • ${qz.errors} ${qz.errors===1?'mistake':'mistakes'}.`;
-    $('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
+    showScoreResult();$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
   }
   $('#replayQuiz').addEventListener('click',startQuiz);
+  $('#viewRankLadder')?.addEventListener('click',showRankLadder);
+  $('#backToScore')?.addEventListener('click',showScoreResult);
   $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,errors:0},{emoji,rank}=quizRank(qz.score,qz.errors);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
 
   renderPractice();

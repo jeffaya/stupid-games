@@ -3615,3 +3615,45 @@ body{
   .quiz-hud .hud-stat{min-height:38px!important;height:38px!important;padding:3px 7px!important;flex-direction:column!important}.quiz-hud .hud-stat span{font-size:7px!important}.quiz-hud .hud-stat strong{font-size:13px!important}.quiz-hud .hud-score strong{font-size:17px!important}.quiz-hud .hud-combo strong{font-size:16px!important}.quiz-hud .hud-rank strong{font-size:10px!important}.rank-meter{bottom:3px;height:2px}
 }
 @media (prefers-reduced-motion:reduce){.rank-meter i{transition:none}.hud-cell-charge,.hud-cell-break,.hud-combo-break,.hud-rank-card-up,.hud-rank-flash::after,.quiz-hud.hud-on-fire .hud-combo::after,.quiz-hud.hud-hot .hud-combo::after,.hud-rank-card-up::after{animation:none!important}}
+
+/* V8.5.4 — End-of-quiz rank ladder */
+.result-modal[hidden]{display:none!important}
+.rank-ladder-open{margin:4px 0 8px!important;border-color:rgba(39,215,255,.42)!important;color:#dff9ff!important;letter-spacing:.08em}
+.rank-ladder-modal{width:min(520px,100%);padding:22px 18px 18px}
+.rank-ladder-modal h2{font-size:clamp(30px,7vw,42px);margin:7px 0 8px}
+.rank-ladder-summary{display:grid;grid-template-columns:1fr auto;align-items:end;gap:1px 12px;margin:0 4px 12px;padding:10px 12px;border:1px solid rgba(39,215,255,.22);border-radius:12px;background:rgba(9,22,32,.78);text-align:left}
+.rank-ladder-summary span{font:800 9px/1.2 "Barlow Condensed",sans-serif;letter-spacing:.17em;color:#7598aa}
+.rank-ladder-summary strong{grid-row:1/3;grid-column:2;font:900 24px/1 "Barlow Condensed",sans-serif;color:var(--cyan)}
+.rank-ladder-summary b{font:900 17px/1.15 "Barlow Condensed",sans-serif;color:#fff}
+.rank-ladder-summary em{grid-column:1/-1;font:800 10px/1.2 "Barlow Condensed",sans-serif;letter-spacing:.1em;color:#91b0c0;font-style:normal;margin-top:4px}
+.rank-ladder-list{height:min(54dvh,470px);min-height:260px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#31586d #09131c;padding:calc(5 * 54px) 4px;scroll-padding-block:calc(5 * 54px);border-block:1px solid rgba(104,145,168,.14);mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%)}
+.rank-ladder-item{min-height:50px;margin:4px 0;padding:7px 10px;display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;border:1px solid rgba(83,119,140,.17);border-radius:10px;background:rgba(7,16,24,.66);text-align:left;opacity:.62;transition:opacity .18s,border-color .18s,background .18s}
+.rank-ladder-position{font:900 12px/1 "Barlow Condensed",sans-serif;color:#58778a;text-align:center}
+.rank-ladder-name{min-width:0;display:flex;flex-direction:column;gap:2px}.rank-ladder-name b{font:900 14px/1.05 "Barlow Condensed",sans-serif;color:#dcecf4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-ladder-name small{font:700 9px/1.1 "Barlow Condensed",sans-serif;letter-spacing:.07em;color:#668697}
+.rank-ladder-item.is-you{opacity:1;border-color:rgba(255,62,201,.72);background:linear-gradient(90deg,rgba(255,62,201,.12),rgba(39,215,255,.08));box-shadow:inset 0 0 18px rgba(255,62,201,.08),0 0 16px rgba(39,215,255,.08)}
+.rank-ladder-item.is-you .rank-ladder-position{color:var(--cyan)}.rank-ladder-item.is-you .rank-ladder-name b{color:#fff;text-shadow:0 0 10px rgba(255,62,201,.45)}
+.rank-ladder-you{padding:4px 7px;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--pink));color:#06131b;font:1000 9px/1 "Barlow Condensed",sans-serif;letter-spacing:.08em}
+.rank-ladder-back{margin-top:12px!important}
+@media(max-width:600px){.rank-ladder-modal{padding:18px 12px 14px}.rank-ladder-list{height:min(52dvh,420px);min-height:250px;padding-block:calc(5 * 50px);scroll-padding-block:calc(5 * 50px)}.rank-ladder-item{min-height:46px;margin:4px 0;padding:6px 8px}.rank-ladder-name b{font-size:13px}.rank-ladder-summary strong{font-size:21px}}
+
+
+/* V8.5.5 — QUIZ ONLY: larger string-segment hit zones + neutral hover preview. */
+#quizFretboard .quiz-hit-zone{
+  cursor:pointer;
+  fill:transparent;
+  stroke:transparent;
+  stroke-width:1;
+  transition:fill .11s ease,stroke .11s ease,filter .11s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  #quizFretboard .quiz-hit-zone:hover{
+    fill:rgba(205,218,226,.16);
+    stroke:rgba(225,236,242,.24);
+  }
+}
+#quizFretboard .quiz-hit-zone.quiz-hit-error,
+#quizFretboard .quiz-hit-zone.quiz-hit-error:hover{
+  fill:rgba(255,77,98,.42);
+  stroke:#ff8897;
+  filter:url(#qglow);
+}
