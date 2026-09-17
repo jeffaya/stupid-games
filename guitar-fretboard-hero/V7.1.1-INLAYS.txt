@@ -1,7 +1,0 @@
-Guitar Fretboard Hero V7.1.1 — restrained nail-head inlays
-- based on V7.1 Fretboard Core
-- single fret markers remain centred between D and G
-- fret 12 uses two markers centred between G/B and D/A
-- markers changed to subdued gunmetal-grey nail heads with softer depth/highlight
-- smaller visual footprint so learning-note overlays remain dominant
-- no control, interaction or fretboard sizing changes

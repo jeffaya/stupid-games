@@ -3167,7 +3167,6 @@ body{
     align-items:flex-end!important;justify-content:center!important;gap:var(--toolbar-gap)!important;
   }
   .responsive-drawer .control-panel{display:contents!important}
-  .responsive-drawer .control-panel{display:contents!important}
   .control-group{flex:0 0 auto!important;min-width:0!important}
   .control-group>label{font-size:11px!important;text-align:left!important;margin:0 0 6px!important}
   .control-group>.control-options{width:auto!important;display:flex!important;gap:6px!important;overflow:visible!important}
@@ -3673,20 +3672,16 @@ body{
 @media(prefers-reduced-motion:reduce){#quizChord.quiz-target-change,#quizPrompt strong.quiz-target-change,#quizFretboard .quiz-hit-zone.quiz-hit-correct,#quizFretboard .quiz-hit-score{animation:none!important}}
 
 
-/* V8.6.0 — 60 Second Quiz: four-stat arcade HUD + countdown pressure. */
+/* QUIZ — 60-second arcade HUD + countdown pressure. */
 .quiz-hud{grid-template-columns:1.15fr .85fr 1.55fr .85fr!important}
 .quiz-hud .hud-time.time-warning strong{color:#ffd65a;text-shadow:0 0 10px rgba(255,214,90,.7);animation:quizTimePulse .7s ease-in-out infinite alternate}
 .quiz-hud .hud-time.time-critical strong{color:#ff596d;text-shadow:0 0 12px rgba(255,89,109,.9);animation:quizTimePulse .34s ease-in-out infinite alternate}
 @keyframes quizTimePulse{from{transform:scale(1)}to{transform:scale(1.08)}}
-@media (max-width:767px) and (orientation:portrait){
-  .quiz-hud{display:grid!important;grid-template-columns:1.25fr .8fr 1fr!important;grid-template-areas:"score score time" "combo rank rank"!important}
-  .quiz-hud .hud-score{grid-area:score}.quiz-hud .hud-combo{grid-area:combo}.quiz-hud .hud-rank{grid-area:rank}.quiz-hud .hud-time{grid-area:time}
-}
 @media (max-width:767px) and (orientation:landscape){.quiz-hud{display:flex!important}}
 @media(prefers-reduced-motion:reduce){.quiz-hud .hud-time.time-warning strong,.quiz-hud .hud-time.time-critical strong{animation:none!important}}
 
 /* ========================================================================== 
-   V8.7.0 — QUIZ MOBILE COMPACT HUD
+   QUIZ — MOBILE COMPACT HUD
    Quiz-only mobile portrait refinement. Practice, Map and Fretboard Core are
    intentionally untouched. One-line HUD returns vertical space to the board.
    ========================================================================== */
@@ -3739,7 +3734,7 @@ body{
 }
 
 /* ========================================================================== 
-   V8.7.0 — QUIZ READY MODAL
+   QUIZ — READY MODAL
    Quiz-only preflight. The 60-second clock starts only after START QUIZ.
    ========================================================================== */
 .quiz-intro-modal{width:min(460px,100%)}

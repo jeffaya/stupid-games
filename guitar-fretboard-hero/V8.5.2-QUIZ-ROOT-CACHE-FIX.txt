@@ -1,4 +1,0 @@
-V8.5.2
-- Hard guard: rounds created at x1/x2 are ROOT only.
-- Cache-busted app.js and styles.css references so deployed fixes load immediately.
-- Existing anti-double-tap protection preserved.
