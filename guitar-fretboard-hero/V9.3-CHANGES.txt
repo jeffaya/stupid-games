@@ -1,0 +1,9 @@
+Guitar Fretboard Hero V9.3.0 — Unified Responsive Controls
+
+- Practice and Fretboard Map now share one drawer controller.
+- One compact drawer contract is used in portrait and landscape.
+- Phone-like landscape viewports override the wide toolbar instead of inheriting it.
+- Tablet portrait keeps the validated select-only toolbar.
+- Tablet landscape/desktop keep the adaptive toolbar and select fallback.
+- Removed the stacked V6.5/V6.8/V6.9 responsive-control overrides and replaced them with one canonical V9.3 block.
+- Quiz, Fretboard Core, gameplay, scoring and fretboard geometry are unchanged.
