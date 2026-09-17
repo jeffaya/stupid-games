@@ -478,12 +478,6 @@
       setTimeout(()=>{if(node.isConnected)node.classList.remove('quiz-hit-error')},280);
     }
   }
-  function rankRangeLabel(index){
-    const row=QUIZ_RANKS[index],min=row[0];
-    if(index===0)return '55,000+ · NO ERRORS';
-    const max=QUIZ_RANKS[index-1][0]-1;
-    return `${min.toLocaleString('en-US')}–${max.toLocaleString('en-US')} PTS`;
-  }
   function renderRankLadder(){
     const qz=state.quiz||{score:0,errors:0},current=quizRank(qz.score,qz.errors),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
     if(!list||!summary||currentIndex<0)return;
@@ -491,11 +485,11 @@
     list.innerHTML='';
     QUIZ_RANKS.forEach((row,index)=>{
       const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-you':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
-      const position=index+1;
-      item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b><small>${rankRangeLabel(index)}</small></span>${index===currentIndex?'<span class="rank-ladder-you">YOU</span>':''}`;
+      const position=index+1,threshold=row[0].toLocaleString('en-US');
+      item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b></span><span class="rank-ladder-threshold">${threshold}${index===0?' · 0 ERRORS':''}</span>`;
       list.append(item);
     });
-    requestAnimationFrame(()=>{const you=list.querySelector('.is-you');if(you)you.scrollIntoView({block:'center',behavior:'auto'})});
+    requestAnimationFrame(()=>{const currentRow=list.querySelector('.is-you');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
   }
   function showRankLadder(){renderRankLadder();const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(score)score.hidden=true;if(ladder)ladder.hidden=false}
   function showScoreResult(){const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(ladder)ladder.hidden=true;if(score)score.hidden=false}

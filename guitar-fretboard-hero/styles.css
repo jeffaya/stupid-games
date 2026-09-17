@@ -3629,12 +3629,11 @@ body{
 .rank-ladder-list{height:min(54dvh,470px);min-height:260px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#31586d #09131c;padding:calc(5 * 54px) 4px;scroll-padding-block:calc(5 * 54px);border-block:1px solid rgba(104,145,168,.14);mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%)}
 .rank-ladder-item{min-height:50px;margin:4px 0;padding:7px 10px;display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;border:1px solid rgba(83,119,140,.17);border-radius:10px;background:rgba(7,16,24,.66);text-align:left;opacity:.62;transition:opacity .18s,border-color .18s,background .18s}
 .rank-ladder-position{font:900 12px/1 "Barlow Condensed",sans-serif;color:#58778a;text-align:center}
-.rank-ladder-name{min-width:0;display:flex;flex-direction:column;gap:2px}.rank-ladder-name b{font:900 14px/1.05 "Barlow Condensed",sans-serif;color:#dcecf4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-ladder-name small{font:700 9px/1.1 "Barlow Condensed",sans-serif;letter-spacing:.07em;color:#668697}
+.rank-ladder-name{min-width:0}.rank-ladder-name b{font:900 14px/1.05 "Barlow Condensed",sans-serif;color:#dcecf4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-ladder-threshold{font:900 11px/1 "Barlow Condensed",sans-serif;letter-spacing:.06em;color:#7897a8;white-space:nowrap;text-align:right}
 .rank-ladder-item.is-you{opacity:1;border-color:rgba(255,62,201,.72);background:linear-gradient(90deg,rgba(255,62,201,.12),rgba(39,215,255,.08));box-shadow:inset 0 0 18px rgba(255,62,201,.08),0 0 16px rgba(39,215,255,.08)}
-.rank-ladder-item.is-you .rank-ladder-position{color:var(--cyan)}.rank-ladder-item.is-you .rank-ladder-name b{color:#fff;text-shadow:0 0 10px rgba(255,62,201,.45)}
-.rank-ladder-you{padding:4px 7px;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--pink));color:#06131b;font:1000 9px/1 "Barlow Condensed",sans-serif;letter-spacing:.08em}
+.rank-ladder-item.is-you .rank-ladder-position{color:var(--cyan)}.rank-ladder-item.is-you .rank-ladder-name b{color:#fff;text-shadow:0 0 10px rgba(255,62,201,.45)}.rank-ladder-item.is-you .rank-ladder-threshold{color:#fff}
 .rank-ladder-back{margin-top:12px!important}
-@media(max-width:600px){.rank-ladder-modal{padding:18px 12px 14px}.rank-ladder-list{height:min(52dvh,420px);min-height:250px;padding-block:calc(5 * 50px);scroll-padding-block:calc(5 * 50px)}.rank-ladder-item{min-height:46px;margin:4px 0;padding:6px 8px}.rank-ladder-name b{font-size:13px}.rank-ladder-summary strong{font-size:21px}}
+@media(max-width:600px){.rank-ladder-modal{padding:18px 12px 14px}.rank-ladder-list{height:min(52dvh,420px);min-height:250px;padding-block:calc(5 * 50px);scroll-padding-block:calc(5 * 50px)}.rank-ladder-item{min-height:46px;margin:4px 0;padding:6px 8px}.rank-ladder-name b{font-size:13px}.rank-ladder-threshold{font-size:10px}.rank-ladder-summary strong{font-size:21px}}
 
 
 /* V8.5.5 — QUIZ ONLY: larger string-segment hit zones + neutral hover preview. */
@@ -3657,3 +3656,5 @@ body{
   stroke:#ff8897;
   filter:url(#qglow);
 }
+
+/* V8.5.6 — Rank ladder cleanup: one aligned row = position, rank, minimum score. */
