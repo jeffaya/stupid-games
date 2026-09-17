@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=8.5.7">
+  <link rel="stylesheet" href="./styles.css?v=8.6.0">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Guitar Fretboard Hero","url":"https://guitar-fretboard-hero.seignemorte.com/","image":"https://guitar-fretboard-hero.seignemorte.com/og.jpg","description":"A free interactive guitar fretboard trainer for pentatonic scales, triads, chord voicings, fretboard note mapping and quizzes.","applicationCategory":"EducationalApplication","gamePlatform":["Web Browser","Mobile Web","Tablet"],"operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Person","name":"Jean-François Seignemorte"},"publisher":{"@type":"Organization","name":"Stupid Games","url":"https://stupid-games.seignemorte.com/"}}
   </script>
@@ -151,7 +151,6 @@
       <header class="topbar">
         <button class="icon-btn" data-go="home" aria-label="Back home">←</button>
         <div class="section-heading"><strong>FRETBOARD QUIZ</strong><span>KNOW THE NECK • OWN THE NECK</span></div>
-        <span id="quizAttempts" class="sr-only" aria-hidden="true">0 ATTEMPTS</span>
 <button class="icon-btn fullscreen-btn" type="button" aria-label="Enter fullscreen" title="Fullscreen">
   <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>
@@ -163,11 +162,10 @@
 
       </header>
       <div class="quiz-hud" aria-label="Quiz status">
-        <div class="hud-stat"><span>ROUND</span><strong><b id="roundNum">1</b>/10</strong></div>
         <div class="hud-stat hud-score"><span>SCORE</span><strong id="scoreCount">0</strong><em id="scoreGain" aria-live="polite"></em></div>
         <div class="hud-stat hud-combo"><span>STREAK</span><strong id="comboWrap">×<b id="comboCount">1</b></strong></div>
         <div class="hud-stat hud-rank"><span>RANK</span><strong id="liveRank">—</strong><div class="rank-meter" aria-hidden="true"><i id="rankProgress"></i></div></div>
-        <div class="hud-stat hud-time"><span>TIME</span><strong><b id="quizTime">0.0</b>s</strong></div>
+        <div class="hud-stat hud-time"><span>TIME LEFT</span><strong><b id="quizTime">60.0</b>s</strong></div>
       </div>
       <div class="quiz-head">
         <h2 id="quizChord">A MINOR</h2>
@@ -180,9 +178,9 @@
 
   <div id="resultModal" class="modal-backdrop" aria-hidden="true">
     <div class="result-modal">
-      <div class="result-kicker">10 ROUNDS COMPLETE</div>
+      <div class="result-kicker">60 SECOND RUN COMPLETE</div>
       <h2 id="resultRank">VIRTUOSO</h2>
-      <div class="result-score"><strong id="resultAttempts">0</strong><span>points</span></div>
+      <div class="result-score"><strong id="resultScore">0</strong><span>points</span></div>
       <p id="resultCopy">Perfect run. You know your neck.</p>
       <button id="viewRankLadder" class="modal-secondary rank-ladder-open">VIEW RANK LADDER</button>
       <button id="shareScore" class="modal-primary modal-action"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4A3 3 0 0 0 15 5c0 .22.02.43.07.63L8.91 9.1A3 3 0 0 0 7 8.42a3 3 0 1 0 1.91 5.48l6.16 3.47A3 3 0 0 0 15 18a3 3 0 1 0 .83-2.07L9.67 12.5c.04-.16.06-.33.06-.5s-.02-.34-.06-.5l6.16-3.43c.55.58 1.32.93 2.17.93Z"/></svg><span>SHARE MY SCORE</span></button>
@@ -199,7 +197,7 @@
     </div>
   </div>
 
-  <script src="./app.js?v=8.5.7" defer></script>
+  <script src="./app.js?v=8.6.0" defer></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script id="fullscreen-v34-js">

@@ -3604,9 +3604,9 @@ body{
 @keyframes hudSweep{0%{opacity:0;background:linear-gradient(100deg,transparent 15%,rgba(255,255,255,.0) 35%,rgba(39,215,255,.0) 42%,transparent 65%)}35%{opacity:1;background:linear-gradient(100deg,transparent 15%,rgba(255,255,255,.08) 35%,rgba(39,215,255,.32) 42%,transparent 65%)}100%{opacity:0;transform:translateX(8%)}}
 @keyframes hudFire{from{opacity:.55}to{opacity:1;text-shadow:0 0 13px rgba(255,62,201,1)}}
 @media (max-width:767px) and (orientation:portrait){
-  .quiz-hud{display:grid!important;grid-template-columns:.72fr 1.35fr .72fr!important;grid-template-areas:"round score time" "combo rank rank";min-height:78px!important;width:calc(100% - 12px)!important;margin:2px auto 4px!important;border-radius:12px}
+  .quiz-hud{display:grid!important;grid-template-columns:1.25fr .8fr 1fr!important;grid-template-areas:"score score time" "combo rank rank";min-height:78px!important;width:calc(100% - 12px)!important;margin:2px auto 4px!important;border-radius:12px}
   .quiz-hud .hud-stat{min-height:38px!important;padding:4px 5px!important}.quiz-hud .hud-stat+.hud-stat::before{display:none}.quiz-hud .hud-stat span{font-size:7px!important}.quiz-hud .hud-stat strong{font-size:14px!important}
-  .quiz-hud .hud-stat:nth-child(1){grid-area:round}.quiz-hud .hud-score{grid-area:score}.quiz-hud .hud-combo{grid-area:combo}.quiz-hud .hud-rank{grid-area:rank}.quiz-hud .hud-time{grid-area:time}
+  .quiz-hud .hud-score{grid-area:score}.quiz-hud .hud-combo{grid-area:combo}.quiz-hud .hud-rank{grid-area:rank}.quiz-hud .hud-time{grid-area:time}
   .quiz-hud .hud-score strong{font-size:21px!important}.quiz-hud .hud-combo strong{font-size:19px!important}.quiz-hud .hud-rank strong{font-size:12px!important}.quiz-hud .hud-rank{padding-bottom:8px!important}.rank-meter{bottom:3px;left:10%;right:10%;height:2px}
   #scoreGain{font-size:11px!important;right:2px!important;top:-7px!important}.quiz-hud.hud-on-fire .hud-combo::after,.quiz-hud.hud-hot .hud-combo::after{font-size:6px;top:2px;right:3px}
 }
@@ -3630,8 +3630,8 @@ body{
 .rank-ladder-item{min-height:50px;margin:4px 0;padding:7px 10px;display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;border:1px solid rgba(83,119,140,.17);border-radius:10px;background:rgba(7,16,24,.66);text-align:left;opacity:.62;transition:opacity .18s,border-color .18s,background .18s}
 .rank-ladder-position{font:900 12px/1 "Barlow Condensed",sans-serif;color:#58778a;text-align:center}
 .rank-ladder-name{min-width:0}.rank-ladder-name b{font:900 14px/1.05 "Barlow Condensed",sans-serif;color:#dcecf4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-ladder-threshold{font:900 11px/1 "Barlow Condensed",sans-serif;letter-spacing:.06em;color:#7897a8;white-space:nowrap;text-align:right}
-.rank-ladder-item.is-you{opacity:1;border-color:rgba(255,62,201,.72);background:linear-gradient(90deg,rgba(255,62,201,.12),rgba(39,215,255,.08));box-shadow:inset 0 0 18px rgba(255,62,201,.08),0 0 16px rgba(39,215,255,.08)}
-.rank-ladder-item.is-you .rank-ladder-position{color:var(--cyan)}.rank-ladder-item.is-you .rank-ladder-name b{color:#fff;text-shadow:0 0 10px rgba(255,62,201,.45)}.rank-ladder-item.is-you .rank-ladder-threshold{color:#fff}
+.rank-ladder-item.is-current{opacity:1;border-color:rgba(255,62,201,.72);background:linear-gradient(90deg,rgba(255,62,201,.12),rgba(39,215,255,.08));box-shadow:inset 0 0 18px rgba(255,62,201,.08),0 0 16px rgba(39,215,255,.08)}
+.rank-ladder-item.is-current .rank-ladder-position{color:var(--cyan)}.rank-ladder-item.is-current .rank-ladder-name b{color:#fff;text-shadow:0 0 10px rgba(255,62,201,.45)}.rank-ladder-item.is-current .rank-ladder-threshold{color:#fff}
 .rank-ladder-back{margin-top:12px!important}
 @media(max-width:600px){.rank-ladder-modal{padding:18px 12px 14px}.rank-ladder-list{height:min(52dvh,420px);min-height:250px;scroll-padding-block:calc(5 * 50px)}.rank-ladder-item{min-height:46px;margin:4px 0;padding:6px 8px}.rank-ladder-name b{font-size:13px}.rank-ladder-threshold{font-size:10px}.rank-ladder-summary strong{font-size:21px}}
 
@@ -3671,3 +3671,16 @@ body{
 @keyframes quizCorrectZone{0%{fill:rgba(74,255,151,.75)}100%{fill:rgba(74,255,151,.38)}}
 @keyframes quizHitScore{0%{opacity:0;transform:translateY(7px) scale(.75)}18%{opacity:1;transform:translateY(0) scale(1.14)}100%{opacity:0;transform:translateY(-24px) scale(1)}}
 @media(prefers-reduced-motion:reduce){#quizChord.quiz-target-change,#quizPrompt strong.quiz-target-change,#quizFretboard .quiz-hit-zone.quiz-hit-correct,#quizFretboard .quiz-hit-score{animation:none!important}}
+
+
+/* V8.6.0 — 60 Second Quiz: four-stat arcade HUD + countdown pressure. */
+.quiz-hud{grid-template-columns:1.15fr .85fr 1.55fr .85fr!important}
+.quiz-hud .hud-time.time-warning strong{color:#ffd65a;text-shadow:0 0 10px rgba(255,214,90,.7);animation:quizTimePulse .7s ease-in-out infinite alternate}
+.quiz-hud .hud-time.time-critical strong{color:#ff596d;text-shadow:0 0 12px rgba(255,89,109,.9);animation:quizTimePulse .34s ease-in-out infinite alternate}
+@keyframes quizTimePulse{from{transform:scale(1)}to{transform:scale(1.08)}}
+@media (max-width:767px) and (orientation:portrait){
+  .quiz-hud{display:grid!important;grid-template-columns:1.25fr .8fr 1fr!important;grid-template-areas:"score score time" "combo rank rank"!important}
+  .quiz-hud .hud-score{grid-area:score}.quiz-hud .hud-combo{grid-area:combo}.quiz-hud .hud-rank{grid-area:rank}.quiz-hud .hud-time{grid-area:time}
+}
+@media (max-width:767px) and (orientation:landscape){.quiz-hud{display:flex!important}}
+@media(prefers-reduced-motion:reduce){.quiz-hud .hud-time.time-warning strong,.quiz-hud .hud-time.time-critical strong{animation:none!important}}
