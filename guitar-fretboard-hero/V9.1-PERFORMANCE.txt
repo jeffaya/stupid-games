@@ -1,0 +1,15 @@
+Guitar Fretboard Hero V9.1.0 — Performance
+
+Conservative runtime optimization pass based on V9.0.0.
+
+Changes:
+- Coalesced resize-driven fretboard rerenders to one requestAnimationFrame per browser frame.
+- Quiz countdown interval reduced from 20 updates/sec to 10 updates/sec, matching the visible 0.1 s precision exactly.
+- Updated cache-busting version to 9.1.0.
+
+Non-regression constraints:
+- No HTML structure changes.
+- No CSS rule/value changes.
+- No fretboard geometry changes.
+- No gameplay/scoring/rank changes.
+- No Practice, Map, Quiz visual changes intended.

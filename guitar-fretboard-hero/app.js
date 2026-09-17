@@ -92,7 +92,18 @@
   $('#qualityControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.quality=b.dataset.quality;$$('#qualityControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
   $('#fretCountControls').addEventListener('click',e=>{const b=e.target.closest('button[data-frets]');if(!b)return;state.maxFret=Number(b.dataset.frets);state.fretManual=true;renderPractice()});
   $('#practicePositionButtons').addEventListener('click',e=>{const b=e.target.closest('button[data-value]');if(!b)return;const v=b.dataset.value;if(state.mode==='penta')state.pattern=v;else if(state.mode==='triad')state.triadStrings=v;else state.chordShape=v;renderPractice()});
-  window.addEventListener('resize',()=>{if(!state.fretManual)state.maxFret=defaultFretCount();if(!state.mapFretManual)state.mapMaxFret=defaultFretCount();if(state.screen==='practice')renderPractice();if(state.screen==='fretmap')renderFretboardMap();if(state.screen==='quiz')renderQuizBoard()});
+  let resizeRenderFrame=0;
+  window.addEventListener('resize',()=>{
+    if(resizeRenderFrame)return;
+    resizeRenderFrame=requestAnimationFrame(()=>{
+      resizeRenderFrame=0;
+      if(!state.fretManual)state.maxFret=defaultFretCount();
+      if(!state.mapFretManual)state.mapMaxFret=defaultFretCount();
+      if(state.screen==='practice')renderPractice();
+      if(state.screen==='fretmap')renderFretboardMap();
+      if(state.screen==='quiz')renderQuizBoard();
+    });
+  });
 
   $$('#mapFretControls button[data-map-frets]').forEach(b=>b.addEventListener('click',()=>{state.mapMaxFret=Number(b.dataset.mapFrets);state.mapFretManual=true;renderFretboardMap()}));
   // Practice legend: tap a degree to isolate it; tap the active pill again to show everything.
@@ -407,7 +418,7 @@
   }
   function prepareQuiz(){
     if(state.quiz?.timer)clearInterval(state.quiz.timer);
-    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:true,inputEnabledAt:Infinity,questionId:0,timer:null,endsAt:null,finished:false,lastRank:null,started:false};
+    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:true,inputEnabledAt:Infinity,questionId:0,timer:null,endsAt:null,finished:false,started:false};
     state.quizReveal=null;resetQuizHud();
     $('#quizChord').textContent='READY?';$('#quizPrompt').innerHTML='Find the <strong>NOTE</strong>';$('#quizFeedback').textContent='The clock starts when you press START QUIZ.';
     const board=$('#quizFretboard');if(board)board.replaceChildren();
@@ -421,10 +432,10 @@
   function startQuiz(){
     if(state.quiz?.timer)clearInterval(state.quiz.timer);
     const now=performance.now();
-    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:false,inputEnabledAt:0,questionId:0,timer:null,endsAt:now+QUIZ_DURATION_MS,finished:false,lastRank:null,started:true};
+    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:false,inputEnabledAt:0,questionId:0,timer:null,endsAt:now+QUIZ_DURATION_MS,finished:false,started:true};
     state.quizReveal=null;resetQuizHud();$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');
     $('#quizIntroView').hidden=true;$('#rankLadderView').hidden=true;$('#quizResultView').hidden=false;
-    nextQuestion();updateQuizTimer();state.quiz.timer=setInterval(updateQuizTimer,50);
+    nextQuestion();updateQuizTimer();state.quiz.timer=setInterval(updateQuizTimer,100);
   }
   function randomQuestion(multiplier=1){
     const root=NOTES[Math.floor(Math.random()*NOTES.length)],quality=Math.random()<.5?'major':'minor';
@@ -466,7 +477,6 @@
     const [startFret,endFret]=q.window||[0,6],hasOpen=startFret===0,localMax=hasOpen?endFret:(endFret-startFret+1);
     const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'quiz',maxFret:localMax,fretOffset:startFret});
     const defs=svg.querySelector('defs');const glow=svgEl('filter',{id:'qglow',x:'-50%',y:'-50%',width:'200%',height:'200%'});glow.append(svgEl('feGaussianBlur',{stdDeviation:'6',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}),svgEl('feMergeNode',{in:'SourceGraphic'}));glow.append(merge);defs?.append(glow);
-    const tpc=targetPC(q);
     const localForFret=f=>hasOpen?f:(f-startFret+1);
     const fretBounds=f=>{
       if(hasOpen&&f===0){const nut=fretPos(0);return[nut-38,nut]}
@@ -477,7 +487,6 @@
       const a=prev===null?center-(next-center)/2:(center+prev)/2,b=next===null?center+(center-prev)/2:(center+next)/2;
       return[Math.min(a,b),Math.max(a,b)];
     };
-    const centerForFret=f=>{const [a,b]=fretBounds(f);return(a+b)/2};
     // Quiz-only interaction layer: each hit zone covers the full string lane between two frets.
     // Practice and Fretboard Map continue to use the shared core without this overlay.
     for(let s=0;s<6;s++)for(let f=startFret;f<=endFret;f++){
@@ -500,7 +509,7 @@
     if(pc===targetPC(q)){
       qz.locked=true;qz.correct++;const oldRank=qz.score>0?quizRank(qz.score).rank:null,usedMultiplier=qz.multiplier,gain=QUIZ_BASE_POINTS*usedMultiplier,previousScore=qz.score;qz.score+=gain;
       const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score).rank;
-      state.quizReveal={pc,string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
+      state.quizReveal={string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
       renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore});
       setTimeout(()=>{if(!state.quiz||state.quiz!==qz||qz.finished)return;state.quizReveal=null;nextQuestion()},250);
     }else{

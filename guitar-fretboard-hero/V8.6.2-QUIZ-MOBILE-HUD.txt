@@ -1,7 +1,0 @@
-V8.6.2 — Quiz Mobile Compact HUD
-
-- Quiz-only mobile portrait HUD compressed from two rows to one row.
-- SCORE / STREAK / RANK / TIME LEFT remain visible in a single 44px bar.
-- Rank is allowed the widest cell and truncates safely on narrow devices.
-- Recovered vertical space is returned to the Quiz fretboard stage.
-- Practice, Fretboard Map, shared Fretboard Core and their responsive rules are unchanged.
