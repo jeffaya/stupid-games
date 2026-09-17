@@ -3686,7 +3686,7 @@ body{
 @media(prefers-reduced-motion:reduce){.quiz-hud .hud-time.time-warning strong,.quiz-hud .hud-time.time-critical strong{animation:none!important}}
 
 /* ========================================================================== 
-   V8.6.2 — QUIZ MOBILE COMPACT HUD
+   V8.7.0 — QUIZ MOBILE COMPACT HUD
    Quiz-only mobile portrait refinement. Practice, Map and Fretboard Core are
    intentionally untouched. One-line HUD returns vertical space to the board.
    ========================================================================== */
@@ -3737,3 +3737,19 @@ body{
   .quiz-screen .quiz-hud.hud-hot .hud-combo::after{font-size:5px!important;top:2px!important;right:2px!important}
   .quiz-screen .quiz-board{flex:1 1 0!important;min-height:0!important;margin-top:0!important}
 }
+
+/* ========================================================================== 
+   V8.7.0 — QUIZ READY MODAL
+   Quiz-only preflight. The 60-second clock starts only after START QUIZ.
+   ========================================================================== */
+.quiz-intro-modal{width:min(460px,100%)}
+.quiz-intro-modal h2{font-size:clamp(32px,8vw,44px);margin-bottom:8px}
+.quiz-intro-lead{margin:0 auto 18px;max-width:360px;line-height:1.45}
+.quiz-intro-lead strong{color:var(--cyan);text-shadow:0 0 10px rgba(39,215,255,.35)}
+.quiz-intro-rules{display:grid;gap:8px;margin:0 0 18px;text-align:left}
+.quiz-intro-rules>div{display:grid;grid-template-columns:26px 1fr;align-items:center;gap:8px;padding:9px 10px;border:1px solid rgba(80,116,139,.24);border-radius:10px;background:rgba(7,17,26,.7);color:#a9c0ce;font:700 13px/1.25 "Barlow Condensed",sans-serif}
+.quiz-intro-rules b{color:var(--cyan);font-size:16px;text-align:center}.quiz-intro-rules strong{color:#fff}
+.quiz-intro-modal button{width:100%;padding:14px;border-radius:12px;font-weight:900;cursor:pointer}
+.quiz-intro-modal .quiz-start-button{margin-top:0;font-size:15px;letter-spacing:.08em;box-shadow:0 0 24px rgba(255,50,199,.16)}
+.quiz-intro-modal .rank-ladder-open{margin-top:8px!important;margin-bottom:0!important}
+@media(max-width:600px){.quiz-intro-modal{padding:20px 16px}.quiz-intro-rules{gap:6px;margin-bottom:14px}.quiz-intro-rules>div{padding:8px 9px}}

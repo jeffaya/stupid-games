@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=8.6.2">
+  <link rel="stylesheet" href="./styles.css?v=8.7.0">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Guitar Fretboard Hero","url":"https://guitar-fretboard-hero.seignemorte.com/","image":"https://guitar-fretboard-hero.seignemorte.com/og.jpg","description":"A free interactive guitar fretboard trainer for pentatonic scales, triads, chord voicings, fretboard note mapping and quizzes.","applicationCategory":"EducationalApplication","gamePlatform":["Web Browser","Mobile Web","Tablet"],"operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Person","name":"Jean-François Seignemorte"},"publisher":{"@type":"Organization","name":"Stupid Games","url":"https://stupid-games.seignemorte.com/"}}
   </script>
@@ -177,7 +177,19 @@
   </main>
 
   <div id="resultModal" class="modal-backdrop" aria-hidden="true">
-    <div class="result-modal">
+    <div id="quizIntroView" class="result-modal quiz-intro-modal" hidden>
+      <div class="result-kicker">FRETBOARD QUIZ</div>
+      <h2>60 SECOND CHALLENGE</h2>
+      <p class="quiz-intro-lead">Find the requested <strong>ROOT, 3RD or 5TH</strong> anywhere on the visible fretboard.</p>
+      <div class="quiz-intro-rules" aria-label="Quiz rules">
+        <div><b>✓</b><span>Correct answers build your multiplier up to <strong>×5</strong>.</span></div>
+        <div><b>×</b><span>A wrong answer resets your multiplier to <strong>×1</strong>.</span></div>
+        <div><b>⚡</b><span>Score as many points as possible in <strong>60 seconds</strong>.</span></div>
+      </div>
+      <button id="startQuizButton" class="modal-primary quiz-start-button">START QUIZ</button>
+      <button id="introRankLadder" class="modal-secondary rank-ladder-open">VIEW RANK LADDER</button>
+    </div>
+    <div id="quizResultView" class="result-modal">
       <div class="result-kicker">60 SECOND RUN COMPLETE</div>
       <h2 id="resultRank">VIRTUOSO</h2>
       <div class="result-score"><strong id="resultScore">0</strong><span>points</span></div>
@@ -197,7 +209,7 @@
     </div>
   </div>
 
-  <script src="./app.js?v=8.6.2" defer></script>
+  <script src="./app.js?v=8.7.0" defer></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script id="fullscreen-v34-js">
