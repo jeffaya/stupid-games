@@ -13,7 +13,7 @@
   const rootPC=()=>PC[state.root];
   const thirdPC=()=>mod(rootPC()+intervals[state.quality].third);
   const fifthPC=()=>mod(rootPC()+7);
-  function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='quiz') startQuiz();}
+  function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='quiz') prepareQuiz();}
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
   const practiceDrawer=$('#practiceDrawer'),practiceDrawerBackdrop=$('#practiceDrawerBackdrop'),practiceMenuBtn=$('#practiceMenuBtn');
   function setPracticeMenu(open){if(!practiceDrawer)return;practiceDrawer.classList.toggle('open',open);practiceDrawerBackdrop?.classList.toggle('show',open);practiceDrawer.setAttribute('aria-hidden',String(!open));practiceMenuBtn?.setAttribute('aria-expanded',String(open));}
@@ -399,11 +399,31 @@
     const row=QUIZ_RANKS.find(r=>score>=r[0])||QUIZ_RANKS[QUIZ_RANKS.length-1];
     return{emoji:row[1],rank:row[2],copy:row[3],min:row[0]};
   }
+  let rankLadderReturn='score';
+  function resetQuizHud(){
+    $('#scoreCount').textContent='0';$('#comboCount').textContent='1';$('#liveRank').textContent='—';$('#quizTime').textContent='60.0';
+    const meter=$('#rankProgress');if(meter)meter.style.width='0%';
+    $('.hud-time')?.classList.remove('time-warning','time-critical');$('.quiz-hud')?.classList.remove('hud-hot','hud-on-fire');
+  }
+  function prepareQuiz(){
+    if(state.quiz?.timer)clearInterval(state.quiz.timer);
+    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:true,inputEnabledAt:Infinity,questionId:0,timer:null,endsAt:null,finished:false,lastRank:null,started:false};
+    state.quizReveal=null;resetQuizHud();
+    $('#quizChord').textContent='READY?';$('#quizPrompt').innerHTML='Find the <strong>NOTE</strong>';$('#quizFeedback').textContent='The clock starts when you press START QUIZ.';
+    const board=$('#quizFretboard');if(board)board.replaceChildren();
+    showQuizIntro();
+  }
+  function showQuizIntro(){
+    rankLadderReturn='intro';
+    $('#quizResultView').hidden=true;$('#rankLadderView').hidden=true;$('#quizIntroView').hidden=false;
+    $('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
+  }
   function startQuiz(){
     if(state.quiz?.timer)clearInterval(state.quiz.timer);
     const now=performance.now();
-    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:false,inputEnabledAt:0,questionId:0,timer:null,endsAt:now+QUIZ_DURATION_MS,finished:false,lastRank:null};
-    state.quizReveal=null;$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');
+    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:false,inputEnabledAt:0,questionId:0,timer:null,endsAt:now+QUIZ_DURATION_MS,finished:false,lastRank:null,started:true};
+    state.quizReveal=null;resetQuizHud();$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');
+    $('#quizIntroView').hidden=true;$('#rankLadderView').hidden=true;$('#quizResultView').hidden=false;
     nextQuestion();updateQuizTimer();state.quiz.timer=setInterval(updateQuizTimer,50);
   }
   function randomQuestion(multiplier=1){
@@ -488,30 +508,33 @@
       setTimeout(()=>{if(node.isConnected)node.classList.remove('quiz-hit-error')},280);
     }
   }
-  function renderRankLadder(){
-    const qz=state.quiz||{score:0},current=quizRank(qz.score),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
+  function renderRankLadder(preview=false){
+    const qz=state.quiz||{score:0,correct:0},current=quizRank(qz.score),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
     if(!list||!summary||currentIndex<0)return;
-    summary.innerHTML=`<span>YOUR RANK</span><strong>${qz.score.toLocaleString('en-US')} PTS</strong><b>${current.emoji} ${current.rank}</b><em>${qz.correct.toLocaleString('en-US')} CORRECT ANSWERS</em>`;
+    summary.hidden=preview;summary.innerHTML=preview?'':`<span>YOUR RANK</span><strong>${qz.score.toLocaleString('en-US')} PTS</strong><b>${current.emoji} ${current.rank}</b><em>${qz.correct.toLocaleString('en-US')} CORRECT ANSWERS</em>`;
     list.innerHTML='';
     QUIZ_RANKS.forEach((row,index)=>{
-      const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-current':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
+      const item=document.createElement('div');item.className=`rank-ladder-item${!preview&&index===currentIndex?' is-current':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
       const position=index+1,threshold=row[0].toLocaleString('en-US');
       item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b></span><span class="rank-ladder-threshold">${threshold}</span>`;
       list.append(item);
     });
-    requestAnimationFrame(()=>{const currentRow=list.querySelector('.is-current');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
+    requestAnimationFrame(()=>{if(preview){list.scrollTop=0;return}const currentRow=list.querySelector('.is-current');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
   }
-  function showRankLadder(){renderRankLadder();const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(score)score.hidden=true;if(ladder)ladder.hidden=false}
-  function showScoreResult(){const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(ladder)ladder.hidden=true;if(score)score.hidden=false}
+  function showRankLadder(from='score'){rankLadderReturn=from;renderRankLadder(from==='intro');$('#quizIntroView').hidden=true;$('#quizResultView').hidden=true;$('#rankLadderView').hidden=false;const back=$('#backToScore');if(back)back.textContent=from==='intro'?'← BACK':'← BACK TO MY SCORE'}
+  function showScoreResult(){rankLadderReturn='score';$('#quizIntroView').hidden=true;$('#rankLadderView').hidden=true;$('#quizResultView').hidden=false}
+  function backFromRankLadder(){if(rankLadderReturn==='intro')showQuizIntro();else showScoreResult()}
   function finishQuiz(){
     const qz=state.quiz;if(!qz||qz.finished)return;qz.finished=true;qz.locked=true;if(qz.timer){clearInterval(qz.timer);qz.timer=null}state.quizReveal=null;const time=$('#quizTime');if(time)time.textContent='0.0';const {emoji,rank,copy}=quizRank(qz.score);
     $('#resultRank').textContent=`${emoji} ${rank}`;$('#resultScore').textContent=qz.score.toLocaleString('en-US');
     $('#resultCopy').textContent=`${copy} ${qz.correct} ${qz.correct===1?'correct answer':'correct answers'} in 60 seconds.`;
-    showScoreResult();$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
+    rankLadderReturn='score';showScoreResult();$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
   }
+  $('#startQuizButton')?.addEventListener('click',startQuiz);
+  $('#introRankLadder')?.addEventListener('click',()=>showRankLadder('intro'));
   $('#replayQuiz').addEventListener('click',startQuiz);
-  $('#viewRankLadder')?.addEventListener('click',showRankLadder);
-  $('#backToScore')?.addEventListener('click',showScoreResult);
+  $('#viewRankLadder')?.addEventListener('click',()=>showRankLadder('score'));
+  $('#backToScore')?.addEventListener('click',backFromRankLadder);
   $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,correct:0},{emoji,rank}=quizRank(qz.score);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points and ${qz.correct} correct answers in 60 seconds on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
   renderPractice();
 })();
