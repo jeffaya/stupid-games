@@ -15,20 +15,25 @@
   const fifthPC=()=>mod(rootPC()+7);
   function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='quiz') prepareQuiz();}
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-  const practiceDrawer=$('#practiceDrawer'),practiceDrawerBackdrop=$('#practiceDrawerBackdrop'),practiceMenuBtn=$('#practiceMenuBtn');
-  function setPracticeMenu(open){if(!practiceDrawer)return;practiceDrawer.classList.toggle('open',open);practiceDrawerBackdrop?.classList.toggle('show',open);practiceDrawer.setAttribute('aria-hidden',String(!open));practiceMenuBtn?.setAttribute('aria-expanded',String(open));}
-  practiceMenuBtn?.addEventListener('click',()=>setPracticeMenu(!practiceDrawer.classList.contains('open')));
-  $('#practiceMenuClose')?.addEventListener('click',()=>setPracticeMenu(false));
-  practiceDrawerBackdrop?.addEventListener('click',()=>setPracticeMenu(false));
-
-  // V6 shared responsive drawers -------------------------------------------------
+  // Shared responsive drawer controller. Practice and Map use the exact same
+  // interaction contract; viewport size only changes its presentation in CSS.
   function bindDrawer(name){
-    const drawer=$('#'+name+'Drawer'), btn=$('#'+name+'MenuBtn'), close=$('#'+name+'MenuClose'), backdrop=$('#'+name+'DrawerBackdrop');
+    const drawer=$('#'+name+'Drawer');
+    const btn=$('#'+name+'MenuBtn');
+    const close=$('#'+name+'MenuClose');
+    const backdrop=$('#'+name+'DrawerBackdrop');
     if(!drawer||!btn)return;
-    const set=open=>{drawer.classList.toggle('open',open);backdrop?.classList.toggle('show',open);drawer.setAttribute('aria-hidden',String(!open));btn.setAttribute('aria-expanded',String(open));};
-    btn.addEventListener('click',()=>set(!drawer.classList.contains('open'))); close?.addEventListener('click',()=>set(false)); backdrop?.addEventListener('click',()=>set(false));
+    const setOpen=open=>{
+      drawer.classList.toggle('open',open);
+      backdrop?.classList.toggle('show',open);
+      drawer.setAttribute('aria-hidden',String(!open));
+      btn.setAttribute('aria-expanded',String(open));
+    };
+    btn.addEventListener('click',()=>setOpen(!drawer.classList.contains('open')));
+    close?.addEventListener('click',()=>setOpen(false));
+    backdrop?.addEventListener('click',()=>setOpen(false));
   }
-  bindDrawer('map');
+  ['practice','map'].forEach(bindDrawer);
 
   // V6 custom select-buttons. They proxy the existing buttons, so gameplay has
   // one source of truth regardless of responsive presentation.
