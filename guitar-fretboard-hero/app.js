@@ -378,33 +378,33 @@
     4:[{range:[5,11],w:1},{range:[8,14],w:5},{range:[11,17],w:4},{range:[15,21],w:1}],
     5:[{range:[5,11],w:1},{range:[8,14],w:2},{range:[11,17],w:5},{range:[15,21],w:5}]
   };
-  const QUIZ_MULTIPLIERS={1:1,2:2,3:3,4:4,5:5};
   const QUIZ_RANKS=[
-    [55000,'🏆','VIRTUOSO','Perfect control of the neck.'],[48000,'👑','GUITAR HERO','Legendary fretboard control.'],[42000,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
-    [37000,'⚡','SHREDDER','The neck is starting to fear you.'],[33000,'🔥','SOLO MASTER','Strong fretboard instincts.'],[29000,'💀','RIFF LORD','You command the riffs.'],
-    [26000,'🤘','HEADLINER','Ready for the big stage.'],[23000,'🎵','LEAD GUITARIST','Solid lead-player territory.'],[20000,'🔥','AXE SLINGER','You know how to handle that axe.'],
-    [18000,'🎸','GIG PLAYER','Good enough to survive the set.'],[16000,'🎶','JAMMER','You can find your way through a jam.'],[14000,'🔊','AMPLIFIED','Getting louder. Getting sharper.'],
-    [12000,'🎼','PLAYER','A solid base is taking shape.'],[10000,'🎧','PRACTICER','The repetitions are paying off.'],[8500,'🌱','ROOKIE','The journey has officially begun.'],
-    [7000,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[6000,'🎵','CHORD CHASER','Always one fret behind the chord.'],[5000,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
-    [4000,'🐣','NEWBIE','Fresh strings. Fresh mistakes.'],[3250,'📖','STUDENT','Homework: learn the neck.'],[2750,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
-    [2250,'🐌','SLOW HAND','Slow is smooth. Eventually.'],[1800,'😵','FRET LOST','Somewhere between fret 1 and 21.'],[1400,'🗺️','NECK TOURIST','Nice neck. First time here?'],
-    [1000,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[700,'🛠️','KEEP PRACTICING','Every answer builds the map in your head.'],[350,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],
+    [14000,'🏆','VIRTUOSO','Two-second reflexes. Total fretboard control.'],[13000,'👑','GUITAR HERO','Legendary fretboard control.'],[12500,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
+    [12000,'⚡','SHREDDER','The neck is starting to fear you.'],[11500,'🔥','SOLO MASTER','Strong fretboard instincts.'],[11000,'💀','RIFF LORD','You command the riffs.'],
+    [10500,'🤘','HEADLINER','Ready for the big stage.'],[10000,'🎵','LEAD GUITARIST','Solid lead-player territory.'],[9500,'🔥','AXE SLINGER','You know how to handle that axe.'],
+    [9000,'🎸','GIG PLAYER','Good enough to survive the set.'],[8500,'🎶','JAMMER','You can find your way through a jam.'],[8000,'🔊','AMPLIFIED','Getting louder. Getting sharper.'],
+    [7500,'🎼','PLAYER','A solid base is taking shape.'],[7000,'🎧','PRACTICER','The repetitions are paying off.'],[6500,'🌱','ROOKIE','The journey has officially begun.'],
+    [6000,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[5500,'🎵','CHORD CHASER','Always one fret behind the chord.'],[5000,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
+    [4500,'🐣','NEWBIE','Fresh strings. Fresh mistakes.'],[4000,'📖','STUDENT','Homework: learn the neck.'],[3500,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
+    [3000,'🐌','SLOW HAND','Slow is smooth. Eventually.'],[2500,'😵','FRET LOST','Somewhere between fret 1 and 21.'],[2000,'🗺️','NECK TOURIST','Nice neck. First time here?'],
+    [1500,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[1000,'🛠️','KEEP PRACTICING','Every answer builds the map in your head.'],[600,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],
     [0,'💀','AIR GUITARIST','At least air guitar has no wrong frets.']
   ];
+  const QUIZ_DURATION_MS=60000,QUIZ_BASE_POINTS=100;
   function pickQuizWindow(multiplier){
     const choices=QUIZ_WINDOWS[multiplier]||QUIZ_WINDOWS[1],total=choices.reduce((n,x)=>n+x.w,0);let r=Math.random()*total;
     for(const x of choices){r-=x.w;if(r<=0)return x.range.slice()}return choices[0].range.slice();
   }
-  function quizBasePoints(seconds){if(seconds<=2)return 1500;if(seconds<=5)return 1000;if(seconds<=7.5)return 900;if(seconds<=10)return 800;if(seconds<=15)return 650;if(seconds<=20)return 500;if(seconds<=30)return 350;return 250}
-  function quizRank(score,errors=0){
-    let row=QUIZ_RANKS.find(r=>score>=r[0])||QUIZ_RANKS[QUIZ_RANKS.length-1];
-    if(row[2]==='VIRTUOSO'&&errors>0)row=QUIZ_RANKS[1];
+  function quizRank(score){
+    const row=QUIZ_RANKS.find(r=>score>=r[0])||QUIZ_RANKS[QUIZ_RANKS.length-1];
     return{emoji:row[1],rank:row[2],copy:row[3],min:row[0]};
   }
   function startQuiz(){
     if(state.quiz?.timer)clearInterval(state.quiz.timer);
-    state.quiz={round:0,attempts:0,errors:0,correct:0,multiplier:1,score:0,current:null,locked:false,questionStarted:0,inputEnabledAt:0,questionId:0,timer:null,lastRank:null};
-    state.quizReveal=null;$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');nextQuestion();
+    const now=performance.now();
+    state.quiz={correct:0,multiplier:1,score:0,current:null,locked:false,inputEnabledAt:0,questionId:0,timer:null,endsAt:now+QUIZ_DURATION_MS,finished:false,lastRank:null};
+    state.quizReveal=null;$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');
+    nextQuestion();updateQuizTimer();state.quiz.timer=setInterval(updateQuizTimer,50);
   }
   function randomQuestion(multiplier=1){
     const root=NOTES[Math.floor(Math.random()*NOTES.length)],quality=Math.random()<.5?'major':'minor';
@@ -414,25 +414,29 @@
   }
   function targetPC(q){const r=PC[q.root];return q.target==='root'?r:q.target==='third'?mod(r+intervals[q.quality].third):mod(r+7)}
   function nextQuestion(){
-    const qz=state.quiz;if(qz.timer){clearInterval(qz.timer);qz.timer=null}if(qz.round>=10){finishQuiz();return}
-    qz.round++;const questionMultiplier=Math.max(1,Math.min(5,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.questionStarted=performance.now();qz.inputEnabledAt=qz.questionStarted+300;
-    $('#roundNum').textContent=qz.round;const chordEl=$('#quizChord');chordEl.textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
-    const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3rd':'3rd'):'5th';
+    const qz=state.quiz;if(!qz||qz.finished)return;if(performance.now()>=qz.endsAt){finishQuiz();return}
+    const questionMultiplier=Math.max(1,Math.min(5,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.inputEnabledAt=performance.now()+120;
+    const chordEl=$('#quizChord');chordEl.textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
+    const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3RD':'3RD'):'5TH';
     $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;const targetEl=$('#quizPrompt strong');
     [chordEl,targetEl].forEach(el=>{if(!el)return;el.classList.remove('quiz-target-change');void el.offsetWidth;el.classList.add('quiz-target-change')});
     $('#quizFeedback').textContent=`Frets ${qz.current.window[0]}–${qz.current.window[1]} • Touch any correct occurrence.`;
-    updateQuizStats();updateQuizTimer();qz.timer=setInterval(updateQuizTimer,100);renderQuizBoard();
+    updateQuizStats();renderQuizBoard();
   }
-  function updateQuizTimer(){if(!state.quiz||state.quiz.locked)return;const sec=(performance.now()-state.quiz.questionStarted)/1000;const n=$('#quizTime');if(n)n.textContent=sec.toFixed(1)}
+  function updateQuizTimer(){
+    const qz=state.quiz;if(!qz||qz.finished)return;const remaining=Math.max(0,qz.endsAt-performance.now()),n=$('#quizTime');
+    if(n)n.textContent=(remaining/1000).toFixed(1);const timeCell=$('.hud-time');timeCell?.classList.toggle('time-warning',remaining<=10000&&remaining>0);timeCell?.classList.toggle('time-critical',remaining<=5000&&remaining>0);
+    if(remaining<=0)finishQuiz();
+  }
   function animateHud(el,cls,duration=650){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),duration)}
   function animateScore(el,from,to){if(!el)return;const safeFrom=Math.min(from,to),token=String((Number(el.dataset.scoreAnim)||0)+1);el.dataset.scoreAnim=token;const start=performance.now(),duration=460;function tick(now){if(el.dataset.scoreAnim!==token)return;const t=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-t,3),v=Math.max(safeFrom,Math.round(safeFrom+(to-safeFrom)*ease));el.textContent=v.toLocaleString('en-US');if(t<1)requestAnimationFrame(tick);else el.textContent=to.toLocaleString('en-US')}requestAnimationFrame(tick)}
-  function quizRankProgress(score,errors=0){if(score<=0)return 0;const current=quizRank(score,errors);const idx=QUIZ_RANKS.findIndex(r=>r[2]===current.rank);if(idx<=0)return 100;const next=QUIZ_RANKS[idx-1][0],floor=current.min;return Math.max(0,Math.min(100,((score-floor)/(next-floor))*100))}
-  function updateQuizStats({scoreGain=0,rankChanged=false,multiplierChanged=false,previousScore=null,error=false,instant=false}={}){
+  function quizRankProgress(score){if(score<=0)return 0;const current=quizRank(score);const idx=QUIZ_RANKS.findIndex(r=>r[2]===current.rank);if(idx<=0)return 100;const next=QUIZ_RANKS[idx-1][0],floor=current.min;return Math.max(0,Math.min(100,((score-floor)/(next-floor))*100))}
+  function updateQuizStats({scoreGain=0,rankChanged=false,multiplierChanged=false,previousScore=null,error=false}={}){
     if(!state.quiz)return;const qz=state.quiz;
-    const score=$('#scoreCount'),combo=$('#comboCount'),rank=$('#liveRank'),h=$('#quizAttempts'),meter=$('#rankProgress'),hud=$('.quiz-hud');
-    if(score){if(scoreGain&&previousScore!==null)animateScore(score,previousScore,qz.score);else score.textContent=qz.score.toLocaleString('en-US')}if(combo)combo.textContent=qz.multiplier;if(h)h.textContent=`${qz.attempts} ATTEMPTS`;
-    const r=qz.score>0?quizRank(qz.score,qz.errors):null;if(rank)rank.textContent=r?`${r.emoji} ${r.rank}`:'—';if(meter)meter.style.width=`${quizRankProgress(qz.score,qz.errors)}%`;
-    if(scoreGain){const gain=$('#scoreGain');if(gain){gain.textContent=`${instant?'⚡ INSTANT! ':''}+${scoreGain.toLocaleString('en-US')}`;animateHud(gain,'hud-gain-pop',720)}animateHud(score,'hud-score-pop',520)}
+    const score=$('#scoreCount'),combo=$('#comboCount'),rank=$('#liveRank'),meter=$('#rankProgress'),hud=$('.quiz-hud');
+    if(score){if(scoreGain&&previousScore!==null)animateScore(score,previousScore,qz.score);else score.textContent=qz.score.toLocaleString('en-US')}if(combo)combo.textContent=qz.multiplier;
+    const r=qz.score>0?quizRank(qz.score):null;if(rank)rank.textContent=r?`${r.emoji} ${r.rank}`:'—';if(meter)meter.style.width=`${quizRankProgress(qz.score)}%`;
+    if(scoreGain){const gain=$('#scoreGain');if(gain){gain.textContent=`+${scoreGain.toLocaleString('en-US')}`;animateHud(gain,'hud-gain-pop',720)}animateHud(score,'hud-score-pop',520)}
     if(multiplierChanged){animateHud($('#comboWrap'),error?'hud-combo-break':'hud-flip',620);animateHud($('.hud-combo'),error?'hud-cell-break':'hud-cell-charge',620)}
     if(rankChanged){animateHud($('.hud-rank'),'hud-rank-card-up',900);animateHud(rank,'hud-rank-up',900);animateHud(hud,'hud-rank-flash',900)}
     hud?.classList.toggle('hud-hot',qz.multiplier===4);hud?.classList.toggle('hud-on-fire',qz.multiplier>=5);
@@ -474,44 +478,42 @@
     const renderedQuestionId=state.quiz?.questionId;svg.onclick=e=>{const qz=state.quiz,c=e.target.closest('.quiz-hit-zone[data-string]');if(!qz||!c||qz.locked||qz.questionId!==renderedQuestionId||performance.now()<qz.inputEnabledAt)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c,renderedQuestionId)};
   }
   function answerQuiz(s,f,node,questionId){
-    const qz=state.quiz;if(!qz||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;const q=qz.current,pc=noteAt(s,f);qz.attempts++;
+    const qz=state.quiz;if(!qz||qz.finished||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;if(performance.now()>=qz.endsAt){finishQuiz();return}const q=qz.current,pc=noteAt(s,f);
     if(pc===targetPC(q)){
-      qz.locked=true;qz.correct++;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const seconds=(performance.now()-qz.questionStarted)/1000;$('#quizTime').textContent=seconds.toFixed(1);
-      const oldRank=qz.score>0?quizRank(qz.score,qz.errors).rank:null,usedMultiplier=qz.multiplier,base=quizBasePoints(seconds),gain=Math.round(base*QUIZ_MULTIPLIERS[usedMultiplier]),previousScore=qz.score;qz.score+=gain;
-      const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score,qz.errors).rank;
+      qz.locked=true;qz.correct++;const oldRank=qz.score>0?quizRank(qz.score).rank:null,usedMultiplier=qz.multiplier,gain=QUIZ_BASE_POINTS*usedMultiplier,previousScore=qz.score;qz.score+=gain;
+      const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score).rank;
       state.quizReveal={pc,string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
-      renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore,instant:seconds<=2});
-      setTimeout(()=>{state.quizReveal=null;nextQuestion()},950);
+      renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore});
+      setTimeout(()=>{if(!state.quiz||state.quiz!==qz||qz.finished)return;state.quizReveal=null;nextQuestion()},250);
     }else{
-      qz.errors++;const changed=qz.multiplier!==1;qz.multiplier=1;node.classList.add('quiz-hit-error');$('#quizFeedback').textContent='Not this one — try again.';updateQuizStats({multiplierChanged:changed,error:true});
+      const changed=qz.multiplier!==1;qz.multiplier=1;node.classList.add('quiz-hit-error');$('#quizFeedback').textContent='Not this one — try again.';updateQuizStats({multiplierChanged:changed,error:true});
       setTimeout(()=>{if(node.isConnected)node.classList.remove('quiz-hit-error')},280);
     }
   }
   function renderRankLadder(){
-    const qz=state.quiz||{score:0,errors:0},current=quizRank(qz.score,qz.errors),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
+    const qz=state.quiz||{score:0},current=quizRank(qz.score),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
     if(!list||!summary||currentIndex<0)return;
     summary.innerHTML=`<span>YOUR RANK</span><strong>${currentIndex+1} / ${QUIZ_RANKS.length}</strong><b>${current.emoji} ${current.rank}</b><em>${qz.score.toLocaleString('en-US')} PTS</em>`;
     list.innerHTML='';
     QUIZ_RANKS.forEach((row,index)=>{
-      const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-you':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
+      const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-current':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
       const position=index+1,threshold=row[0].toLocaleString('en-US');
-      item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b></span><span class="rank-ladder-threshold">${threshold}${index===0?' · 0 ERRORS':''}</span>`;
+      item.innerHTML=`<span class="rank-ladder-position">${String(position).padStart(2,'0')}</span><span class="rank-ladder-name"><b>${row[1]} ${row[2]}</b></span><span class="rank-ladder-threshold">${threshold}</span>`;
       list.append(item);
     });
-    requestAnimationFrame(()=>{const currentRow=list.querySelector('.is-you');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
+    requestAnimationFrame(()=>{const currentRow=list.querySelector('.is-current');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
   }
   function showRankLadder(){renderRankLadder();const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(score)score.hidden=true;if(ladder)ladder.hidden=false}
   function showScoreResult(){const score=$('.result-modal:not(.rank-ladder-modal)'),ladder=$('#rankLadderView');if(ladder)ladder.hidden=true;if(score)score.hidden=false}
   function finishQuiz(){
-    const qz=state.quiz;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const {emoji,rank,copy}=quizRank(qz.score,qz.errors);
-    $('#resultRank').textContent=`${emoji} ${rank}`;$('#resultAttempts').textContent=qz.score.toLocaleString('en-US');
-    const accuracy=qz.attempts?Math.round((qz.correct/qz.attempts)*100):100;$('#resultCopy').textContent=`${copy} ${accuracy}% accuracy • ${qz.errors} ${qz.errors===1?'mistake':'mistakes'}.`;
+    const qz=state.quiz;if(!qz||qz.finished)return;qz.finished=true;qz.locked=true;if(qz.timer){clearInterval(qz.timer);qz.timer=null}state.quizReveal=null;const time=$('#quizTime');if(time)time.textContent='0.0';const {emoji,rank,copy}=quizRank(qz.score);
+    $('#resultRank').textContent=`${emoji} ${rank}`;$('#resultScore').textContent=qz.score.toLocaleString('en-US');
+    $('#resultCopy').textContent=`${copy} ${qz.correct} ${qz.correct===1?'correct answer':'correct answers'} in 60 seconds.`;
     showScoreResult();$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
   }
   $('#replayQuiz').addEventListener('click',startQuiz);
   $('#viewRankLadder')?.addEventListener('click',showRankLadder);
   $('#backToScore')?.addEventListener('click',showScoreResult);
-  $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,errors:0},{emoji,rank}=quizRank(qz.score,qz.errors);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
-
+  $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,correct:0},{emoji,rank}=quizRank(qz.score);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points and ${qz.correct} correct answers in 60 seconds on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
   renderPractice();
 })();
