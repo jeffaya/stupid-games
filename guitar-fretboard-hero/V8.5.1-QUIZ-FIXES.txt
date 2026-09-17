@@ -1,0 +1,9 @@
+Guitar Fretboard Hero — V8.5.1 Quiz Fixes
+
+- Quiz question target is now explicitly snapshotted from the multiplier at question creation.
+- x1 and x2 questions are guaranteed ROOT-only; x3+ keep the approved weighted ROOT/5TH/3RD rules.
+- A multiplier reset after a wrong answer never changes the current question target.
+- Added a question generation ID and 300 ms input arming guard to prevent accidental double-taps from leaking into the next question.
+- Correct answers lock input before score/combo processing.
+- Restored the approved ⚡ INSTANT! feedback for answers in <= 2 seconds.
+- No changes to Practice, Home, shared controls, scoring thresholds, or fretboard geometry.

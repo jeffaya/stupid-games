@@ -114,7 +114,7 @@
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
     const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'map',maxFret});
     const defs=svg.querySelector('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs?.append(filter);
-    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y,fill:'#071016','font-size':isP?20:(name.length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto'},name))}
+    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y,fill:'#071016','font-size':isP?20:(name.length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':'middle'},name))}
   }
 
   function noteAt(stringIndex,fret){return mod(tuning[stringIndex].pc+fret)}
@@ -378,24 +378,24 @@
     4:[{range:[5,11],w:1},{range:[8,14],w:5},{range:[11,17],w:4},{range:[15,21],w:1}],
     5:[{range:[5,11],w:1},{range:[8,14],w:2},{range:[11,17],w:5},{range:[15,21],w:5}]
   };
-  const QUIZ_MULTIPLIERS={1:1,2:1.15,3:1.30,4:1.50,5:1.75};
+  const QUIZ_MULTIPLIERS={1:1,2:2,3:3,4:4,5:5};
   const QUIZ_RANKS=[
-    [14000,'🏆','VIRTUOSO','Perfect control of the neck.'],[13250,'👑','GUITAR HERO','Legendary fretboard control.'],[12600,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
-    [12000,'⚡','SHREDDER','The neck is starting to fear you.'],[11400,'🔥','SOLO MASTER','Strong fretboard instincts.'],[10900,'💀','RIFF LORD','You command the riffs.'],
-    [10400,'🤘','HEADLINER','Ready for the big stage.'],[9900,'🎵','LEAD GUITARIST','Solid lead-player territory.'],[9400,'🔥','AXE SLINGER','You know how to handle that axe.'],
-    [8900,'🎸','GIG PLAYER','Good enough to survive the set.'],[8400,'🎶','JAMMER','You can find your way through a jam.'],[7900,'🔊','AMPLIFIED','Getting louder. Getting sharper.'],
-    [7400,'🎼','PLAYER','A solid base is taking shape.'],[6900,'🎧','PRACTICER','The repetitions are paying off.'],[6400,'🌱','ROOKIE','The journey has officially begun.'],
-    [5900,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[5400,'🎵','CHORD CHASER','Always one fret behind the chord.'],[4900,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
-    [4400,'🐣','NEWBIE','Fresh strings. Fresh mistakes.'],[3900,'📖','STUDENT','Homework: learn the neck.'],[3400,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
-    [3000,'🐌','SLOW HAND','Slow is smooth. Eventually.'],[2600,'😵','FRET LOST','Somewhere between fret 1 and 21.'],[2200,'🗺️','NECK TOURIST','Nice neck. First time here?'],
-    [1800,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[1300,'🛠️','KEEP PRACTICING','Every answer builds the map in your head.'],[800,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],
+    [55000,'🏆','VIRTUOSO','Perfect control of the neck.'],[48000,'👑','GUITAR HERO','Legendary fretboard control.'],[42000,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
+    [37000,'⚡','SHREDDER','The neck is starting to fear you.'],[33000,'🔥','SOLO MASTER','Strong fretboard instincts.'],[29000,'💀','RIFF LORD','You command the riffs.'],
+    [26000,'🤘','HEADLINER','Ready for the big stage.'],[23000,'🎵','LEAD GUITARIST','Solid lead-player territory.'],[20000,'🔥','AXE SLINGER','You know how to handle that axe.'],
+    [18000,'🎸','GIG PLAYER','Good enough to survive the set.'],[16000,'🎶','JAMMER','You can find your way through a jam.'],[14000,'🔊','AMPLIFIED','Getting louder. Getting sharper.'],
+    [12000,'🎼','PLAYER','A solid base is taking shape.'],[10000,'🎧','PRACTICER','The repetitions are paying off.'],[8500,'🌱','ROOKIE','The journey has officially begun.'],
+    [7000,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[6000,'🎵','CHORD CHASER','Always one fret behind the chord.'],[5000,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
+    [4000,'🐣','NEWBIE','Fresh strings. Fresh mistakes.'],[3250,'📖','STUDENT','Homework: learn the neck.'],[2750,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
+    [2250,'🐌','SLOW HAND','Slow is smooth. Eventually.'],[1800,'😵','FRET LOST','Somewhere between fret 1 and 21.'],[1400,'🗺️','NECK TOURIST','Nice neck. First time here?'],
+    [1000,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[700,'🛠️','KEEP PRACTICING','Every answer builds the map in your head.'],[350,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],
     [0,'💀','AIR GUITARIST','At least air guitar has no wrong frets.']
   ];
   function pickQuizWindow(multiplier){
     const choices=QUIZ_WINDOWS[multiplier]||QUIZ_WINDOWS[1],total=choices.reduce((n,x)=>n+x.w,0);let r=Math.random()*total;
     for(const x of choices){r-=x.w;if(r<=0)return x.range.slice()}return choices[0].range.slice();
   }
-  function quizBasePoints(seconds){if(seconds<=5)return 1000;if(seconds<=7.5)return 900;if(seconds<=10)return 800;if(seconds<=15)return 650;if(seconds<=20)return 500;if(seconds<=30)return 350;return 250}
+  function quizBasePoints(seconds){if(seconds<=2)return 1500;if(seconds<=5)return 1000;if(seconds<=7.5)return 900;if(seconds<=10)return 800;if(seconds<=15)return 650;if(seconds<=20)return 500;if(seconds<=30)return 350;return 250}
   function quizRank(score,errors=0){
     let row=QUIZ_RANKS.find(r=>score>=r[0])||QUIZ_RANKS[QUIZ_RANKS.length-1];
     if(row[2]==='VIRTUOSO'&&errors>0)row=QUIZ_RANKS[1];
@@ -403,14 +403,19 @@
   }
   function startQuiz(){
     if(state.quiz?.timer)clearInterval(state.quiz.timer);
-    state.quiz={round:0,attempts:0,errors:0,correct:0,multiplier:1,score:0,current:null,locked:false,questionStarted:0,timer:null,lastRank:null};
+    state.quiz={round:0,attempts:0,errors:0,correct:0,multiplier:1,score:0,current:null,locked:false,questionStarted:0,inputEnabledAt:0,questionId:0,timer:null,lastRank:null};
     state.quizReveal=null;$('#resultModal').classList.remove('show');$('#resultModal').setAttribute('aria-hidden','true');nextQuestion();
   }
-  function randomQuestion(){const root=NOTES[Math.floor(Math.random()*NOTES.length)],quality=Math.random()<.5?'major':'minor',targets=['root','third','fifth'],target=targets[Math.floor(Math.random()*targets.length)];return{root,quality,target}}
+  function randomQuestion(multiplier=1){
+    const root=NOTES[Math.floor(Math.random()*NOTES.length)],quality=Math.random()<.5?'major':'minor';
+    let target='root';
+    if(multiplier>=3){const weights=multiplier===3?[['root',60],['fifth',30],['third',10]]:multiplier===4?[['root',40],['fifth',35],['third',25]]:[['root',34],['fifth',33],['third',33]];let r=Math.random()*weights.reduce((n,x)=>n+x[1],0);for(const [name,w] of weights){r-=w;if(r<=0){target=name;break}}}
+    return{root,quality,target}
+  }
   function targetPC(q){const r=PC[q.root];return q.target==='root'?r:q.target==='third'?mod(r+intervals[q.quality].third):mod(r+7)}
   function nextQuestion(){
     const qz=state.quiz;if(qz.timer){clearInterval(qz.timer);qz.timer=null}if(qz.round>=10){finishQuiz();return}
-    qz.round++;qz.current=randomQuestion();qz.current.window=pickQuizWindow(qz.multiplier);qz.locked=false;qz.questionStarted=performance.now();
+    qz.round++;const questionMultiplier=Math.max(1,Math.min(5,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.questionStarted=performance.now();qz.inputEnabledAt=qz.questionStarted+300;
     $('#roundNum').textContent=qz.round;$('#quizChord').textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
     const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3rd':'3rd'):'5th';
     $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;$('#quizFeedback').textContent=`Frets ${qz.current.window[0]}–${qz.current.window[1]} • Touch any correct occurrence.`;
@@ -418,17 +423,17 @@
   }
   function updateQuizTimer(){if(!state.quiz||state.quiz.locked)return;const sec=(performance.now()-state.quiz.questionStarted)/1000;const n=$('#quizTime');if(n)n.textContent=sec.toFixed(1)}
   function animateHud(el,cls,duration=650){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),duration)}
-  function animateScore(el,from,to){if(!el){return}const start=performance.now(),duration=460;function tick(now){const t=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-t,3),v=Math.round(from+(to-from)*ease);el.textContent=v.toLocaleString('en-US');if(t<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+  function animateScore(el,from,to){if(!el)return;const safeFrom=Math.min(from,to),token=String((Number(el.dataset.scoreAnim)||0)+1);el.dataset.scoreAnim=token;const start=performance.now(),duration=460;function tick(now){if(el.dataset.scoreAnim!==token)return;const t=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-t,3),v=Math.max(safeFrom,Math.round(safeFrom+(to-safeFrom)*ease));el.textContent=v.toLocaleString('en-US');if(t<1)requestAnimationFrame(tick);else el.textContent=to.toLocaleString('en-US')}requestAnimationFrame(tick)}
   function quizRankProgress(score,errors=0){if(score<=0)return 0;const current=quizRank(score,errors);const idx=QUIZ_RANKS.findIndex(r=>r[2]===current.rank);if(idx<=0)return 100;const next=QUIZ_RANKS[idx-1][0],floor=current.min;return Math.max(0,Math.min(100,((score-floor)/(next-floor))*100))}
-  function updateQuizStats({scoreGain=0,rankChanged=false,multiplierChanged=false,previousScore=null,error=false}={}){
+  function updateQuizStats({scoreGain=0,rankChanged=false,multiplierChanged=false,previousScore=null,error=false,instant=false}={}){
     if(!state.quiz)return;const qz=state.quiz;
     const score=$('#scoreCount'),combo=$('#comboCount'),rank=$('#liveRank'),h=$('#quizAttempts'),meter=$('#rankProgress'),hud=$('.quiz-hud');
     if(score){if(scoreGain&&previousScore!==null)animateScore(score,previousScore,qz.score);else score.textContent=qz.score.toLocaleString('en-US')}if(combo)combo.textContent=qz.multiplier;if(h)h.textContent=`${qz.attempts} ATTEMPTS`;
     const r=qz.score>0?quizRank(qz.score,qz.errors):null;if(rank)rank.textContent=r?`${r.emoji} ${r.rank}`:'—';if(meter)meter.style.width=`${quizRankProgress(qz.score,qz.errors)}%`;
-    if(scoreGain){const gain=$('#scoreGain');if(gain){gain.textContent=`+${scoreGain.toLocaleString('en-US')}`;animateHud(gain,'hud-gain-pop',720)}animateHud(score,'hud-score-pop',520)}
+    if(scoreGain){const gain=$('#scoreGain');if(gain){gain.textContent=`${instant?'⚡ INSTANT! ':''}+${scoreGain.toLocaleString('en-US')}`;animateHud(gain,'hud-gain-pop',720)}animateHud(score,'hud-score-pop',520)}
     if(multiplierChanged){animateHud($('#comboWrap'),error?'hud-combo-break':'hud-flip',620);animateHud($('.hud-combo'),error?'hud-cell-break':'hud-cell-charge',620)}
     if(rankChanged){animateHud($('.hud-rank'),'hud-rank-card-up',900);animateHud(rank,'hud-rank-up',900);animateHud(hud,'hud-rank-flash',900)}
-    if(qz.multiplier>=5)hud?.classList.add('hud-on-fire');else hud?.classList.remove('hud-on-fire');
+    hud?.classList.toggle('hud-hot',qz.multiplier===4);hud?.classList.toggle('hud-on-fire',qz.multiplier>=5);
   }
   function renderQuizBoard(){const svg=$('#quizFretboard');const q=state.quiz?.current;if(!q)return;const prev={root:state.root,quality:state.quality};state.root=q.root;state.quality=q.quality;renderFretboardQuiz(svg,q);state.root=prev.root;state.quality=prev.quality}
   function renderFretboardQuiz(svg,q){
@@ -442,16 +447,16 @@
       const hit=svgEl('circle',{cx:x,cy:y,r:isP?23:17,fill:'transparent',stroke:'transparent','data-string':s,'data-fret':f,style:'cursor:pointer'});svg.append(hit);
       if(state.quizReveal&&noteAt(s,f)===state.quizReveal){svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)'}));svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto'},noteName(tpc)))}
     }
-    svg.onclick=e=>{const c=e.target.closest('circle[data-string]');if(!c||state.quiz.locked)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c)};
+    const renderedQuestionId=state.quiz?.questionId;svg.onclick=e=>{const qz=state.quiz,c=e.target.closest('circle[data-string]');if(!qz||!c||qz.locked||qz.questionId!==renderedQuestionId||performance.now()<qz.inputEnabledAt)return;answerQuiz(+c.dataset.string,+c.dataset.fret,c,renderedQuestionId)};
   }
-  function answerQuiz(s,f,node){
-    const qz=state.quiz,q=qz.current,pc=noteAt(s,f);qz.attempts++;
+  function answerQuiz(s,f,node,questionId){
+    const qz=state.quiz;if(!qz||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;const q=qz.current,pc=noteAt(s,f);qz.attempts++;
     if(pc===targetPC(q)){
-      qz.correct++;qz.locked=true;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const seconds=(performance.now()-qz.questionStarted)/1000;$('#quizTime').textContent=seconds.toFixed(1);
+      qz.locked=true;qz.correct++;if(qz.timer){clearInterval(qz.timer);qz.timer=null}const seconds=(performance.now()-qz.questionStarted)/1000;$('#quizTime').textContent=seconds.toFixed(1);
       const oldRank=qz.score>0?quizRank(qz.score,qz.errors).rank:null,usedMultiplier=qz.multiplier,base=quizBasePoints(seconds),gain=Math.round(base*QUIZ_MULTIPLIERS[usedMultiplier]),previousScore=qz.score;qz.score+=gain;
       const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score,qz.errors).rank;
       state.quizReveal=pc;$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
-      renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore});
+      renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore,instant:seconds<=2});
       setTimeout(()=>{state.quizReveal=null;nextQuestion()},950);
     }else{
       qz.errors++;const changed=qz.multiplier!==1;qz.multiplier=1;node.setAttribute('fill','#ff4d62');node.setAttribute('stroke','#ff8897');node.setAttribute('filter','url(#qglow)');$('#quizFeedback').textContent='Not this one — try again.';updateQuizStats({multiplierChanged:changed,error:true});

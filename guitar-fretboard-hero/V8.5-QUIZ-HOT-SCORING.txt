@@ -1,0 +1,13 @@
+V8.5 — Quiz Hot Scoring
+
+- Literal x1/x2/x3/x4/x5 score multipliers.
+- <=2s gives 1500 base points; theoretical perfect score 60000.
+- Ranks recalibrated for 0-60000; VIRTUOSO requires 55000+ and zero errors.
+- x1/x2 questions ask ROOT only. x3+ progressively introduce 5TH and 3RD.
+- Question target is fixed when created even if an error resets combo.
+- x4 HOT and x5 ON FIRE visual states.
+- <=2s gets INSTANT visual score feedback.
+- Score display animation is monotonic/cancels stale animation.
+- Rank-up visual label.
+- Fretboard Map desktop note text vertically centered; geometry unchanged.
+- No audio.

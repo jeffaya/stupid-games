@@ -3589,6 +3589,12 @@ body{
 .rank-meter i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--hud-cyan),var(--hud-pink));box-shadow:0 0 9px rgba(39,215,255,.7);transition:width .5s cubic-bezier(.2,.8,.2,1)}
 #scoreGain{position:absolute!important;right:8px!important;top:-10px!important;z-index:8;font-style:normal;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:14px;color:var(--hud-cyan);text-shadow:0 0 10px rgba(39,215,255,.8);pointer-events:none}
 .hud-cell-charge{animation:hudCellCharge .62s ease-out}.hud-cell-break{animation:hudCellBreak .62s ease-out}.hud-combo-break{animation:hudComboBreak .62s ease-out!important}.hud-rank-card-up{animation:hudRankCardUp .9s cubic-bezier(.15,.8,.2,1)}.hud-rank-flash::after{content:"";position:absolute;inset:0;border-radius:15px;pointer-events:none;animation:hudSweep .9s ease-out}
+
+.quiz-hud.hud-hot{border-color:rgba(255,181,71,.56);box-shadow:0 0 16px rgba(255,181,71,.12),0 0 24px rgba(39,215,255,.08),inset 0 1px rgba(255,255,255,.06)}
+.quiz-hud.hud-hot .hud-combo::after{content:"HOT";position:absolute;top:4px;right:7px;font:900 8px/1 "Barlow Condensed",sans-serif;letter-spacing:.13em;color:#ffb547;text-shadow:0 0 9px rgba(255,181,71,.85);animation:hudFire 1.4s ease-in-out infinite alternate}
+.hud-rank-card-up::after{content:"RANK UP";position:absolute;top:2px;left:50%;transform:translateX(-50%);font:900 8px/1 "Barlow Condensed",sans-serif;letter-spacing:.16em;color:#fff;text-shadow:0 0 10px rgba(255,62,201,.9),0 0 14px rgba(39,215,255,.7);animation:hudRankLabel .9s ease-out;pointer-events:none}
+@keyframes hudRankLabel{0%{opacity:0;transform:translate(-50%,5px) scale(.85)}25%,70%{opacity:1;transform:translate(-50%,0) scale(1.08)}100%{opacity:0;transform:translate(-50%,-4px) scale(1)}}
+
 .quiz-hud.hud-on-fire{border-color:rgba(255,62,201,.6);box-shadow:0 0 18px rgba(255,62,201,.16),0 0 28px rgba(39,215,255,.1),inset 0 1px rgba(255,255,255,.06)}
 .quiz-hud.hud-on-fire .hud-combo::after{content:"ON FIRE";position:absolute;top:4px;right:7px;font:900 8px/1 "Barlow Condensed",sans-serif;letter-spacing:.13em;color:var(--hud-pink);text-shadow:0 0 8px rgba(255,62,201,.75);animation:hudFire 1.2s ease-in-out infinite alternate}
 @keyframes hudCellCharge{35%{background:radial-gradient(circle at 50% 90%,rgba(39,215,255,.35),transparent 68%)}}
@@ -3602,10 +3608,10 @@ body{
   .quiz-hud .hud-stat{min-height:38px!important;padding:4px 5px!important}.quiz-hud .hud-stat+.hud-stat::before{display:none}.quiz-hud .hud-stat span{font-size:7px!important}.quiz-hud .hud-stat strong{font-size:14px!important}
   .quiz-hud .hud-stat:nth-child(1){grid-area:round}.quiz-hud .hud-score{grid-area:score}.quiz-hud .hud-combo{grid-area:combo}.quiz-hud .hud-rank{grid-area:rank}.quiz-hud .hud-time{grid-area:time}
   .quiz-hud .hud-score strong{font-size:21px!important}.quiz-hud .hud-combo strong{font-size:19px!important}.quiz-hud .hud-rank strong{font-size:12px!important}.quiz-hud .hud-rank{padding-bottom:8px!important}.rank-meter{bottom:3px;left:10%;right:10%;height:2px}
-  #scoreGain{font-size:11px!important;right:2px!important;top:-7px!important}.quiz-hud.hud-on-fire .hud-combo::after{font-size:6px;top:2px;right:3px}
+  #scoreGain{font-size:11px!important;right:2px!important;top:-7px!important}.quiz-hud.hud-on-fire .hud-combo::after,.quiz-hud.hud-hot .hud-combo::after{font-size:6px;top:2px;right:3px}
 }
 @media (max-width:767px) and (orientation:landscape){
   .quiz-hud{display:flex!important;top:50px!important;width:min(620px,72vw)!important;height:40px!important;min-height:40px!important;border-radius:10px}
   .quiz-hud .hud-stat{min-height:38px!important;height:38px!important;padding:3px 7px!important;flex-direction:column!important}.quiz-hud .hud-stat span{font-size:7px!important}.quiz-hud .hud-stat strong{font-size:13px!important}.quiz-hud .hud-score strong{font-size:17px!important}.quiz-hud .hud-combo strong{font-size:16px!important}.quiz-hud .hud-rank strong{font-size:10px!important}.rank-meter{bottom:3px;height:2px}
 }
-@media (prefers-reduced-motion:reduce){.rank-meter i{transition:none}.hud-cell-charge,.hud-cell-break,.hud-combo-break,.hud-rank-card-up,.hud-rank-flash::after,.quiz-hud.hud-on-fire .hud-combo::after{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.rank-meter i{transition:none}.hud-cell-charge,.hud-cell-break,.hud-combo-break,.hud-rank-card-up,.hud-rank-flash::after,.quiz-hud.hud-on-fire .hud-combo::after,.quiz-hud.hud-hot .hud-combo::after,.hud-rank-card-up::after{animation:none!important}}
