@@ -1,0 +1,6 @@
+Guitar Fretboard Hero V9.2.1
+
+Mobile landscape drawer fix only.
+- Practice and Fretboard Map now share the same full-viewport drawer shell in phone landscape.
+- Shared 12-column grid prevents horizontal overflow/clipping.
+- No changes to portrait, tablet, desktop, Quiz, fretboard geometry, gameplay or controls outside the open phone-landscape drawer.
