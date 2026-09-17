@@ -1,0 +1,8 @@
+V8.6.1 — Quiz Calibration
+
+- Quiz fret windows now stop at fret 15.
+- Rank ladder expanded to 30 ranks and recalibrated around real 60-second play.
+- VIRTUOSO threshold is 10,000 points.
+- Rank summary shows score and correct answers instead of ladder position/repeated score.
+- Correct-answer quiz reveal keeps the green hitbox and floating +points, but removes the small note circle/name.
+- Practice, Fretboard Map and shared Fretboard Core are unchanged.

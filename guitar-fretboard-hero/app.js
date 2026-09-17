@@ -374,21 +374,21 @@
   const QUIZ_WINDOWS={
     1:[{range:[0,6],w:6},{range:[3,9],w:4},{range:[5,11],w:1}],
     2:[{range:[0,6],w:2},{range:[3,9],w:5},{range:[5,11],w:4},{range:[8,14],w:1}],
-    3:[{range:[3,9],w:2},{range:[5,11],w:5},{range:[8,14],w:4},{range:[11,17],w:1}],
-    4:[{range:[5,11],w:1},{range:[8,14],w:5},{range:[11,17],w:4},{range:[15,21],w:1}],
-    5:[{range:[5,11],w:1},{range:[8,14],w:2},{range:[11,17],w:5},{range:[15,21],w:5}]
+    3:[{range:[3,9],w:2},{range:[5,11],w:5},{range:[8,14],w:5},{range:[9,15],w:1}],
+    4:[{range:[5,11],w:2},{range:[8,14],w:6},{range:[9,15],w:4}],
+    5:[{range:[5,11],w:1},{range:[8,14],w:5},{range:[9,15],w:6}]
   };
   const QUIZ_RANKS=[
-    [14000,'🏆','VIRTUOSO','Two-second reflexes. Total fretboard control.'],[13000,'👑','GUITAR HERO','Legendary fretboard control.'],[12500,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
-    [12000,'⚡','SHREDDER','The neck is starting to fear you.'],[11500,'🔥','SOLO MASTER','Strong fretboard instincts.'],[11000,'💀','RIFF LORD','You command the riffs.'],
-    [10500,'🤘','HEADLINER','Ready for the big stage.'],[10000,'🎵','LEAD GUITARIST','Solid lead-player territory.'],[9500,'🔥','AXE SLINGER','You know how to handle that axe.'],
-    [9000,'🎸','GIG PLAYER','Good enough to survive the set.'],[8500,'🎶','JAMMER','You can find your way through a jam.'],[8000,'🔊','AMPLIFIED','Getting louder. Getting sharper.'],
-    [7500,'🎼','PLAYER','A solid base is taking shape.'],[7000,'🎧','PRACTICER','The repetitions are paying off.'],[6500,'🌱','ROOKIE','The journey has officially begun.'],
-    [6000,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[5500,'🎵','CHORD CHASER','Always one fret behind the chord.'],[5000,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],
-    [4500,'🐣','NEWBIE','Fresh strings. Fresh mistakes.'],[4000,'📖','STUDENT','Homework: learn the neck.'],[3500,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],
-    [3000,'🐌','SLOW HAND','Slow is smooth. Eventually.'],[2500,'😵','FRET LOST','Somewhere between fret 1 and 21.'],[2000,'🗺️','NECK TOURIST','Nice neck. First time here?'],
-    [1500,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[1000,'🛠️','KEEP PRACTICING','Every answer builds the map in your head.'],[600,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],
-    [0,'💀','AIR GUITARIST','At least air guitar has no wrong frets.']
+    [10000,'🏆','VIRTUOSO','Total fretboard control at speed.'],[9000,'🎸','GUITAR LEGEND','The neck has nowhere left to hide.'],[8000,'🧙','NECK MASTER','Instant command across the fretboard.'],
+    [7000,'✨','FRET WIZARD','Notes appear before you need to search.'],[6000,'👑','GUITAR HERO','Fast, confident fretboard mastery.'],[5300,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
+    [4700,'⚡','SHREDDER','The neck is starting to fear you.'],[4200,'🎛️','TONE MASTER','Control, speed and musical awareness.'],[3800,'🌀','STRING BENDER','Strong instincts across the strings.'],
+    [3450,'🔥','FRET MASTER','The fretboard map is locking in.'],[3150,'💀','SOLO MASTER','Strong fretboard instincts.'],[2900,'🤘','RIFF LORD','You command the riffs.'],
+    [2650,'🎤','HEADLINER','Ready for the big stage.'],[2450,'🎪','STAGE PLAYER','Comfortable under pressure.'],[2250,'🎵','LEAD GUITARIST','Solid lead-player territory.'],
+    [2000,'🪓','AXE SLINGER','You know how to handle that axe.'],[1800,'🏄','RHYTHM RIDER','The neck is becoming familiar.'],[1600,'🎸','GIG PLAYER','Good enough to survive the set.'],
+    [1400,'🎶','JAMMER','You can find your way through a jam.'],[1200,'🎼','PLAYER','A solid base is taking shape.'],[1000,'🎧','PRACTICER','The repetitions are paying off.'],
+    [850,'🌱','ROOKIE','The journey has officially begun.'],[700,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[550,'🎵','CHORD CHASER','Always one fret behind the chord.'],
+    [400,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],[300,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],[200,'🗺️','NECK TOURIST','Nice neck. First time here?'],
+    [100,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[50,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],[0,'💀','AIR GUITARIST','At least air guitar has no wrong frets.']
   ];
   const QUIZ_DURATION_MS=60000,QUIZ_BASE_POINTS=100;
   function pickQuizWindow(multiplier){
@@ -469,8 +469,6 @@
       if(isCorrectReveal)hit.classList.add('quiz-hit-correct');
       svg.append(hit);
       if(isCorrectReveal){
-        svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:11,fill:'#27d7ff',stroke:'#fff','stroke-width':1.5,filter:'url(#qglow)','pointer-events':'none'}));
-        svg.append(svgEl('text',{x,y:isP?y:y+4,fill:'#06131b','font-size':isP?20:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},noteName(tpc)));
         const scoreX=isP?Math.min(sb-4,x+Math.max(25,(sb-sa)*.28)):x,scoreY=isP?y-30:Math.max(sa+12,y-22);
         svg.append(svgEl('text',{x:scoreX,y:scoreY,class:'quiz-hit-score','font-size':isP?18:15},`+${reveal.gain.toLocaleString('en-US')}`));
       }
@@ -493,7 +491,7 @@
   function renderRankLadder(){
     const qz=state.quiz||{score:0},current=quizRank(qz.score),currentIndex=QUIZ_RANKS.findIndex(r=>r[2]===current.rank),list=$('#rankLadderList'),summary=$('#rankLadderSummary');
     if(!list||!summary||currentIndex<0)return;
-    summary.innerHTML=`<span>YOUR RANK</span><strong>${currentIndex+1} / ${QUIZ_RANKS.length}</strong><b>${current.emoji} ${current.rank}</b><em>${qz.score.toLocaleString('en-US')} PTS</em>`;
+    summary.innerHTML=`<span>YOUR RANK</span><strong>${qz.score.toLocaleString('en-US')} PTS</strong><b>${current.emoji} ${current.rank}</b><em>${qz.correct.toLocaleString('en-US')} CORRECT ANSWERS</em>`;
     list.innerHTML='';
     QUIZ_RANKS.forEach((row,index)=>{
       const item=document.createElement('div');item.className=`rank-ladder-item${index===currentIndex?' is-current':''}`;item.setAttribute('role','listitem');item.dataset.rankIndex=index;
