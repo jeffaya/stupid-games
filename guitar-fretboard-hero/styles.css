@@ -3621,6 +3621,7 @@ body{
 .rank-ladder-modal{width:min(520px,100%);padding:22px 18px 18px}
 .rank-ladder-modal h2{font-size:clamp(30px,7vw,42px);margin:7px 0 8px}
 .rank-ladder-summary{display:grid;grid-template-columns:1fr auto;align-items:end;gap:1px 12px;margin:0 4px 12px;padding:10px 12px;border:1px solid rgba(39,215,255,.22);border-radius:12px;background:rgba(9,22,32,.78);text-align:left}
+.rank-ladder-summary[hidden]{display:none}
 .rank-ladder-summary span{font:800 9px/1.2 "Barlow Condensed",sans-serif;letter-spacing:.17em;color:#7598aa}
 .rank-ladder-summary strong{grid-row:1/3;grid-column:2;font:900 24px/1 "Barlow Condensed",sans-serif;color:var(--cyan)}
 .rank-ladder-summary b{font:900 17px/1.15 "Barlow Condensed",sans-serif;color:#fff}
@@ -3748,3 +3749,116 @@ body{
 .quiz-intro-modal .quiz-start-button{margin-top:0;font-size:15px;letter-spacing:.08em;box-shadow:0 0 24px rgba(255,50,199,.16)}
 .quiz-intro-modal .rank-ladder-open{margin-top:8px!important;margin-bottom:0!important}
 @media(max-width:600px){.quiz-intro-modal{padding:20px 16px}.quiz-intro-rules{gap:6px;margin-bottom:14px}.quiz-intro-rules>div{padding:8px 9px}}
+
+/* ========================================================================== 
+   V9.2.1 — MOBILE LANDSCAPE DRAWER FIX
+   Scope is intentionally strict: phone landscape only. Practice and Map use
+   the same full-viewport drawer shell and the same 12-column control grid.
+   No portrait/tablet/desktop/fretboard rule is changed.
+   ========================================================================== */
+@media (max-width:767px) and (orientation:landscape){
+  .practice-screen .responsive-drawer,
+  .fretmap-screen .responsive-drawer{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    margin:0!important;
+    padding:max(8px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    background:linear-gradient(180deg,#09111d 0%,#04070b 100%)!important;
+    border:0!important;
+    box-shadow:none!important;
+    transform:translateX(-104%)!important;
+  }
+
+  .practice-screen .responsive-drawer.open,
+  .fretmap-screen .responsive-drawer.open{
+    transform:translateX(0)!important;
+  }
+
+  .practice-screen .responsive-drawer .drawer-head,
+  .fretmap-screen .responsive-drawer .drawer-head{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    min-height:42px!important;
+    margin:0 0 8px!important;
+    padding:0!important;
+  }
+
+  .practice-screen .responsive-drawer .drawer-head strong,
+  .fretmap-screen .responsive-drawer .drawer-head strong{
+    font-size:18px!important;
+  }
+
+  .practice-screen .responsive-drawer .drawer-head .icon-btn,
+  .fretmap-screen .responsive-drawer .drawer-head .icon-btn{
+    width:42px!important;
+    height:42px!important;
+  }
+
+  .practice-screen .responsive-drawer .control-panel,
+  .fretmap-screen .responsive-drawer .control-panel{
+    display:grid!important;
+    grid-template-columns:repeat(12,minmax(0,1fr))!important;
+    align-items:start!important;
+    align-content:start!important;
+    gap:10px 12px!important;
+    width:100%!important;
+    max-width:100%!important;
+    padding:0!important;
+    margin:0!important;
+  }
+
+  .practice-screen .responsive-drawer .control-group,
+  .fretmap-screen .responsive-drawer .control-group{
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .practice-screen .responsive-drawer .control-group>label,
+  .fretmap-screen .responsive-drawer .control-group>label{
+    margin:0 0 5px!important;
+    font-size:11px!important;
+  }
+
+  .practice-screen .responsive-drawer .control-options,
+  .fretmap-screen .responsive-drawer .control-options{
+    display:grid!important;
+    width:100%!important;
+    min-width:0!important;
+    gap:6px!important;
+  }
+
+  .practice-screen .responsive-drawer .control-options button,
+  .fretmap-screen .responsive-drawer .control-options button{
+    width:100%!important;
+    min-width:0!important;
+    min-height:38px!important;
+    height:38px!important;
+    padding:0 5px!important;
+    font-size:13px!important;
+  }
+
+  .practice-screen .responsive-drawer [data-control-group="root"]{grid-column:span 12!important}
+  .practice-screen .responsive-drawer [data-control-group="quality"]{grid-column:span 4!important}
+  .practice-screen .responsive-drawer [data-control-group="mode"]{grid-column:span 8!important}
+  .practice-screen .responsive-drawer [data-control-group="context"]{grid-column:span 6!important}
+  .practice-screen .responsive-drawer [data-control-group="fretboard"]{grid-column:span 6!important}
+  .practice-screen .responsive-drawer #rootControls{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .practice-screen .responsive-drawer #qualityControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .practice-screen .responsive-drawer #modeControls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .practice-screen .responsive-drawer #practicePositionButtons{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .practice-screen .responsive-drawer #fretCountControls .control-options{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+
+  .fretmap-screen .responsive-drawer [data-control-group="note"]{grid-column:span 8!important}
+  .fretmap-screen .responsive-drawer [data-control-group="fretboard"]{grid-column:span 4!important}
+  .fretmap-screen .responsive-drawer #mapNoteControls{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .fretmap-screen .responsive-drawer #mapFretControls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}

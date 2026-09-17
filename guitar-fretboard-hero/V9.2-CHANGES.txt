@@ -1,0 +1,9 @@
+Guitar Fretboard Hero V9.2.0
+
+- Pre-game Rank Ladder now clearly uses a preview state.
+- Removes the empty rank summary/progress block before a Quiz has started.
+- Pre-game kicker: THE ROAD TO VIRTUOSO.
+- No current rank is highlighted before play.
+- Post-game Rank Ladder behavior remains unchanged.
+- Home order: PRACTICE -> FRETBOARD MAP -> QUIZ.
+- No Fretboard Core, Practice, Map, Quiz gameplay, breakpoint, or responsive geometry changes.

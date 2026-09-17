@@ -530,7 +530,7 @@
     });
     requestAnimationFrame(()=>{if(preview){list.scrollTop=0;return}const currentRow=list.querySelector('.is-current');if(currentRow)currentRow.scrollIntoView({block:'center',behavior:'auto'})});
   }
-  function showRankLadder(from='score'){rankLadderReturn=from;renderRankLadder(from==='intro');$('#quizIntroView').hidden=true;$('#quizResultView').hidden=true;$('#rankLadderView').hidden=false;const back=$('#backToScore');if(back)back.textContent=from==='intro'?'← BACK':'← BACK TO MY SCORE'}
+  function showRankLadder(from='score'){rankLadderReturn=from;const preview=from==='intro';renderRankLadder(preview);$('#quizIntroView').hidden=true;$('#quizResultView').hidden=true;$('#rankLadderView').hidden=false;const kicker=$('#rankLadderKicker');if(kicker)kicker.textContent=preview?'THE ROAD TO VIRTUOSO':'YOUR PLACE ON THE NECK';const back=$('#backToScore');if(back)back.textContent=preview?'← BACK':'← BACK TO MY SCORE'}
   function showScoreResult(){rankLadderReturn='score';$('#quizIntroView').hidden=true;$('#rankLadderView').hidden=true;$('#quizResultView').hidden=false}
   function backFromRankLadder(){if(rankLadderReturn==='intro')showQuizIntro();else showScoreResult()}
   function finishQuiz(){
