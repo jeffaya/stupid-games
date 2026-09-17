@@ -1,0 +1,6 @@
+V8.5.5 — Quiz hitmap UX
+- Quiz only: replaces small circular note hit targets with full string-lane hit zones between adjacent frets.
+- Desktop pointer hover previews the exact clickable string/fret segment with a subtle neutral grey overlay.
+- Wrong answers reuse the same larger zone with the existing red error language.
+- Touch devices benefit from the larger hit area without hover dependency.
+- Practice and Fretboard Map rendering/interaction are unchanged; shared Fretboard Core geometry is untouched.

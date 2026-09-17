@@ -1,0 +1,8 @@
+V8.5.4 — End-of-quiz Rank Ladder
+- Adds VIEW RANK LADDER to quiz result screen.
+- Opens the complete 28-rank hierarchy from VIRTUOSO to AIR GUITARIST.
+- Automatically centers the scroll on the player's current rank with contextual ranks above and below.
+- Current rank is highlighted with YOU, exact score, and position in the 28-rank ladder.
+- Full ladder remains freely scrollable up and down.
+- BACK TO MY SCORE returns to the unchanged result actions.
+- VIRTUOSO condition displayed as 55,000+ · NO ERRORS.

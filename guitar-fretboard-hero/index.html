@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=8.5.3">
+  <link rel="stylesheet" href="./styles.css?v=8.5.5">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Guitar Fretboard Hero","url":"https://guitar-fretboard-hero.seignemorte.com/","image":"https://guitar-fretboard-hero.seignemorte.com/og.jpg","description":"A free interactive guitar fretboard trainer for pentatonic scales, triads, chord voicings, fretboard note mapping and quizzes.","applicationCategory":"EducationalApplication","gamePlatform":["Web Browser","Mobile Web","Tablet"],"operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Person","name":"Jean-François Seignemorte"},"publisher":{"@type":"Organization","name":"Stupid Games","url":"https://stupid-games.seignemorte.com/"}}
   </script>
@@ -184,14 +184,22 @@
       <h2 id="resultRank">VIRTUOSO</h2>
       <div class="result-score"><strong id="resultAttempts">0</strong><span>points</span></div>
       <p id="resultCopy">Perfect run. You know your neck.</p>
+      <button id="viewRankLadder" class="modal-secondary rank-ladder-open">VIEW RANK LADDER</button>
       <button id="shareScore" class="modal-primary modal-action"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4A3 3 0 0 0 15 5c0 .22.02.43.07.63L8.91 9.1A3 3 0 0 0 7 8.42a3 3 0 1 0 1.91 5.48l6.16 3.47A3 3 0 0 0 15 18a3 3 0 1 0 .83-2.07L9.67 12.5c.04-.16.06-.33.06-.5s-.02-.34-.06-.5l6.16-3.43c.55.58 1.32.93 2.17.93Z"/></svg><span>SHARE MY SCORE</span></button>
       <button id="replayQuiz" class="modal-secondary modal-action"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.34-5.66L20 7.68V3h2v8h-8V9h4.54l-2.3-2.25A6 6 0 1 0 18 11h2Z"/></svg><span>PLAY AGAIN</span></button>
       <a class="coffee-action modal-action" href="https://ko-fi.com/jeffseignemorte" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h13v3h1.5a3.5 3.5 0 0 1 0 7H17v1a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V5Zm13 5v3h1.5a1.5 1.5 0 0 0 0-3H17ZM6 7v9a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V7H6Z"/></svg><span>BUY ME A COFFEE</span></a>
       <a class="other-games-link" href="https://stupid-games.seignemorte.com/">OTHER STUPID GAMES <span aria-hidden="true">→</span></a>
     </div>
+    <div id="rankLadderView" class="result-modal rank-ladder-modal" hidden>
+      <div class="result-kicker">YOUR PLACE ON THE NECK</div>
+      <h2>RANK LADDER</h2>
+      <div id="rankLadderSummary" class="rank-ladder-summary"></div>
+      <div id="rankLadderList" class="rank-ladder-list" role="list" aria-label="All quiz ranks"></div>
+      <button id="backToScore" class="modal-secondary rank-ladder-back">← BACK TO MY SCORE</button>
+    </div>
   </div>
 
-  <script src="./app.js?v=8.5.3" defer></script>
+  <script src="./app.js?v=8.5.5" defer></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script id="fullscreen-v34-js">
