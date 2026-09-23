@@ -1,0 +1,1 @@
+window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};window.FRETBOARD_PRODUCTS.guitar12={id:'guitar-12-fretboard-hero',instrument:'guitar12',shareEmoji:'🎸',name:'12-String Fretboard Hero',url:null,quiz:{durationMs:60000,basePoints:100,maxMultiplier:5,maxFret:15,targets:['root','third','fifth']},ranks:[]};

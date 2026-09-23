@@ -1,0 +1,1 @@
+window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};window.FRETBOARD_PRODUCTS.ukulele={id:'ukulele-fretboard-hero',instrument:'ukulele',shareEmoji:'🎶',name:'Ukulele Fretboard Hero',url:null,quiz:{durationMs:60000,basePoints:100,maxMultiplier:5,maxFret:15,targets:['root','third','fifth']},ranks:[]};

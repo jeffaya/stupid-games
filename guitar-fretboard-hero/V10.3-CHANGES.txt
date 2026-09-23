@@ -1,0 +1,17 @@
+Guitar Fretboard Hero V10.3.0 — Final Generic Shell Pass
+
+- Added /modes plugin layer: pentatonic, triads, chords, arpeggios.
+- Mode Registry resolves instrument declarations to reusable mode plugins.
+- Extracted Fretboard Map renderer to core/fretboard-map.js.
+- Practice contextual state is resolved through mode plugin state keys rather than Guitar-only click branches.
+- Instrument profiles declare their mode plugins.
+- Added generic arpeggio and chord engines; CAGED templates remain Guitar profile data.
+- Fretboard layout is course-count driven; Quiz hit lanes use the active instrument course count.
+- Pentatonic position windows are derived from the active profile geometry; no low-E or 21-fret assumption remains in the shared shell.
+- Quiz duration, base points, max multiplier, max fret and targets are product configuration.
+- Default Quiz windows are generated/clamped by quiz-engine from the configured max fret.
+- Guitar rank vocabulary remains product-only.
+- site.config.json remains the only deployment switch.
+- No CSS changes.
+
+Important: Guitar remains the regression target. Bass/Ukulele/12-string profiles are architectural scaffolds until their musical content and product UX are validated.
