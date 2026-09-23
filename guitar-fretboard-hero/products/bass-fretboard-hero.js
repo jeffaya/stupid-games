@@ -1,0 +1,1 @@
+window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};window.FRETBOARD_PRODUCTS.bass={id:'bass-fretboard-hero',instrument:'bass4',shareEmoji:'🎸',name:'Bass Fretboard Hero',url:null,quiz:{durationMs:60000,basePoints:100,maxMultiplier:5,maxFret:15,targets:['root','third','fifth']},ranks:[]};

@@ -1,0 +1,6 @@
+(() => {
+  'use strict';
+  function visiblePairs({profile,anchor,maxFret,selected='all'}){const geom=profile.pentatonic?.stringPairs;if(!geom)return[];const out=[];for(let id=1;id<=5;id++){if(selected!=='all'&&String(id)!==String(selected))continue;for(const shift of [-24,-12,0,12,24,36]){const base=anchor+shift,pairs=geom[id].map(([a,b])=>[base+a,base+b]);if(pairs.some(([a,b])=>b>=0&&a<=maxFret))out.push({id,pairs})}}return out}
+  function renderSegments({svg,windows,colors,stringCount,isPortrait,fretPos,stringPos,maxFret,fretCenter,svgEl}){windows.forEach(w=>{const color=colors[w.id-1];for(let s=0;s<stringCount;s++){let[from,to]=w.pairs[s];if(to<0||from>maxFret)continue;const a=from<0?fretPos(0):fretCenter(from,fretPos),b=to>maxFret?fretPos(maxFret):fretCenter(to,fretPos),p=stringPos(s),attrs=isPortrait?{x1:p,y1:a,x2:p,y2:b}:{x1:a,y1:p,x2:b,y2:p},width=isPortrait?40:26;svg.append(svgEl('line',{...attrs,stroke:'#02060a','stroke-width':width+5,'stroke-linecap':'round',opacity:.68}));svg.append(svgEl('line',{...attrs,stroke:color,'stroke-width':width,'stroke-linecap':'round',opacity:.92}));svg.append(svgEl('line',{...attrs,stroke:'#fff','stroke-width':2.4,'stroke-linecap':'round',opacity:.16}))}})}
+  window.PentatonicRenderer={visiblePairs,renderSegments};
+})();

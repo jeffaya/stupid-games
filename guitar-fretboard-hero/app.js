@@ -1,39 +1,24 @@
 (() => {
   'use strict';
-  const NOTES=['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
-  const PC={A:0,'A#':1,B:2,C:3,'C#':4,D:5,'D#':6,E:7,F:8,'F#':9,G:10,'G#':11};
-  const PC_TO_NAME=NOTES;
-  const tuning=[{name:'E',pc:7,midi:40},{name:'A',pc:0,midi:45},{name:'D',pc:5,midi:50},{name:'G',pc:10,midi:55},{name:'B',pc:2,midi:59},{name:'E',pc:7,midi:64}];
-  const intervals={major:{third:4,penta:[0,2,4,7,9]},minor:{third:3,penta:[0,3,5,7,10]}};
+  const {NOTES,PC,INTERVALS:intervals,mod,noteName}=MusicTheory;
+  const product=window.FRETBOARD_ACTIVE_PRODUCT;
+  if(!product) throw new Error('No active Fretboard Hero product was configured');
+  const instrument=FRETBOARD_INSTRUMENTS[product.instrument];
+  if(!instrument) throw new Error(`Missing instrument profile: ${product.instrument}`);
+  const engine=FretboardEngine.createInstrumentEngine(instrument);
+  const tuning=engine.tuning,STRING_COUNT=engine.stringCount;
   const defaultFretCount=()=>window.innerWidth<=800?12:((navigator.maxTouchPoints||0)>1&&window.innerWidth<=1366?15:21);
-  const state={screen:'home',mode:'penta',root:'A',quality:'minor',pattern:'all',triadStrings:'GBE',chordShape:'all',maxFret:defaultFretCount(),fretManual:false,degreeFilter:'all',mapMaxFret:defaultFretCount(),mapFretManual:false,mapNote:'all',quiz:null,quizReveal:null};
+  const firstMode=ModeRegistry.list(instrument)[0]?.id||'';
+  const state={screen:'home',mode:firstMode,root:'A',quality:'minor',pattern:ModeRegistry.context(instrument,'penta')?.defaultValue||'all',triadStrings:instrument.defaultTriadSet||ModeRegistry.context(instrument,'triad')?.defaultValue||'all',chordShape:ModeRegistry.context(instrument,'chord')?.defaultValue||'all',arpeggioType:ModeRegistry.context(instrument,'arpeggio')?.defaultValue||'triad',maxFret:defaultFretCount(),fretManual:false,degreeFilter:'all',mapMaxFret:defaultFretCount(),mapFretManual:false,mapNote:'all',quiz:null,quizReveal:null};
+  const modeKind=()=>ModeRegistry.kind(instrument,state.mode);
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-  const mod=(n,m=12)=>((n%m)+m)%m;
-  const noteName=pc=>PC_TO_NAME[mod(pc)];
   const rootPC=()=>PC[state.root];
   const thirdPC=()=>mod(rootPC()+intervals[state.quality].third);
   const fifthPC=()=>mod(rootPC()+7);
   function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='quiz') prepareQuiz();}
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-  // Shared responsive drawer controller. Practice and Map use the exact same
-  // interaction contract; viewport size only changes its presentation in CSS.
-  function bindDrawer(name){
-    const drawer=$('#'+name+'Drawer');
-    const btn=$('#'+name+'MenuBtn');
-    const close=$('#'+name+'MenuClose');
-    const backdrop=$('#'+name+'DrawerBackdrop');
-    if(!drawer||!btn)return;
-    const setOpen=open=>{
-      drawer.classList.toggle('open',open);
-      backdrop?.classList.toggle('show',open);
-      drawer.setAttribute('aria-hidden',String(!open));
-      btn.setAttribute('aria-expanded',String(open));
-    };
-    btn.addEventListener('click',()=>setOpen(!drawer.classList.contains('open')));
-    close?.addEventListener('click',()=>setOpen(false));
-    backdrop?.addEventListener('click',()=>setOpen(false));
-  }
-  ['practice','map'].forEach(bindDrawer);
+  // Shared controls live in core/controls.js.
+  ['practice','map'].forEach(name=>FretboardControls.bindDrawer({name}));
 
   // V6 custom select-buttons. They proxy the existing buttons, so gameplay has
   // one source of truth regardless of responsive presentation.
@@ -91,12 +76,16 @@
   window.addEventListener('resize',()=>requestAnimationFrame(()=>{refreshAllSelects();updateAdaptiveControls()}));
   document.addEventListener('fullscreenchange',()=>setTimeout(()=>{refreshAllSelects();updateAdaptiveControls()},50));
 
+  // Build instrument-dependent controls from the active profile.
+  const modeHost=$('#modeControls');if(modeHost){modeHost.innerHTML='';ModeRegistry.list(instrument).forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.dataset.mode=m.id;b.textContent=m.label;b.classList.toggle('active',m.id===state.mode||(i===0&&!instrument.modes[state.mode]));modeHost.appendChild(b)});if(!instrument.modes[state.mode])state.mode=ModeRegistry.list(instrument)[0]?.id||'';}
+  const fretHost=$('#fretCountControls .control-options');if(fretHost){fretHost.innerHTML='';engine.fretOptions.forEach(f=>{const b=document.createElement('button');b.type='button';b.dataset.frets=String(f);b.textContent=`${f} FT`;fretHost.appendChild(b)});}
+  state.triadStrings=instrument.defaultTriadSet||state.triadStrings;
   NOTES.forEach(n=>{const b=document.createElement('button');b.textContent=n;b.dataset.root=n;if(n==='A')b.classList.add('active');$('#rootControls').appendChild(b)});
   $('#rootControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.root=b.dataset.root;$$('#rootControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
-  $('#modeControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.mode=b.dataset.mode;if(state.mode==='penta')state.pattern='all';else if(state.mode==='triad')state.triadStrings='GBE';else state.chordShape='all';$$('#modeControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
+  $('#modeControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.mode=b.dataset.mode;const key=ModeRegistry.stateKey(instrument,state.mode),ctx=ModeRegistry.context(instrument,state.mode);state[key]=(key==='triadStrings'?instrument.defaultTriadSet:null)||ctx?.defaultValue||ctx?.values?.[0]||'all';$$('#modeControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
   $('#qualityControls').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.quality=b.dataset.quality;$$('#qualityControls button').forEach(x=>x.classList.toggle('active',x===b));renderPractice()});
   $('#fretCountControls').addEventListener('click',e=>{const b=e.target.closest('button[data-frets]');if(!b)return;state.maxFret=Number(b.dataset.frets);state.fretManual=true;renderPractice()});
-  $('#practicePositionButtons').addEventListener('click',e=>{const b=e.target.closest('button[data-value]');if(!b)return;const v=b.dataset.value;if(state.mode==='penta')state.pattern=v;else if(state.mode==='triad')state.triadStrings=v;else state.chordShape=v;renderPractice()});
+  $('#practicePositionButtons').addEventListener('click',e=>{const b=e.target.closest('button[data-value]');if(!b)return;state[ModeRegistry.stateKey(instrument,state.mode)]=b.dataset.value;renderPractice()});
   let resizeRenderFrame=0;
   window.addEventListener('resize',()=>{
     if(resizeRenderFrame)return;
@@ -121,27 +110,24 @@
   NOTES.forEach(n=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.dataset.mapNote=n;$('#mapNoteControls')?.appendChild(b)});
   $('#mapNoteControls')?.addEventListener('click',e=>{const b=e.target.closest('button[data-map-note]');if(!b)return;state.mapNote=b.dataset.mapNote;renderFretboardMap()});
   requestAnimationFrame(refreshAllSelects);
-  const MAP_COLORS={A:'#4f9dff','A#':'#9b6cff',B:'#c48b5b',C:'#35d1b0','C#':'#26b9d5',D:'#d15a91','D#':'#b864d8',E:'#82bd58',F:'#ff745e','F#':'#ff4f93',G:'#ff9d3f','G#':'#ffd14f'};
   function renderFretboardMap(){
     requestAnimationFrame(refreshAllSelects);
-    const svg=$('#mapFretboard'); if(!svg)return;
-    const maxFret=Math.min(21,state.mapMaxFret);
+    const svg=$('#mapFretboard');if(!svg)return;
+    const maxFret=Math.min(engine.maxFret,state.mapMaxFret);
     $$('#mapFretControls button[data-map-frets]').forEach(b=>b.classList.toggle('active',Number(b.dataset.mapFrets)===maxFret));
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
-    const {isP,fretPos,visualStringPos}=renderFretboardCore(svg,{prefix:'map',maxFret});
-    const defs=svg.querySelector('defs');const filter=svgEl('filter',{id:'mapGlow',x:'-80%',y:'-80%',width:'260%',height:'260%'});filter.append(svgEl('feGaussianBlur',{stdDeviation:'3',result:'b'}));const merge=svgEl('feMerge');merge.append(svgEl('feMergeNode',{in:'b'}));merge.append(svgEl('feMergeNode',{in:'SourceGraphic'}));filter.append(merge);defs?.append(filter);
-    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){const pc=noteAt(s,f),name=noteName(pc);if(state.mapNote!=='all'&&name!==state.mapNote)continue;const centerF=f===0?fretPos(0)-17:(fretPos(f-1)+fretPos(f))/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS,col=MAP_COLORS[name]||'#fff';svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb8','stroke-width':1.4,filter:'url(#mapGlow)'}));svg.append(svgEl('text',{x,y,fill:'#071016','font-size':isP?20:(name.length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':'middle'},name))}
+    FretboardMap.render({svg,engine,maxFret,selectedNote:state.mapNote,renderCore:renderFretboardCore,svgEl,noteName});
   }
 
-  function noteAt(stringIndex,fret){return mod(tuning[stringIndex].pc+fret)}
+  const noteAt=(stringIndex,fret)=>engine.noteAt(stringIndex,fret);
   function degreeFor(pc){const diff=mod(pc-rootPC());if(diff===0)return 'root';if(pc===thirdPC())return 'third';if(diff===2)return 'second';if(diff===5)return 'fourth';if(diff===7)return 'fifth';if(diff===9)return 'sixth';if(diff===10||diff===11)return 'seventh';return null}
   function pentaPCs(){return intervals[state.quality].penta.map(i=>mod(rootPC()+i))}
   function formula(){const ints=state.quality==='minor'?['1','♭3','4','5','♭7']:['1','2','3','5','6'];return pentaPCs().map(noteName).join(' • ')+'   '+ints.join(' • ')}
   function updatePracticeLegend(){
     const fourth=$('#legendFourth'),seventh=$('#legendSeventh');
     if(!fourth||!seventh)return;
-    const showFourth=state.mode==='penta'&&state.quality==='minor';
-    const showSeventh=state.mode==='penta'&&state.quality==='minor';
+    const showFourth=modeKind()==='pentatonic'&&state.quality==='minor';
+    const showSeventh=modeKind()==='pentatonic'&&state.quality==='minor';
     fourth.classList.toggle('legend-muted',!showFourth);
     seventh.classList.toggle('legend-muted',!showSeventh);
     if((state.degreeFilter==='fourth'&&!showFourth)||(state.degreeFilter==='seventh'&&!showSeventh))state.degreeFilter='all';
@@ -211,7 +197,7 @@
     }
   }
   function premiumString(svg,isP,p,start,end,s,prefix){
-    const gauges=[4.15,3.55,3.0,2.05,1.55,1.15],g=gauges[s];
+    const gaugeMax=4.15,gaugeMin=1.15,g=gaugeMax-(gaugeMax-gaugeMin)*(s/Math.max(1,STRING_COUNT-1));
     const attrs=isP?{x1:p,x2:p,y1:start,y2:end}:{x1:start,x2:end,y1:p,y2:p};
     const far=isP?{...attrs,x1:p+4.6,x2:p+4.6}:{...attrs,y1:p+4.6,y2:p+4.6};
     const near=isP?{...attrs,x1:p+2.2,x2:p+2.2}:{...attrs,y1:p+2.2,y2:p+2.2};
@@ -219,8 +205,8 @@
     svg.append(svgEl('line',{...far,stroke:'#000','stroke-width':g+5.5,opacity:.24,filter:`url(#${prefix}StringShadow)`}));
     svg.append(svgEl('line',{...near,stroke:'#000','stroke-width':g+2.4,opacity:.52}));
     // Metallic body.
-    svg.append(svgEl('line',{...attrs,stroke:s<=2?`url(#${prefix}Wound)`:'#aebbc3','stroke-width':g+1.15,'stroke-linecap':'round'}));
-    svg.append(svgEl('line',{...attrs,stroke:s<=2?'#dce8ed':'#f0f8fb','stroke-width':Math.max(.72,g*.30),opacity:s<=2?.56:.82,'stroke-linecap':'round'}));
+    svg.append(svgEl('line',{...attrs,stroke:s<(instrument.woundStrings||0)?`url(#${prefix}Wound)`:'#aebbc3','stroke-width':g+1.15,'stroke-linecap':'round'}));
+    svg.append(svgEl('line',{...attrs,stroke:s<(instrument.woundStrings||0)?'#dce8ed':'#f0f8fb','stroke-width':Math.max(.72,g*.30),opacity:s<(instrument.woundStrings||0)?.56:.82,'stroke-linecap':'round'}));
     // Razor specular reflection on the crown.
     const hi=isP?{...attrs,x1:p-.55,x2:p-.55}:{...attrs,y1:p-.55,y2:p-.55};
     svg.append(svgEl('line',{...hi,stroke:'#fff','stroke-width':.42,opacity:.9,'stroke-linecap':'round'}));
@@ -230,12 +216,10 @@
   // V7 FRETBOARD CORE — one structural/visual neck renderer for Practice, Map and Quiz.
   // Modes only add their own overlays, notes and interactions on top of this shared core.
   function renderFretboardCore(svg,{prefix,maxFret,onSurface,fretOffset=0}={}){
-    const isP=portrait(),W=isP?520:1500,H=isP?1500:430;
+    const layout=FretboardLayout.create({portrait:portrait(),stringCount:STRING_COUNT,maxFret});
+    const {isP,W,H,fretStart,fretEnd,stringStart,stringEnd,fretPos,stringPos}=layout;
     svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
-    const fretStart=isP?110:90,fretEnd=isP?H-70:W-40,stringStart=isP?85:70,stringEnd=isP?W-55:H-48;
-    const fretPos=f=>fretStart+(fretEnd-fretStart)*(f/maxFret);
-    const stringPos=s=>stringStart+(stringEnd-stringStart)*(s/5);
-    const visualStringPos=s=>stringPos(isP?s:5-s);
+    const visualStringPos=s=>stringPos(engine.visualStringIndex(s,isP));
     premiumSurface(svg,isP,W,H,prefix);
     if(onSurface)onSurface({svg,isP,W,H,fretStart,fretEnd,stringStart,stringEnd,fretPos,stringPos,visualStringPos,maxFret});
     for(let f=0;f<=maxFret;f++){
@@ -249,7 +233,8 @@
     // Standard markers: singles are centred between D/G. At fret 12, the two markers
     // are centred in the neighbouring string lanes: A/D and G/B.
     const centerBetween=(a,b)=>(visualStringPos(a)+visualStringPos(b))/2;
-    const singleInlayCenter=centerBetween(2,3);
+    const middleLo=Math.max(0,Math.floor((STRING_COUNT-1)/2)),middleHi=Math.min(STRING_COUNT-1,Math.ceil((STRING_COUNT-1)/2));
+    const singleInlayCenter=centerBetween(middleLo,middleHi);
     const drawInlay=(f,cross)=>{
       const p=(fretPos(f-1)+fretPos(f))/2;
       const base=isP?{cx:cross,cy:p}:{cx:p,cy:cross};
@@ -262,8 +247,10 @@
     [3,5,7,9,12,15,17,19,21].filter(actual=>actual>=fretOffset&&actual<=(fretOffset===0?maxFret:fretOffset+maxFret-1)).forEach(actual=>{
       const f=fretOffset===0?actual:(actual-fretOffset+1);
       if(actual===12){
-        drawInlay(f,centerBetween(1,2)); // G/B
-        drawInlay(f,centerBetween(3,4)); // D/A
+        const upperA=Math.max(0,Math.floor((STRING_COUNT-1)*.25)),upperB=Math.min(STRING_COUNT-1,upperA+1);
+        const lowerA=Math.max(0,Math.floor((STRING_COUNT-1)*.75)-1),lowerB=Math.min(STRING_COUNT-1,lowerA+1);
+        drawInlay(f,centerBetween(upperA,upperB));
+        drawInlay(f,centerBetween(lowerA,lowerB));
       }else drawInlay(f,singleInlayCenter);
     });
     tuning.forEach((st,s)=>{
@@ -274,150 +261,124 @@
   }
 
   function patternWindows(){
-    // Five standard pentatonic boxes, expressed as the inclusive fret span used by the notes.
-    // Example: G minor => Pattern 1 spans frets 3–6, Pattern 2 5–8, Pattern 3 7–10,
-    // Pattern 4 10–13 and Pattern 5 12–15. This matches the usual guitar scale diagrams.
-    // Major keeps the same physical five-box system by anchoring to its relative minor.
-    const anchorQuality=state.quality==='minor'?rootPC():mod(rootPC()-3);
-    const lowE=7;
-    const r=mod(anchorQuality-lowE); // anchor/root fret on the low E string within the first octave
-    const offsets=[[0,3],[2,5],[4,7],[7,10],[9,12]];
-    const out=[];
-    for(const [idx,o] of offsets.entries()){
-      for(const shift of [-12,0,12,24]){
-        const minFret=r+o[0]+shift, maxFret=r+o[1]+shift;
-        // Do not invent a truncated shape before the nut. Right-edge partial repeats are useful up to fret 24.
-        if(minFret<0 || minFret>21 || maxFret<0) continue;
-        out.push({id:idx+1,minFret,maxFret:Math.min(21,maxFret)});
+    // Position spans are derived from the active instrument's pentatonic geometry.
+    // No Guitar tuning/fret limit is assumed by the shared application shell.
+    const geom=instrument.pentatonic?.stringPairs;if(!geom)return[];
+    const anchor=pentaAnchorFret(),out=[];
+    Object.keys(geom).map(Number).sort((a,b)=>a-b).forEach(id=>{
+      const flat=geom[id].flat(),minOffset=Math.min(...flat),maxOffset=Math.max(...flat);
+      for(let shift=-24;shift<=engine.maxFret+24;shift+=12){
+        const minFret=anchor+minOffset+shift,maxFret=anchor+maxOffset+shift;
+        if(minFret<0||minFret>engine.maxFret||maxFret<0)continue;
+        out.push({id,minFret,maxFret:Math.min(engine.maxFret,maxFret)});
       }
-    }
+    });
     return out;
   }
 
-  const TRIAD_SETS={EAD:[0,1,2],ADG:[1,2,3],DGB:[2,3,4],GBE:[3,4,5]};
-  function triadShapes(){
-    const wanted=state.triadStrings==='all'?Object.entries(TRIAD_SETS):[[state.triadStrings,TRIAD_SETS[state.triadStrings]||TRIAD_SETS.GBE]];
-    const pcs=[rootPC(),thirdPC(),fifthPC()],labels=['root','third','fifth'],shapes=[];
-    wanted.forEach(([setName,strings])=>{
-      const candidates=strings.map(si=>{const arr=[];for(let f=0;f<=state.maxFret;f++){const pc=noteAt(si,f),di=pcs.indexOf(pc);if(di>=0)arr.push({string:si,fret:f,pc,degree:labels[di],midi:tuning[si].midi+f})}return arr});
-      for(const a of candidates[0])for(const b of candidates[1])for(const c of candidates[2]){
-        const combo=[a,b,c],degrees=new Set(combo.map(x=>x.degree));if(degrees.size<3)continue;
-        const frets=combo.map(x=>x.fret),span=Math.max(...frets)-Math.min(...frets);if(span>4)continue;
-        const midis=combo.map(x=>x.midi).sort((x,y)=>x-y);if(midis[2]-midis[0]>12)continue; // close voicing: within one octave
-        const lowest=[...combo].sort((x,y)=>x.midi-y.midi)[0].degree;
-        shapes.push({notes:combo,stringSet:setName,min:Math.min(...frets),max:Math.max(...frets),inversion:lowest==='root'?'Root position':lowest==='third'?'1st inversion':'2nd inversion'});
-      }
-    });
-    const seen=new Set();return shapes.filter(sh=>{const k=sh.notes.map(n=>n.string+':'+n.fret).join('|');if(seen.has(k))return false;seen.add(k);return true}).sort((a,b)=>a.min-b.min||a.max-b.max);
+  const TRIAD_SETS=instrument.triadSets;
+  function triadShapes(){return TriadEngine.findShapes({engine,rootPC:rootPC(),quality:state.quality,maxFret:state.maxFret,set:state.triadStrings})}
+
+  function chordShapes(){
+    const system=instrument.chords||instrument.caged;if(!system)return[];
+    return ChordEngine.templateShapes({engine,templates:system.templates,anchors:system.anchors,order:system.order,shape:state.chordShape,rootPC:rootPC(),quality:state.quality,maxFret:state.maxFret});
   }
 
-  // CAGED templates are the five familiar open chord forms expressed as movable shapes.
-  // Each entry is [stringIndex, fretRelativeToShapeBase, degree]. Minor flattens every 3rd by one fret.
-  const CAGED={
-    C:[[1,3,'root'],[2,2,'third'],[3,0,'fifth'],[4,1,'root'],[5,0,'third']],
-    A:[[1,0,'root'],[2,2,'fifth'],[3,2,'root'],[4,2,'third'],[5,0,'fifth']],
-    G:[[0,3,'root'],[1,2,'third'],[2,0,'fifth'],[3,0,'root'],[4,0,'third'],[5,3,'root']],
-    E:[[0,0,'root'],[1,2,'fifth'],[2,2,'root'],[3,1,'third'],[4,0,'fifth'],[5,0,'root']],
-    D:[[2,0,'root'],[3,2,'fifth'],[4,3,'root'],[5,2,'third']]
-  };
-  const CAGED_ANCHOR={C:[1,3],A:[1,0],G:[0,3],E:[0,0],D:[2,0]};
-  function cagedShapes(){
-    const wanted=state.chordShape==='all'?['C','A','G','E','D']:[state.chordShape];
-    const shapes=[];
-    wanted.forEach(shape=>{
-      const template=CAGED[shape],anchor=CAGED_ANCHOR[shape];if(!template)return;
-      for(let base=-4;base<=state.maxFret;base++){
-        const anchorFret=base+anchor[1];if(anchorFret<0||anchorFret>state.maxFret||noteAt(anchor[0],anchorFret)!==rootPC())continue;
-        const notes=[];let valid=true;
-        for(const [string,rel,degree] of template){
-          const fret=base+rel+(state.quality==='minor'&&degree==='third'?-1:0);
-          if(fret<0||fret>state.maxFret){valid=false;break}
-          const pc=noteAt(string,fret),expected=degree==='root'?rootPC():degree==='third'?thirdPC():fifthPC();
-          if(pc!==expected){valid=false;break}
-          notes.push({string,fret,pc,degree,midi:tuning[string].midi+fret});
-        }
-        if(valid)shapes.push({shape,notes,min:Math.min(...notes.map(n=>n.fret)),max:Math.max(...notes.map(n=>n.fret))});
-      }
-    });
-    const seen=new Set();return shapes.filter(sh=>{const k=sh.shape+'|'+sh.notes.map(n=>n.string+':'+n.fret).join('|');if(seen.has(k))return false;seen.add(k);return true}).sort((a,b)=>a.min-b.min||'CAGED'.indexOf(a.shape)-'CAGED'.indexOf(b.shape));
+  function arpeggioShapes(){
+    const selected=state.arpeggioType||'triad',type=selected==='7th'?(state.quality==='minor'?'min7':'maj7'):(state.quality==='minor'?'minor':'major');
+    const pcs=ArpeggioEngine.pitchClasses(rootPC(),type),degreeByPc=new Map(pcs.map(pc=>[pc,degreeFor(pc)]));
+    const notes=ArpeggioEngine.occurrences({engine,rootPC:rootPC(),type,maxFret:state.maxFret}).map(n=>({...n,degree:degreeByPc.get(n.pc)}));
+    return [{shape:type,notes}];
   }
-
-  function selectedPracticeShapes(){return state.mode==='triad'?triadShapes():state.mode==='chord'?cagedShapes():[]}
+  function selectedPracticeShapes(){const kind=modeKind();return kind==='triads'?triadShapes():kind==='chords'?chordShapes():kind==='arpeggios'?arpeggioShapes():[]}
   function selectedNoteKeys(shapes){const keys=new Set();shapes.forEach(sh=>sh.notes.forEach(n=>keys.add(n.string+':'+n.fret)));return keys}
   function renderContextControls(){
     const label=$('#practicePositionLabel'),wrap=$('#practicePositionButtons');if(!label||!wrap)return;
-    let values,current;
-    if(state.mode==='penta'){label.textContent='POSITIONS';values=['all','1','2','3','4','5'];current=state.pattern}
-    else if(state.mode==='triad'){label.textContent='STRINGS';values=['all','EAD','ADG','DGB','GBE'];current=state.triadStrings}
-    else{label.textContent='SHAPE';values=['all','C','A','G','E','D'];current=state.chordShape}
-    wrap.innerHTML='';values.forEach(v=>{const b=document.createElement('button');b.type='button';b.dataset.value=v;b.textContent=v==='all'?'ALL':v;b.classList.toggle('active',v===current);wrap.appendChild(b)});
+    const ctx=FretboardControls.context(instrument,state.mode);if(!ctx)return;
+    label.textContent=ctx.label;let current=state[ModeRegistry.stateKey(instrument,state.mode)];
+    wrap.innerHTML='';ctx.values.forEach(v=>{const b=document.createElement('button');b.type='button';b.dataset.value=v;b.textContent=v==='all'?'ALL':v;b.classList.toggle('active',v===current);wrap.appendChild(b)});
   }
 
   function renderPractice(){
     requestAnimationFrame(refreshAllSelects);
-    const title=state.root+' '+state.quality.toUpperCase()+' '+(state.mode==='penta'?'PENTATONIC':state.mode==='triad'?'TRIADS':'CAGED CHORDS');
+    const title=state.root+' '+state.quality.toUpperCase()+' '+(instrument.modes[state.mode]?.label||state.mode.toUpperCase());
     $('#practiceTitle').textContent=title;
-    $('#practiceFormula').textContent=state.mode==='penta'?formula():`${state.root} • ${noteName(thirdPC())} • ${noteName(fifthPC())}`;
+    const kind=modeKind();if(kind==='pentatonic')$('#practiceFormula').textContent=formula();else if(kind==='arpeggios'){const type=(state.arpeggioType==='7th'?(state.quality==='minor'?'min7':'maj7'):(state.quality==='minor'?'minor':'major'));$('#practiceFormula').textContent=ArpeggioEngine.pitchClasses(rootPC(),type).map(noteName).join(' • ')}else $('#practiceFormula').textContent=`${state.root} • ${noteName(thirdPC())} • ${noteName(fifthPC())}`;
     $$('#fretCountControls button').forEach(b=>b.classList.toggle('active',Number(b.dataset.frets)===state.maxFret));
     renderContextControls();updatePracticeLegend();updateDegreeFilterUI();
     const shapes=selectedPracticeShapes();
-    if(state.mode==='penta')$('#practiceHint').textContent='All 5 connected positions are visible. Select one to isolate it.';
-    else if(state.mode==='triad')$('#practiceHint').textContent=state.triadStrings==='all'?'All close-voicing triads across EAD, ADG, DGB and GBE.':'All root, 1st and 2nd inversion triads on '+state.triadStrings+'.';
-    else $('#practiceHint').textContent=state.chordShape==='all'?'All five CAGED chord shapes across the fretboard.':'CAGED '+state.chordShape+' shape across the fretboard.';
+    if(kind==='pentatonic')$('#practiceHint').textContent='All connected positions are visible. Select one to isolate it.';
+    else if(kind==='triads'){const groups=Object.keys(instrument.triadSets||{});$('#practiceHint').textContent=state.triadStrings==='all'?`All close-voicing triads across ${groups.join(', ')}.`:`All root, 1st and 2nd inversion triads on ${state.triadStrings}.`;}
+    else if(kind==='chords'){const label=(instrument.chords||instrument.caged)?.systemLabel||'chord';$('#practiceHint').textContent=state.chordShape==='all'?`All available ${label} shapes across the fretboard.`:`${state.chordShape} ${label} shape across the fretboard.`;}
+    else if(kind==='arpeggios')$('#practiceHint').textContent='Chord tones across the full visible fretboard.';
+    else $('#practiceHint').textContent='';
     renderFretboard($('#practiceFretboard'),{interactive:false,mode:state.mode,visibleKeys:selectedNoteKeys(shapes),shapes});
   }
 
+  const DEGREE_COLORS={root:'#00bfff',third:'#ff2fb3',fourth:'#ff6b00',fifth:'#d99a00',seventh:'#20b94b',second:'#7357ff',sixth:'#008f8f'};
+  // Pentatonic positions deliberately reuse the site's degree-legend palette.
+  // P1 Root cyan, P2 3rd pink, P3 4th orange, P4 5th yellow, P5 7th green.
+  const PENTA_POSITION_COLORS=[DEGREE_COLORS.root,DEGREE_COLORS.third,DEGREE_COLORS.fourth,DEGREE_COLORS.fifth,DEGREE_COLORS.seventh];
+  function fretCenter(fret,fretPos){return fret===0?fretPos(0)-15:(fretPos(fret-1)+fretPos(fret))/2}
+  function visiblePentaWindows(maxFret){return patternWindows().filter(w=>w.minFret<=maxFret&&(state.pattern==='all'||String(w.id)===String(state.pattern)))}
+  // Instrument-specific position geometry is supplied by the active profile.
+  const PENTA_STRING_PAIRS=instrument.pentatonic?.stringPairs;
+  function pentaAnchorFret(){
+    const anchorQuality=state.quality==='minor'?rootPC():mod(rootPC()-3),anchorString=instrument.pentatonic?.anchorCourse||0;
+    return mod(anchorQuality-tuning[anchorString].pc);
+  }
+  function visiblePentaPairs(maxFret){return PentatonicRenderer.visiblePairs({profile:instrument,anchor:pentaAnchorFret(),maxFret,selected:state.pattern})}
+  function pentaNotesOnString(window,string,maxFret){
+    // Kept for label placement/backward compatibility; derive visible notes from exact string pair.
+    const pair=window.pairs?window.pairs[string]:null;if(pair)return pair.filter(f=>f>=0&&f<=maxFret);
+    const pcs=new Set(pentaPCs()),notes=[];
+    for(let fret=Math.max(0,window.minFret);fret<=Math.min(window.maxFret,maxFret);fret++)if(pcs.has(noteAt(string,fret)))notes.push(fret);
+    return notes;
+  }
+  function renderPentaSegments(svg,{isP,fretPos,visualStringPos,maxFret}){PentatonicRenderer.renderSegments({svg,windows:visiblePentaPairs(maxFret),colors:PENTA_POSITION_COLORS,stringCount:STRING_COUNT,isPortrait:isP,fretPos,stringPos:visualStringPos,maxFret,fretCenter,svgEl})}
+  function renderPentaPositionLabels(svg,{isP,fretPos,visualStringPos,maxFret}){
+    visiblePentaPairs(maxFret).forEach(window=>{
+      const notes=[];for(let string=0;string<STRING_COUNT;string++)notes.push(...pentaNotesOnString(window,string,maxFret));if(!notes.length)return;
+      const min=Math.min(...notes),max=Math.max(...notes),mid=(fretCenter(min,fretPos)+fretCenter(max,fretPos))/2,color=PENTA_POSITION_COLORS[window.id-1];
+      const edgeString=STRING_COUNT-1,x=isP?visualStringPos(edgeString)-34:mid,y=isP?mid:visualStringPos(edgeString)-25;
+      const label=svgEl('g',{'pointer-events':'none'});label.append(svgEl('rect',{x:x-18,y:y-14,width:36,height:24,rx:8,fill:'#05080c',stroke:color,'stroke-width':2.2,opacity:.94}));label.append(svgEl('text',{x,y:y+3,fill:color,'font-size':13,'font-weight':1000,'text-anchor':'middle'},`P${window.id}`));svg.append(label);
+    });
+  }
   function renderFretboard(svg,opt){
-    const maxFret=Math.min(21,state.maxFret);
-    const core=renderFretboardCore(svg,{prefix:'practice',maxFret,onSurface:({isP,W,H,fretPos})=>{
-      if(opt.mode!=='penta')return;
-      const colors=['#ff3ec9','#35e78f','#ff5366','#ffd53c','#27d7ff'];
-      patternWindows().forEach(w=>{if(w.minFret>maxFret)return;if(state.pattern!=='all'&&String(w.id)!==String(state.pattern))return;const visibleMax=Math.min(w.maxFret,maxFret),a=fretPos(Math.max(0,w.minFret-1)),b=fretPos(visibleMax);const attrs=isP?{x:45,y:a,width:W-90,height:Math.max(8,b-a),fill:colors[w.id-1]+'15',stroke:colors[w.id-1], 'stroke-width':2,rx:12}:{x:a,y:32,width:Math.max(8,b-a),height:H-62,fill:colors[w.id-1]+'15',stroke:colors[w.id-1],'stroke-width':2,rx:12};svg.append(svgEl('rect',attrs));const tx=isP?W-10:a+8,ty=isP?a+20:52;svg.append(svgEl('text',{x:tx,y:ty,fill:colors[w.id-1],'font-size':14,'font-weight':900,'text-anchor':isP?'end':'start'},`P${w.id}`))})
-    }});
+    const maxFret=Math.min(engine.maxFret,state.maxFret);
+    const core=renderFretboardCore(svg,{prefix:'practice',maxFret,onSurface:ctx=>{if(ModeRegistry.kind(instrument,opt.mode)==='pentatonic')renderPentaSegments(svg,ctx)}});
     const {isP,fretPos,visualStringPos}=core;
-    const activeSet=opt.mode==='penta'?new Set(pentaPCs()):new Set([rootPC(),thirdPC(),fifthPC()]);
-    const visibleKeys=opt.visibleKeys||null;
-    for(let s=0;s<6;s++)for(let f=0;f<=maxFret;f++){
-      const pc=noteAt(s,f);if(!activeSet.has(pc))continue;if(opt.mode==='penta'&&state.pattern!=='all'&&!patternWindows().some(w=>String(w.id)===String(state.pattern)&&f>=w.minFret&&f<=Math.min(w.maxFret,maxFret)))continue;
-      const centerF=f===0?fretPos(0)-15:(fretPos(f-1)+fretPos(f))/2;const centerS=visualStringPos(s);const x=isP?centerS:centerF,y=isP?centerF:centerS;
+    if(ModeRegistry.kind(instrument,opt.mode)==='pentatonic')renderPentaPositionLabels(svg,core);
+    const renderKind=ModeRegistry.kind(instrument,opt.mode),activeSet=renderKind==='pentatonic'?new Set(pentaPCs()):renderKind==='arpeggios'?new Set(arpeggioShapes()[0]?.notes.map(n=>n.pc)||[]):new Set([rootPC(),thirdPC(),fifthPC()]);
+    const visibleKeys=opt.visibleKeys||null,pentaPairs=ModeRegistry.kind(instrument,opt.mode)==='pentatonic'?visiblePentaPairs(maxFret):[];
+    for(let s=0;s<STRING_COUNT;s++)for(let f=0;f<=maxFret;f++){
+      const pc=noteAt(s,f);if(!activeSet.has(pc))continue;if(ModeRegistry.kind(instrument,opt.mode)==='pentatonic'&&!pentaPairs.some(w=>{const pair=w.pairs[s];return f===pair[0]||f===pair[1]}))continue;
+      const centerF=fretCenter(f,fretPos),centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
       const d=degreeFor(pc);if(!d)continue;if(state.degreeFilter!=='all'&&d!==state.degreeFilter)continue;
-      if(opt.mode!=='penta'&&visibleKeys&&!visibleKeys.has(s+':'+f))continue;
-      let col=d==='root'?'#27d7ff':d==='third'?'#ff3ec9':d==='fourth'?'#ff8b3d':d==='fifth'?'#ffd53c':d==='seventh'?'#62ef75':'#91a3b1';
-      const g=svgEl('g',{opacity:1});const c=svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb0','stroke-width':1.6,'data-string':s,'data-fret':f});g.append(c);g.append(svgEl('text',{x,y:isP?y:y+4,fill:d==='fifth'?'#3c2b00':'#06131b','font-size':isP?20:(noteName(pc).length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},degreeLabel(pc)));svg.append(g)
+      if(ModeRegistry.kind(instrument,opt.mode)!=='pentatonic'&&visibleKeys&&!visibleKeys.has(s+':'+f))continue;
+      const degreeColor=DEGREE_COLORS[d]||'#52606b';
+      if(ModeRegistry.kind(instrument,opt.mode)==='pentatonic'){
+        const g=svgEl('g',{opacity:1});g.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:'#fff',stroke:'#dce8ef','stroke-width':2.2,'data-string':s,'data-fret':f}));g.append(svgEl('text',{x,y,fill:degreeColor,'font-size':isP?20:(noteName(pc).length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':'middle','pointer-events':'none'},degreeLabel(pc)));svg.append(g)
+      }else{
+        const col=degreeColor,g=svgEl('g',{opacity:1});const c=svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:col,stroke:'#ffffffb0','stroke-width':1.6,'data-string':s,'data-fret':f});g.append(c);g.append(svgEl('text',{x,y:isP?y:y+4,fill:d==='fifth'?'#3c2b00':'#06131b','font-size':isP?20:(noteName(pc).length>1?8.5:10.5),'font-weight':1000,'text-anchor':'middle','dominant-baseline':isP?'middle':'auto','pointer-events':'none'},degreeLabel(pc)));svg.append(g)
+      }
     }
   }
 
-  const QUIZ_WINDOWS={
-    1:[{range:[0,6],w:6},{range:[3,9],w:4},{range:[5,11],w:1}],
-    2:[{range:[0,6],w:2},{range:[3,9],w:5},{range:[5,11],w:4},{range:[8,14],w:1}],
-    3:[{range:[3,9],w:2},{range:[5,11],w:5},{range:[8,14],w:5},{range:[9,15],w:1}],
-    4:[{range:[5,11],w:2},{range:[8,14],w:6},{range:[9,15],w:4}],
-    5:[{range:[5,11],w:1},{range:[8,14],w:5},{range:[9,15],w:6}]
-  };
-  const QUIZ_RANKS=[
-    [10000,'🏆','VIRTUOSO','Total fretboard control at speed.'],[9000,'🎸','GUITAR LEGEND','The neck has nowhere left to hide.'],[8000,'🧙','NECK MASTER','Instant command across the fretboard.'],
-    [7000,'✨','FRET WIZARD','Notes appear before you need to search.'],[6000,'👑','GUITAR HERO','Fast, confident fretboard mastery.'],[5300,'⭐','ROCKSTAR','Fast, accurate and stage-ready.'],
-    [4700,'⚡','SHREDDER','The neck is starting to fear you.'],[4200,'🎛️','TONE MASTER','Control, speed and musical awareness.'],[3800,'🌀','STRING BENDER','Strong instincts across the strings.'],
-    [3450,'🔥','FRET MASTER','The fretboard map is locking in.'],[3150,'💀','SOLO MASTER','Strong fretboard instincts.'],[2900,'🤘','RIFF LORD','You command the riffs.'],
-    [2650,'🎤','HEADLINER','Ready for the big stage.'],[2450,'🎪','STAGE PLAYER','Comfortable under pressure.'],[2250,'🎵','LEAD GUITARIST','Solid lead-player territory.'],
-    [2000,'🪓','AXE SLINGER','You know how to handle that axe.'],[1800,'🏄','RHYTHM RIDER','The neck is becoming familiar.'],[1600,'🎸','GIG PLAYER','Good enough to survive the set.'],
-    [1400,'🎶','JAMMER','You can find your way through a jam.'],[1200,'🎼','PLAYER','A solid base is taking shape.'],[1000,'🎧','PRACTICER','The repetitions are paying off.'],
-    [850,'🌱','ROOKIE','The journey has officially begun.'],[700,'🎸','BEGINNER','You found the guitar. Now find the notes.'],[550,'🎵','CHORD CHASER','Always one fret behind the chord.'],
-    [400,'🧭','FRET EXPLORER','Boldly exploring unknown frets.'],[300,'🧠','NOTE HUNTER','The notes are hiding. Keep hunting.'],[200,'🗺️','NECK TOURIST','Nice neck. First time here?'],
-    [100,'🙈','FRET GUESSER','Confidence: high. Accuracy: adventurous.'],[50,'😬','NEEDS A TUNER','The guitar might be fine. We should still check.'],[0,'💀','AIR GUITARIST','At least air guitar has no wrong frets.']
-  ];
-  const QUIZ_DURATION_MS=60000,QUIZ_BASE_POINTS=100;
+  const QUIZ_DURATION_MS=product.quiz?.durationMs??QuizEngine.DURATION_MS,QUIZ_BASE_POINTS=product.quiz?.basePoints??QuizEngine.BASE_POINTS,QUIZ_MAX_MULTIPLIER=product.quiz?.maxMultiplier??QuizEngine.MAX_MULTIPLIER,QUIZ_MAX_FRET=product.quiz?.maxFret??15;
+  const quizSeconds=()=>Math.round(QUIZ_DURATION_MS/1000);
+  const QUIZ_RANKS=product.ranks||[];
+  const QUIZ_WINDOWS=product.quiz?.windows||QuizEngine.defaultWindows(QUIZ_MAX_FRET,QUIZ_MAX_MULTIPLIER);
   function pickQuizWindow(multiplier){
     const choices=QUIZ_WINDOWS[multiplier]||QUIZ_WINDOWS[1],total=choices.reduce((n,x)=>n+x.w,0);let r=Math.random()*total;
     for(const x of choices){r-=x.w;if(r<=0)return x.range.slice()}return choices[0].range.slice();
   }
   function quizRank(score){
-    const row=QUIZ_RANKS.find(r=>score>=r[0])||QUIZ_RANKS[QUIZ_RANKS.length-1];
-    return{emoji:row[1],rank:row[2],copy:row[3],min:row[0]};
+    return QuizEngine.rankFor(score,QUIZ_RANKS);
   }
   let rankLadderReturn='score';
   function resetQuizHud(){
-    $('#scoreCount').textContent='0';$('#comboCount').textContent='1';$('#liveRank').textContent='—';$('#quizTime').textContent='60.0';
+    $('#scoreCount').textContent='0';$('#comboCount').textContent='1';$('#liveRank').textContent='—';$('#quizTime').textContent=(QUIZ_DURATION_MS/1000).toFixed(1);
     const meter=$('#rankProgress');if(meter)meter.style.width='0%';
     $('.hud-time')?.classList.remove('time-warning','time-critical');$('.quiz-hud')?.classList.remove('hud-hot','hud-on-fire');
   }
@@ -451,7 +412,7 @@
   function targetPC(q){const r=PC[q.root];return q.target==='root'?r:q.target==='third'?mod(r+intervals[q.quality].third):mod(r+7)}
   function nextQuestion(){
     const qz=state.quiz;if(!qz||qz.finished)return;if(performance.now()>=qz.endsAt){finishQuiz();return}
-    const questionMultiplier=Math.max(1,Math.min(5,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.inputEnabledAt=performance.now()+120;
+    const questionMultiplier=Math.max(1,Math.min(QUIZ_MAX_MULTIPLIER,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.inputEnabledAt=performance.now()+120;
     const chordEl=$('#quizChord');chordEl.textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
     const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3RD':'3RD'):'5TH';
     $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;const targetEl=$('#quizPrompt strong');
@@ -488,13 +449,13 @@
       const local=localForFret(f);return[fretPos(local-1),fretPos(local)];
     };
     const stringBounds=s=>{
-      const center=visualStringPos(s),prev=s>0?visualStringPos(s-1):null,next=s<5?visualStringPos(s+1):null;
+      const center=visualStringPos(s),prev=s>0?visualStringPos(s-1):null,next=s<STRING_COUNT-1?visualStringPos(s+1):null;
       const a=prev===null?center-(next-center)/2:(center+prev)/2,b=next===null?center+(center-prev)/2:(center+next)/2;
       return[Math.min(a,b),Math.max(a,b)];
     };
     // Quiz-only interaction layer: each hit zone covers the full string lane between two frets.
     // Practice and Fretboard Map continue to use the shared core without this overlay.
-    for(let s=0;s<6;s++)for(let f=startFret;f<=endFret;f++){
+    for(let s=0;s<STRING_COUNT;s++)for(let f=startFret;f<=endFret;f++){
       const [fa,fb]=fretBounds(f),[sa,sb]=stringBounds(s),centerF=(fa+fb)/2,centerS=visualStringPos(s),x=isP?centerS:centerF,y=isP?centerF:centerS;
       const hit=isP
         ?svgEl('rect',{x:sa,y:fa,width:sb-sa,height:fb-fa,rx:7,class:'quiz-hit-zone',fill:'transparent','data-string':s,'data-fret':f})
@@ -513,7 +474,7 @@
     const qz=state.quiz;if(!qz||qz.finished||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;if(performance.now()>=qz.endsAt){finishQuiz();return}const q=qz.current,pc=noteAt(s,f);
     if(pc===targetPC(q)){
       qz.locked=true;qz.correct++;const oldRank=qz.score>0?quizRank(qz.score).rank:null,usedMultiplier=qz.multiplier,gain=QUIZ_BASE_POINTS*usedMultiplier,previousScore=qz.score;qz.score+=gain;
-      const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(5,qz.multiplier+1);const newRank=quizRank(qz.score).rank;
+      const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(QUIZ_MAX_MULTIPLIER,qz.multiplier+1);const newRank=quizRank(qz.score).rank;
       state.quizReveal={string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
       renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore});
       setTimeout(()=>{if(!state.quiz||state.quiz!==qz||qz.finished)return;state.quizReveal=null;nextQuestion()},250);
@@ -541,7 +502,7 @@
   function finishQuiz(){
     const qz=state.quiz;if(!qz||qz.finished)return;qz.finished=true;qz.locked=true;if(qz.timer){clearInterval(qz.timer);qz.timer=null}state.quizReveal=null;const time=$('#quizTime');if(time)time.textContent='0.0';const {emoji,rank,copy}=quizRank(qz.score);
     $('#resultRank').textContent=`${emoji} ${rank}`;$('#resultScore').textContent=qz.score.toLocaleString('en-US');
-    $('#resultCopy').textContent=`${copy} ${qz.correct} ${qz.correct===1?'correct answer':'correct answers'} in 60 seconds.`;
+    $('#resultCopy').textContent=`${copy} ${qz.correct} ${qz.correct===1?'correct answer':'correct answers'} in ${quizSeconds()} seconds.`;
     rankLadderReturn='score';showScoreResult();$('#resultModal').classList.add('show');$('#resultModal').setAttribute('aria-hidden','false');
   }
   $('#startQuizButton')?.addEventListener('click',startQuiz);
@@ -549,6 +510,6 @@
   $('#replayQuiz').addEventListener('click',startQuiz);
   $('#viewRankLadder')?.addEventListener('click',()=>showRankLadder('score'));
   $('#backToScore')?.addEventListener('click',backFromRankLadder);
-  $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,correct:0},{emoji,rank}=quizRank(qz.score);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points and ${qz.correct} correct answers in 60 seconds on Guitar Fretboard Hero 🎸\nWhat's your rank?`,url='https://guitar-fretboard-hero.seignemorte.com';try{if(navigator.share)await navigator.share({title:'Guitar Fretboard Hero',text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
+  $('#shareScore').addEventListener('click',async()=>{const qz=state.quiz||{score:0,correct:0},{emoji,rank}=quizRank(qz.score);const text=`${emoji} I reached ${rank} with ${qz.score.toLocaleString('en-US')} points and ${qz.correct} correct answers in ${quizSeconds()} seconds on ${product.name} ${product.shareEmoji||''}\nWhat's your rank?`,url=product.url||location.href;try{if(navigator.share)await navigator.share({title:product.name,text,url});else{await navigator.clipboard.writeText(`${text}\n${url}`);const shareLabel=$('#shareScore span');if(shareLabel){shareLabel.textContent='COPIED!';setTimeout(()=>shareLabel.textContent='SHARE MY SCORE',1400)}}}catch{}});
   renderPractice();
 })();

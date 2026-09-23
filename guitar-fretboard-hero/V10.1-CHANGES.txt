@@ -1,0 +1,21 @@
+Guitar Fretboard Hero V10.1.0 — reusable instrument architecture
+
+Core extracted:
+- core/fretboard-engine.js
+- core/music-theory.js
+- core/pentatonic-renderer.js
+- core/triad-engine.js
+- core/quiz-engine.js
+- core/controls.js
+
+Instrument configs:
+- instruments/guitar.js (active production profile)
+- instruments/bass-4.js (configuration scaffold; pentatonic geometry intentionally not invented)
+- instruments/ukulele.js (re-entrant GCEA profile scaffold)
+- instruments/guitar-12.js (course/pair model proof)
+
+Product configs:
+- products/guitar-fretboard-hero.js
+- products/bass-fretboard-hero.js
+
+CAGED stays guitar-specific. Triad theory is shared. Bass/ukulele pentatonic string-pair geometry remains to be supplied/validated before those products are enabled.

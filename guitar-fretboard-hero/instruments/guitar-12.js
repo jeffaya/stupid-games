@@ -1,0 +1,3 @@
+(() => {'use strict';
+const pc=n=>window.MusicTheory.PC[n];
+const base=[['E',40],['A',45],['D',50],['G',55],['B',59],['E',64]];const courses=base.map(([name,midi],i)=>({name,pc:pc(name),midi,physicalStrings:2,pairInterval:i<4?12:0}));window.FRETBOARD_INSTRUMENTS=window.FRETBOARD_INSTRUMENTS||{};window.FRETBOARD_INSTRUMENTS.guitar12={id:'guitar-12',family:'guitar',label:'12-string Guitar',physicalStrings:12,courses,fretOptions:[12,15,17,21],maxFret:21,woundStrings:6,modes:{penta:{plugin:'pentatonic',label:'PENTATONIC'},triad:{plugin:'triads',label:'TRIADS'},chord:{plugin:'chords',label:'CAGED CHORDS'}}};})();
