@@ -1,7 +1,0 @@
-Guitar Fretboard Hero V9.3.1 — Practice iPad Portrait Notes Fix
-
-- Base: V9.3.0 Unified Responsive Controls.
-- Fixed an invalid SVG filter reference (`url(#glow)`) on Practice note circles.
-- The referenced filter did not exist after the shared Fretboard Core rebuilt the SVG; Safari/iPad can therefore fail to paint those circles.
-- Practice note circles now render without the invalid filter reference, matching the robust SVG paint path used elsewhere.
-- No fretboard geometry, responsive CSS, controls, Map, Quiz, scoring or gameplay changes.

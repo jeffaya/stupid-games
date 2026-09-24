@@ -74,7 +74,6 @@
   const adaptiveObserver=new ResizeObserver(()=>requestAnimationFrame(()=>{refreshAllSelects();updateAdaptiveControls()}));
   $$('.control-panel').forEach(el=>adaptiveObserver.observe(el));
   window.addEventListener('resize',()=>requestAnimationFrame(()=>{refreshAllSelects();updateAdaptiveControls()}));
-  document.addEventListener('fullscreenchange',()=>setTimeout(()=>{refreshAllSelects();updateAdaptiveControls()},50));
 
   // Build instrument-dependent controls from the active profile.
   const modeHost=$('#modeControls');if(modeHost){modeHost.innerHTML='';ModeRegistry.list(instrument).forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.dataset.mode=m.id;b.textContent=m.label;b.classList.toggle('active',m.id===state.mode||(i===0&&!instrument.modes[state.mode]));modeHost.appendChild(b)});if(!instrument.modes[state.mode])state.mode=ModeRegistry.list(instrument)[0]?.id||'';}
@@ -254,7 +253,8 @@
       }else drawInlay(f,singleInlayCenter);
     });
     tuning.forEach((st,s)=>{
-      const p=visualStringPos(s);premiumString(svg,isP,p,fretStart,fretEnd,s,prefix);
+      const p=visualStringPos(s),physicalCount=Math.max(1,st.physicalStrings||st.pairIntervals?.length||1),pairGap=physicalCount>1?5:0;
+      for(let i=0;i<physicalCount;i++)premiumString(svg,isP,p+(i-(physicalCount-1)/2)*pairGap,fretStart,fretEnd,s,prefix);
       svg.append(svgEl('text',isP?{x:p,y:35,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'}:{x:24,y:p+6,fill:'#dbe8ef','font-size':18,'font-weight':800,'text-anchor':'middle'},st.name));
     });
     return {svg,isP,W,H,fretStart,fretEnd,stringStart,stringEnd,fretPos,stringPos,visualStringPos,maxFret};

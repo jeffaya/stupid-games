@@ -1,7 +1,7 @@
 {
-  "name": "Guitar Fretboard Hero",
+  "name": "Fretboard Hero",
   "short_name": "Fretboard Hero",
-  "description": "Free interactive guitar fretboard trainer for pentatonic scales, triads, chords, note mapping and quizzes.",
+  "description": "Interactive fretboard trainer.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
@@ -9,29 +9,10 @@
   "orientation": "any",
   "background_color": "#05070b",
   "theme_color": "#05070b",
-  "categories": [
-    "education",
-    "music",
-    "games"
-  ],
+  "categories": ["education", "music", "games"],
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
