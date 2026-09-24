@@ -67,3 +67,41 @@ The application shell is shared. Instrument selection remains controlled only by
 Reusable practice modes live in `/modes`. Instrument profiles only declare which plugins they expose and their instrument-specific context. Fretboard Map is rendered by `/core/fretboard-map.js`. Quiz timing/scoring limits and ranks belong to the product profile.
 
 Architecture rule: adding or switching an instrument must not require an `if (instrument === ...)` branch in `/core`.
+
+
+## V10.4 — Product identity
+
+The selected instrument now also selects the complete product identity: Home branding, Home copy, SEO metadata, canonical URL, Open Graph/Twitter metadata, structured data, share identity, PWA name/manifest and configurable asset paths.
+
+Product names are intentionally:
+- Guitar Fretboard Hero
+- Bass Fretboard Hero
+- Ukulele Fretboard Hero
+
+`guitar-12` is an instrument profile but uses the `Guitar Fretboard Hero` product identity. The deployment rule remains: same ZIP everywhere; edit only `site.config.json`.
+
+
+## V10.4.2 — Completed instrument profiles
+
+- `bass-4`: pentatonic P1–P5, triads, arpeggios, Bass-specific quiz ranks.
+- `ukulele`: pentatonic P1–P5 for re-entrant G C E A, triads, chord families, arpeggios, Ukulele-specific quiz ranks.
+- `guitar-12`: full Guitar pedagogy (pentatonic, triads, CAGED) on six courses, rendered as twelve physical strings; lower four courses are octave pairs and upper two are unison pairs.
+
+The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele Fretboard Hero. String/course count stays an instrument-profile detail.
+
+## Release notes
+
+### V10.4.5
+- Responsive CSS cleanup with no intentional visual or gameplay changes.
+- Consolidated the mobile right-side hamburger/header layout into the canonical responsive control contract.
+- Consolidated the right-anchored drawer behavior instead of keeping a late override patch.
+- Removed redundant responsive override code and trailing CSS noise before adding new screens.
+
+
+### V10.4.4
+- Removed fullscreen button and fullscreen functionality.
+- Mobile controls menu now uses the former fullscreen position on the right side of the header.
+- The controls drawer is right-anchored and opens inward from right to left.
+- Per-instrument SEO is configured for Guitar, Bass, Ukulele and 12-string Guitar.
+- Bass, Ukulele and 12-string Guitar instrument profiles are supported from the same package through `site.config.json`.
+
