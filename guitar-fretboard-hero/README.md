@@ -105,12 +105,10 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Per-instrument SEO is configured for Guitar, Bass, Ukulele and 12-string Guitar.
 - Bass, Ukulele and 12-string Guitar instrument profiles are supported from the same package through `site.config.json`.
 
-### V10.4.6
-- Universal compact navigation bar on Practice, Fretboard Map and Quiz at every resolution.
-- Back left, title centered, settings hamburger right only where settings exist.
-- Practice title is now the key only (for example `A MINOR`), with the active mode below.
-- Removed the redundant Practice note/degree formula.
-- Map and Quiz descriptions now sit below the navigation bar.
-- Practice and Map settings use the same right-side drawer on mobile, tablet and desktop.
-- Replaced the text back arrow with a centered SVG icon.
+### V10.4.7
+- Fixed the V10.4.6 regression that forced Practice and Fretboard Map controls into the hamburger drawer on tablet/desktop.
+- Restored the V9.3/V10.4.5 adaptive control contract: full buttons when space allows, progressive per-group selects when width tightens, hamburger drawer only on compact/mobile viewports.
+- Kept the universal compact header without overriding responsive drawer/toolbar behavior.
+- Fixed Back alignment by making Back, title and contextual hamburger real cells of the same header grid; removed absolute positioning from those header items.
+- Practice keeps the simplified key title and active-mode context line.
 
