@@ -119,3 +119,9 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Reordered the mobile header DOM to Back | section heading | Menu so the title is structurally centered between both controls.
 - Replaced the custom inline Back SVG with the existing lightweight icon treatment and forced the Back glyph to white.
 - Preserved the V9.3/V10.4.5 adaptive controls behavior: buttons → progressive selects → right-side hamburger only when required.
+
+
+### V10.4.9
+- Added horizontal breathing room to the inline responsive controls on tablet/desktop (20px side padding).
+- No changes to responsive buttons → selects → right-side hamburger behavior.
+- No changes to fretboard, theory, instruments, modes, products, or quiz mechanics.
