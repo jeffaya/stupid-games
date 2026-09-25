@@ -161,3 +161,9 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - On compact layouts only the Circle key selector moves into the right-hand drawer; the educational content never becomes a menu.
 - Desktop keeps Circle selector + theory side by side, with the fretboard below.
 - Existing tooltips and shared degree/chord component are preserved.
+
+## V10.5.5 — Quiz multiplier scoring
+- Quiz scoring now strongly rewards accurate streaks: ×1 = 100, ×2 = 250, ×3 = 500, ×4 = 800, ×5 = 1,200 points per correct answer.
+- A wrong answer still resets the multiplier to ×1; no extra penalty was added.
+- Rank thresholds are unchanged so the new scoring curve can be evaluated before recalibrating the ladder.
+- The score curve is product-configurable and shared by Guitar, Bass and Ukulele.
