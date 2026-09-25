@@ -417,7 +417,7 @@
     }
   }
 
-  const QUIZ_DURATION_MS=product.quiz?.durationMs??QuizEngine.DURATION_MS,QUIZ_BASE_POINTS=product.quiz?.basePoints??QuizEngine.BASE_POINTS,QUIZ_MAX_MULTIPLIER=product.quiz?.maxMultiplier??QuizEngine.MAX_MULTIPLIER,QUIZ_MAX_FRET=product.quiz?.maxFret??15;
+  const QUIZ_DURATION_MS=product.quiz?.durationMs??QuizEngine.DURATION_MS,QUIZ_BASE_POINTS=product.quiz?.basePoints??QuizEngine.BASE_POINTS,QUIZ_SCORE_TABLE=product.quiz?.scoreTable??QuizEngine.DEFAULT_SCORE_TABLE,QUIZ_MAX_MULTIPLIER=product.quiz?.maxMultiplier??QuizEngine.MAX_MULTIPLIER,QUIZ_MAX_FRET=product.quiz?.maxFret??15;
   const quizSeconds=()=>Math.round(QUIZ_DURATION_MS/1000);
   const QUIZ_RANKS=product.ranks||[];
   const QUIZ_WINDOWS=product.quiz?.windows||QuizEngine.defaultWindows(QUIZ_MAX_FRET,QUIZ_MAX_MULTIPLIER);
@@ -525,7 +525,7 @@
   function answerQuiz(s,f,node,questionId){
     const qz=state.quiz;if(!qz||qz.finished||qz.locked||qz.questionId!==questionId||performance.now()<qz.inputEnabledAt)return;if(performance.now()>=qz.endsAt){finishQuiz();return}const q=qz.current,pc=noteAt(s,f);
     if(pc===targetPC(q)){
-      qz.locked=true;qz.correct++;const oldRank=qz.score>0?quizRank(qz.score).rank:null,usedMultiplier=qz.multiplier,gain=QUIZ_BASE_POINTS*usedMultiplier,previousScore=qz.score;qz.score+=gain;
+      qz.locked=true;qz.correct++;const oldRank=qz.score>0?quizRank(qz.score).rank:null,usedMultiplier=qz.multiplier,gain=QuizEngine.scoreGain(usedMultiplier,QUIZ_BASE_POINTS,QUIZ_SCORE_TABLE),previousScore=qz.score;qz.score+=gain;
       const oldMultiplier=qz.multiplier;qz.multiplier=Math.min(QUIZ_MAX_MULTIPLIER,qz.multiplier+1);const newRank=quizRank(qz.score).rank;
       state.quizReveal={string:s,fret:f,gain};$('#quizFeedback').textContent=`Correct — ${noteName(pc)} • +${gain.toLocaleString('en-US')} pts`;
       renderQuizBoard();updateQuizStats({scoreGain:gain,rankChanged:newRank!==oldRank,multiplierChanged:qz.multiplier!==oldMultiplier,previousScore});
