@@ -3110,7 +3110,7 @@ body{
   .responsive-drawer{
     position:static!important;inset:auto!important;display:block!important;width:100%!important;max-width:none!important;height:auto!important;
     transform:none!important;transition:none!important;overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important;
-    padding:0 14px 8px!important;
+    padding:0 20px 8px!important;
   }
   .responsive-drawer>.control-panel{
     display:flex!important;flex-direction:row!important;align-items:flex-end!important;justify-content:center!important;flex-wrap:nowrap!important;
@@ -3147,7 +3147,7 @@ body{
 
 /* Tablet landscape: same toolbar, slightly denser. */
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
-  .responsive-drawer{padding-left:10px!important;padding-right:10px!important}
+  .responsive-drawer{padding-left:20px!important;padding-right:20px!important}
   .responsive-drawer>.control-panel{gap:8px!important}
   .control-panel>.control-group>label{font-size:10px!important;margin-bottom:5px!important}
   .control-panel>.control-group>.control-options>button,.control-panel>.control-group.is-select>.control-select .select-trigger{height:40px!important;min-height:40px!important}
