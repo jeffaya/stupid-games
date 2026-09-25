@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=10.5.0">
+  <link rel="stylesheet" href="./styles.css?v=10.5.3">
   <script id="productStructuredData" type="application/ld+json">{"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Fretboard Hero","description":"Interactive fretboard trainer."}</script>
 </head>
 <body>
@@ -133,17 +133,21 @@
       <header class="topbar">
         <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><span class="back-icon icon-arrow-left" aria-hidden="true">←</span></button>
         <div class="section-heading"><strong>CIRCLE OF FIFTHS</strong><small class="screen-context">KEYS • CHORDS • HARMONY</small></div>
-        <span class="topbar-spacer" aria-hidden="true"></span>
+        <button id="circleMenuBtn" class="icon-btn mobile-menu-btn" aria-label="Open Circle of Fifths menu" aria-expanded="false"><span></span><span></span><span></span></button>
       </header>
       <div class="circle-content">
-        <section class="circle-wheel-panel" aria-label="Interactive circle of fifths"><svg id="circleWheel" class="circle-wheel-svg" role="img" aria-label="Interactive Circle of Fifths"></svg></section>
-        <section class="circle-info-panel" aria-live="polite">
-          <div class="circle-key-title"><span>SELECTED KEY</span><strong id="circleKeyTitle">C MAJOR</strong><small id="circleRelative">Relative minor • Am</small></div>
-          <div class="circle-info-card"><span>KEY SIGNATURE</span><strong id="circleSignature">No sharps or flats</strong></div>
-          <div class="circle-info-card circle-scale-card"><span>MAJOR SCALE</span><div id="circleScale" class="circle-note-pills"></div></div>
-          <div class="circle-info-card circle-chords-card"><span>DIATONIC CHORDS</span><div id="circleChords" class="circle-chord-grid"></div></div>
-          <div class="circle-info-card circle-progressions-card"><span>COMMON PROGRESSIONS</span><div id="circleProgressions" class="circle-progressions"></div></div>
-        </section>
+        <div id="circleDrawer" class="circle-explorer" aria-hidden="false">
+          <div class="drawer-head"><strong>CIRCLE OF FIFTHS</strong><button id="circleMenuClose" class="icon-btn" aria-label="Close menu">×</button></div>
+          <section class="circle-wheel-panel" aria-label="Interactive circle of fifths"><svg id="circleWheel" class="circle-wheel-svg" role="img" aria-label="Interactive Circle of Fifths"></svg></section>
+          <section class="circle-info-panel" aria-live="polite">
+            <div class="circle-key-title"><span>SELECTED KEY</span><strong id="circleKeyTitle">C MAJOR</strong><small id="circleRelative">Relative minor • Am</small></div>
+            <div class="circle-info-card"><div class="circle-info-label"><span>KEY SIGNATURE</span><button type="button" class="circle-help-btn" data-circle-help="signature" aria-label="What is a key signature?" aria-expanded="false">?</button></div><strong id="circleSignature">No sharps or flats</strong><div class="circle-help-popover" data-circle-help-popover="signature" role="tooltip" hidden>The sharps or flats that belong to this key. They tell you which notes are altered throughout the scale.</div></div>
+            <div class="circle-info-card circle-scale-card"><div class="circle-info-label"><span>MAJOR SCALE</span><button type="button" class="circle-help-btn" data-circle-help="scale" aria-label="What is a major scale?" aria-expanded="false">?</button></div><div id="circleScale" class="circle-note-pills"></div><div class="circle-help-popover" data-circle-help-popover="scale" role="tooltip" hidden>The 7 notes that make up the selected major key. These notes are the foundation for melodies and chords in that key.</div></div>
+            <div class="circle-info-card circle-chords-card"><div class="circle-info-label"><span>DIATONIC CHORDS</span><button type="button" class="circle-help-btn" data-circle-help="chords" aria-label="What are diatonic chords?" aria-expanded="false">?</button></div><div id="circleChords" class="circle-chord-grid"></div><div class="circle-help-popover" data-circle-help-popover="chords" role="tooltip" hidden>The 7 chords built only from notes of this key. Roman numerals show each chord's role in the key.</div></div>
+            <div class="circle-info-card circle-progressions-card"><div class="circle-info-label"><span>COMMON PROGRESSIONS</span><button type="button" class="circle-help-btn" data-circle-help="progressions" aria-label="What are common chord progressions?" aria-expanded="false">?</button></div><div id="circleProgressions" class="circle-progressions"></div><div class="circle-help-popover" data-circle-help-popover="progressions" role="tooltip" hidden><span>Chord sequences commonly used in songs.</span><strong id="circleProgressionExample"></strong></div></div>
+          </section>
+        </div>
+        <div id="circleDrawerBackdrop" class="drawer-backdrop"></div>
         <section class="circle-fretboard-panel">
           <div class="circle-fretboard-heading"><strong id="circleFretboardTitle">C MAJOR ON THE FRETBOARD</strong><small>Scale notes across the active instrument</small></div>
           <div class="fretboard-wrap circle-board"><svg id="circleFretboard" role="img" aria-label="Selected key on the fretboard"></svg></div>
@@ -205,7 +209,7 @@
     </div>
   </div>
 
-  <script src="./bootstrap.js?v=10.4.9" defer></script>
+  <script src="./bootstrap.js?v=10.5.3" defer></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 </body>
