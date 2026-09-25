@@ -301,9 +301,10 @@
 
   function renderPractice(){
     requestAnimationFrame(refreshAllSelects);
-    const title=state.root+' '+state.quality.toUpperCase()+' '+(instrument.modes[state.mode]?.label||state.mode.toUpperCase());
+    const title=state.root+' '+state.quality.toUpperCase();
     $('#practiceTitle').textContent=title;
-    const kind=modeKind();if(kind==='pentatonic')$('#practiceFormula').textContent=formula();else if(kind==='arpeggios'){const type=(state.arpeggioType==='7th'?(state.quality==='minor'?'min7':'maj7'):(state.quality==='minor'?'minor':'major'));$('#practiceFormula').textContent=ArpeggioEngine.pitchClasses(rootPC(),type).map(noteName).join(' • ')}else $('#practiceFormula').textContent=`${state.root} • ${noteName(thirdPC())} • ${noteName(fifthPC())}`;
+    const kind=modeKind();
+    $('#practiceFormula').textContent=(instrument.modes[state.mode]?.label||state.mode).toUpperCase();
     $$('#fretCountControls button').forEach(b=>b.classList.toggle('active',Number(b.dataset.frets)===state.maxFret));
     renderContextControls();updatePracticeLegend();updateDegreeFilterUI();
     const shapes=selectedPracticeShapes();
