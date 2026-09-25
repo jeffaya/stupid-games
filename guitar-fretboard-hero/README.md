@@ -133,3 +133,24 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Added selected-key information and a shared Fretboard Core scale view for the active instrument.
 - Responsive layout: vertical learning flow on mobile/tablet portrait; Circle + harmony information side-by-side on wider tablet/desktop; fretboard below.
 - Existing V10.4.9 Practice, Map, Quiz, header and adaptive controls behavior remain unchanged.
+
+
+## V10.5.1 — Circle responsive integration
+- Circle now uses the exact shared V10.4.9 header contract.
+- On compact widths, the Circle + selected-key theory panel moves into the right-hand hamburger drawer.
+- The main compact view prioritizes the fretboard.
+- Desktop keeps Circle + theory visible inline.
+- No musical-engine changes.
+
+
+## V10.5.2 — Circle learning tooltips
+- Added tap/click help bubbles for Key Signature, Major Scale, Diatonic Chords and Common Progressions.
+- Help works with mouse, touch and keyboard; only one explanation stays open and Escape/click outside closes it.
+- Common Progressions includes a live example translated from Roman numerals to the actual chords of the selected key.
+- No changes to Circle theory, fretboard engines, instrument profiles, Practice, Map or Quiz.
+
+## V10.5.3 — Shared degree/chord component
+
+- Diatonic Chords and Common Progressions now reuse the same degree/chord visual component.
+- Common Progressions displays both the Roman-numeral degree and its actual chord for the selected key, while preserving the pink progression arrows.
+- No changes to Circle theory, fretboard rendering, responsive drawer behavior, Practice, Map, or Quiz.

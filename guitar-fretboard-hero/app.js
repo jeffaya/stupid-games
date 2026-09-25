@@ -18,7 +18,7 @@
   function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='circle') renderCircle();if(screen==='quiz') prepareQuiz();}
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
   // Shared controls live in core/controls.js.
-  ['practice','map'].forEach(name=>FretboardControls.bindDrawer({name}));
+  ['practice','map','circle'].forEach(name=>FretboardControls.bindDrawer({name}));
 
   // V6 custom select-buttons. They proxy the existing buttons, so gameplay has
   // one source of truth regardless of responsive presentation.
@@ -119,6 +119,21 @@
     FretboardMap.render({svg,engine,maxFret,selectedNote:state.mapNote,renderCore:renderFretboardCore,svgEl,noteName});
   }
 
+  function closeCircleHelp(except=null){
+    $$('.circle-help-popover').forEach(pop=>{if(pop===except)return;pop.hidden=true});
+    $$('.circle-help-btn').forEach(btn=>{if(except&&btn.dataset.circleHelp===except.dataset.circleHelpPopover)return;btn.setAttribute('aria-expanded','false')});
+  }
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest('.circle-help-btn');
+    if(btn){
+      const pop=$(`.circle-help-popover[data-circle-help-popover="${btn.dataset.circleHelp}"]`);
+      if(!pop)return;
+      const opening=pop.hidden;closeCircleHelp(opening?pop:null);pop.hidden=!opening;btn.setAttribute('aria-expanded',String(opening));return;
+    }
+    if(!e.target.closest('.circle-help-popover'))closeCircleHelp();
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCircleHelp()});
+
   function renderCircle(){
     const wheel=$('#circleWheel');if(!wheel)return;
     const key=CircleOfFifths.getKey(state.circleKey);
@@ -127,8 +142,14 @@
     $('#circleRelative').textContent=`Relative minor • ${key.minor}`;
     $('#circleSignature').textContent=key.accidentals;
     $('#circleScale').innerHTML=key.scale.map((n,i)=>`<span${i===0?' class="root"':''}>${n}</span>`).join('');
-    $('#circleChords').innerHTML=key.chords.map(c=>`<div><small>${c.degree}</small><strong>${c.name}</strong></div>`).join('');
-    $('#circleProgressions').innerHTML=key.progressions.map(p=>`<div>${p.map(d=>`<span>${d}</span>`).join('<b>→</b>')}</div>`).join('');
+    const degreeChord=(degree,name)=>`<div class="degree-chord"><small>${degree}</small><strong>${name}</strong></div>`;
+    const degreeToChord=new Map(key.chords.map(c=>[c.degree,c.name]));
+    $('#circleChords').innerHTML=key.chords.map(c=>degreeChord(c.degree,c.name)).join('');
+    $('#circleProgressions').innerHTML=key.progressions.map(p=>`<div>${p.map(d=>degreeChord(d,degreeToChord.get(d)||d)).join('<b>→</b>')}</div>`).join('');
+    const firstProgression=key.progressions[0];
+    const example=firstProgression.map(d=>degreeToChord.get(d)||d);
+    const progressionExample=$('#circleProgressionExample');
+    if(progressionExample)progressionExample.textContent=`For example ${firstProgression.join('–')} in ${key.name} major means ${example.join('–')}.`;
     $('#circleFretboardTitle').textContent=`${key.name} MAJOR ON THE FRETBOARD`;
     renderCircleFretboard(key);
   }
