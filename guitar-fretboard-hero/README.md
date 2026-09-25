@@ -125,3 +125,11 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Added horizontal breathing room to the inline responsive controls on tablet/desktop (20px side padding).
 - No changes to responsive buttons → selects → right-side hamburger behavior.
 - No changes to fretboard, theory, instruments, modes, products, or quiz mechanics.
+
+### V10.5.0 — Circle of Fifths
+- Added Circle of Fifths as the fourth learning area on Home: Practice → Fretboard Map → Circle of Fifths → Quiz.
+- Added a reusable pure theory core for the 12 major keys, relative minors, key signatures, major scales, diatonic chords and common progressions.
+- Added a responsive interactive SVG Circle of Fifths renderer.
+- Added selected-key information and a shared Fretboard Core scale view for the active instrument.
+- Responsive layout: vertical learning flow on mobile/tablet portrait; Circle + harmony information side-by-side on wider tablet/desktop; fretboard below.
+- Existing V10.4.9 Practice, Map, Quiz, header and adaptive controls behavior remain unchanged.

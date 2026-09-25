@@ -2,7 +2,7 @@ window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};
 window.FRETBOARD_PRODUCTS.ukulele={
   id:'ukulele-fretboard-hero',instrument:'ukulele',name:'Ukulele Fretboard Hero',shareEmoji:'🎶',url:'https://ukulele-fretboard-hero.seignemorte.com',
   branding:{name:'Ukulele Fretboard Hero',instrumentName:'Ukulele',heroWords:['UKULELE','FRETBOARD','HERO']},
-  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads, chords & arpeggios in every key',mapDescription:'Every note. One neck.',quizDescription:'Prove you know the neck. No excuses.'},
+  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads, chords & arpeggios in every key',mapDescription:'Every note. One neck.',circleDescription:'Keys, chords & harmonic relationships',quizDescription:'Prove you know the neck. No excuses.'},
   seo:{
     title:'Ukulele Fretboard Hero — Learn Ukulele Fretboard Notes, Scales, Triads & Chords',
     description:'Learn the ukulele fretboard with an interactive G–C–E–A note map, pentatonic positions, triads, chords, arpeggios and a 60-second fretboard quiz. Designed for standard reentrant high-G tuning.',
@@ -14,7 +14,7 @@ window.FRETBOARD_PRODUCTS.ukulele={
     twitterTitle:'Ukulele Fretboard Hero — Learn the Ukulele Fretboard',
     twitterDescription:'Interactive G–C–E–A ukulele fretboard notes, scales, triads, chords, arpeggios and a fast quiz.',
     structuredDescription:'Free interactive ukulele fretboard learning tool for standard reentrant high-G G–C–E–A tuning with note mapping, pentatonic positions, triads, chords, arpeggios and quizzes.',
-    featureList:['G–C–E–A ukulele fretboard note map','Reentrant high-G tuning','Pentatonic positions','Ukulele triads and chords','Ukulele arpeggios','60-second fretboard quiz']
+    featureList:['G–C–E–A ukulele fretboard note map','Reentrant high-G tuning','Pentatonic positions','Ukulele triads and chords','Ukulele arpeggios','Circle of Fifths and key harmony','60-second fretboard quiz']
   },
   pwa:{manifest:'manifests/ukulele.webmanifest',name:'Ukulele Fretboard Hero',shortName:'Ukulele Hero',description:'Interactive ukulele fretboard trainer for scales, triads, chords, arpeggios, note mapping and quizzes.'},
   assets:{ogImage:'assets/og/ukulele.jpg',faviconIco:'favicon.ico',faviconSvg:'favicon.svg',favicon16:'favicon-16.png',favicon32:'favicon-32.png',favicon48:'favicon-48.png',icon192:'icon-192.png',icon512:'icon-512.png',appleTouchIcon:'apple-touch-icon.png',maskable512:'icon-maskable-512.png'},

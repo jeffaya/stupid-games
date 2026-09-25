@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=10.4.9">
+  <link rel="stylesheet" href="./styles.css?v=10.5.0">
   <script id="productStructuredData" type="application/ld+json">{"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Fretboard Hero","description":"Interactive fretboard trainer."}</script>
 </head>
 <body>
@@ -64,6 +64,10 @@
         <button class="hero-btn map-btn" data-go="fretmap">
           <span class="hero-icon map-note" aria-hidden="true"><svg viewBox="0 0 64 64"><path class="note-beam" d="M40 8v34.5c-2.4-1.6-5.6-2.4-9-1.8-6.2 1-10.7 5.2-10 9.5.7 4.3 6.2 7 12.4 6 5.5-.9 9.6-4.4 9.7-8.2V20l14-3.4V8L40 12.1V8Z"/></svg></span>
           <strong>FRETBOARD MAP</strong><small>Every note. One neck.</small>
+        </button>
+        <button class="hero-btn circle-btn" data-go="circle">
+          <span class="hero-icon circle-wheel" aria-hidden="true">◉</span>
+          <strong>CIRCLE OF FIFTHS</strong><small>Keys, chords & harmonic relationships</small>
         </button>
         <button class="hero-btn secondary" data-go="quiz">
           <span class="hero-icon quiz-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path class="icon-q" d="M15 20C16.8 9.9 24.7 4 35.7 4 48 4 56 11.2 56 21.7c0 9.6-5.7 14-12.3 17.9-5.3 3.2-7.5 5.7-7.5 11.4H22.4c0-10.8 4.5-16 11.8-20.4 5.1-3.1 8.1-5.1 8.1-8.8 0-3.4-3.1-5.8-7.5-5.8-5.2 0-8.2 2.9-9 7.6L15 20Zm7 36h14.5v8H22v-8Z"/></svg></span>
@@ -123,6 +127,28 @@
       <div id="mapDrawerBackdrop" class="drawer-backdrop"></div>
       <div class="fretboard-wrap fretboard-stage map-board"><svg id="mapFretboard" role="img" aria-label="All notes on the fretboard"></svg></div>
       
+    </section>
+
+    <section id="circle" class="screen circle-screen" aria-label="Circle of Fifths">
+      <header class="topbar">
+        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><span class="back-icon icon-arrow-left" aria-hidden="true">←</span></button>
+        <div class="section-heading"><strong>CIRCLE OF FIFTHS</strong><small class="screen-context">KEYS • CHORDS • HARMONY</small></div>
+        <span class="topbar-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="circle-content">
+        <section class="circle-wheel-panel" aria-label="Interactive circle of fifths"><svg id="circleWheel" class="circle-wheel-svg" role="img" aria-label="Interactive Circle of Fifths"></svg></section>
+        <section class="circle-info-panel" aria-live="polite">
+          <div class="circle-key-title"><span>SELECTED KEY</span><strong id="circleKeyTitle">C MAJOR</strong><small id="circleRelative">Relative minor • Am</small></div>
+          <div class="circle-info-card"><span>KEY SIGNATURE</span><strong id="circleSignature">No sharps or flats</strong></div>
+          <div class="circle-info-card circle-scale-card"><span>MAJOR SCALE</span><div id="circleScale" class="circle-note-pills"></div></div>
+          <div class="circle-info-card circle-chords-card"><span>DIATONIC CHORDS</span><div id="circleChords" class="circle-chord-grid"></div></div>
+          <div class="circle-info-card circle-progressions-card"><span>COMMON PROGRESSIONS</span><div id="circleProgressions" class="circle-progressions"></div></div>
+        </section>
+        <section class="circle-fretboard-panel">
+          <div class="circle-fretboard-heading"><strong id="circleFretboardTitle">C MAJOR ON THE FRETBOARD</strong><small>Scale notes across the active instrument</small></div>
+          <div class="fretboard-wrap circle-board"><svg id="circleFretboard" role="img" aria-label="Selected key on the fretboard"></svg></div>
+        </section>
+      </div>
     </section>
 
     <section id="quiz" class="screen quiz-screen" aria-label="Quiz">

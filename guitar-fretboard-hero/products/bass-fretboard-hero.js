@@ -2,7 +2,7 @@ window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};
 window.FRETBOARD_PRODUCTS.bass={
   id:'bass-fretboard-hero',instrument:'bass4',name:'Bass Fretboard Hero',shareEmoji:'🎸',url:'https://bass-fretboard-hero.seignemorte.com',
   branding:{name:'Bass Fretboard Hero',instrumentName:'Bass',heroWords:['BASS','FRETBOARD','HERO']},
-  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads & arpeggios in every key',mapDescription:'Every note. One neck.',quizDescription:'Prove you know the neck. No excuses.'},
+  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads & arpeggios in every key',mapDescription:'Every note. One neck.',circleDescription:'Keys, chords & harmonic relationships',quizDescription:'Prove you know the neck. No excuses.'},
   seo:{
     title:'Bass Fretboard Hero — Learn Bass Fretboard Notes, Pentatonic Scales, Triads & Arpeggios',
     description:'Learn the bass fretboard with interactive note maps, major and minor pentatonic positions, triads, arpeggios and a 60-second fretboard quiz. Built for 4-string bass in standard E–A–D–G tuning.',
@@ -14,7 +14,7 @@ window.FRETBOARD_PRODUCTS.bass={
     twitterTitle:'Bass Fretboard Hero — Learn the Bass Fretboard',
     twitterDescription:'Interactive bass fretboard notes, pentatonic positions, triads, arpeggios and a fast quiz for standard 4-string bass.',
     structuredDescription:'Free interactive 4-string bass fretboard learning tool for standard E–A–D–G tuning with note mapping, pentatonic positions, triads, arpeggios and a timed quiz.',
-    featureList:['4-string bass fretboard note map','Standard E–A–D–G tuning','Major and minor pentatonic positions','Bass triads','Bass arpeggios','60-second fretboard quiz']
+    featureList:['4-string bass fretboard note map','Standard E–A–D–G tuning','Major and minor pentatonic positions','Bass triads','Bass arpeggios','Circle of Fifths and key harmony','60-second fretboard quiz']
   },
   pwa:{manifest:'manifests/bass.webmanifest',name:'Bass Fretboard Hero',shortName:'Bass Hero',description:'Interactive bass fretboard trainer for pentatonics, triads, arpeggios, note mapping and quizzes.'},
   assets:{ogImage:'assets/og/bass.jpg',faviconIco:'favicon.ico',faviconSvg:'favicon.svg',favicon16:'favicon-16.png',favicon32:'favicon-32.png',favicon48:'favicon-48.png',icon192:'icon-192.png',icon512:'icon-512.png',appleTouchIcon:'apple-touch-icon.png',maskable512:'icon-maskable-512.png'},

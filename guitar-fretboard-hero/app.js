@@ -9,13 +9,13 @@
   const tuning=engine.tuning,STRING_COUNT=engine.stringCount;
   const defaultFretCount=()=>window.innerWidth<=800?12:((navigator.maxTouchPoints||0)>1&&window.innerWidth<=1366?15:21);
   const firstMode=ModeRegistry.list(instrument)[0]?.id||'';
-  const state={screen:'home',mode:firstMode,root:'A',quality:'minor',pattern:ModeRegistry.context(instrument,'penta')?.defaultValue||'all',triadStrings:instrument.defaultTriadSet||ModeRegistry.context(instrument,'triad')?.defaultValue||'all',chordShape:ModeRegistry.context(instrument,'chord')?.defaultValue||'all',arpeggioType:ModeRegistry.context(instrument,'arpeggio')?.defaultValue||'triad',maxFret:defaultFretCount(),fretManual:false,degreeFilter:'all',mapMaxFret:defaultFretCount(),mapFretManual:false,mapNote:'all',quiz:null,quizReveal:null};
+  const state={screen:'home',mode:firstMode,root:'A',quality:'minor',pattern:ModeRegistry.context(instrument,'penta')?.defaultValue||'all',triadStrings:instrument.defaultTriadSet||ModeRegistry.context(instrument,'triad')?.defaultValue||'all',chordShape:ModeRegistry.context(instrument,'chord')?.defaultValue||'all',arpeggioType:ModeRegistry.context(instrument,'arpeggio')?.defaultValue||'triad',maxFret:defaultFretCount(),fretManual:false,degreeFilter:'all',mapMaxFret:defaultFretCount(),mapFretManual:false,mapNote:'all',quiz:null,quizReveal:null,circleKey:0,circleMaxFret:15};
   const modeKind=()=>ModeRegistry.kind(instrument,state.mode);
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const rootPC=()=>PC[state.root];
   const thirdPC=()=>mod(rootPC()+intervals[state.quality].third);
   const fifthPC=()=>mod(rootPC()+7);
-  function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='quiz') prepareQuiz();}
+  function go(screen){state.screen=screen;$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+screen).classList.add('active');if(screen==='practice') renderPractice();if(screen==='fretmap') renderFretboardMap();if(screen==='circle') renderCircle();if(screen==='quiz') prepareQuiz();}
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
   // Shared controls live in core/controls.js.
   ['practice','map'].forEach(name=>FretboardControls.bindDrawer({name}));
@@ -94,6 +94,7 @@
       if(!state.mapFretManual)state.mapMaxFret=defaultFretCount();
       if(state.screen==='practice')renderPractice();
       if(state.screen==='fretmap')renderFretboardMap();
+      if(state.screen==='circle')renderCircle();
       if(state.screen==='quiz')renderQuizBoard();
     });
   });
@@ -117,6 +118,35 @@
     $$('#mapNoteControls button[data-map-note]').forEach(b=>{const on=b.dataset.mapNote===state.mapNote;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
     FretboardMap.render({svg,engine,maxFret,selectedNote:state.mapNote,renderCore:renderFretboardCore,svgEl,noteName});
   }
+
+  function renderCircle(){
+    const wheel=$('#circleWheel');if(!wheel)return;
+    const key=CircleOfFifths.getKey(state.circleKey);
+    CircleRenderer.render({svg:wheel,selected:state.circleKey,onSelect:index=>{state.circleKey=index;renderCircle()}});
+    $('#circleKeyTitle').textContent=`${key.name} MAJOR`;
+    $('#circleRelative').textContent=`Relative minor • ${key.minor}`;
+    $('#circleSignature').textContent=key.accidentals;
+    $('#circleScale').innerHTML=key.scale.map((n,i)=>`<span${i===0?' class="root"':''}>${n}</span>`).join('');
+    $('#circleChords').innerHTML=key.chords.map(c=>`<div><small>${c.degree}</small><strong>${c.name}</strong></div>`).join('');
+    $('#circleProgressions').innerHTML=key.progressions.map(p=>`<div>${p.map(d=>`<span>${d}</span>`).join('<b>→</b>')}</div>`).join('');
+    $('#circleFretboardTitle').textContent=`${key.name} MAJOR ON THE FRETBOARD`;
+    renderCircleFretboard(key);
+  }
+  function renderCircleFretboard(key){
+    const svg=$('#circleFretboard');if(!svg)return;
+    const maxFret=Math.min(engine.maxFret,state.circleMaxFret);
+    const core=renderFretboardCore(svg,{prefix:'circle',maxFret});
+    const {isP,fretPos,visualStringPos}=core,pcs=new Set(key.scalePCs);
+    const palette=['#27d7ff','#5cffb2','#ff3ec9','#ff9d3f','#ffd14f','#9b6cff','#35d1b0'];
+    for(let string=0;string<STRING_COUNT;string++)for(let fret=0;fret<=maxFret;fret++){
+      const pc=engine.noteAt(string,fret),degree=key.scalePCs.indexOf(pc);if(!pcs.has(pc)||degree<0)continue;
+      const centerF=fret===0?fretPos(0)-17:(fretPos(fret-1)+fretPos(fret))/2,centerS=visualStringPos(string),x=isP?centerS:centerF,y=isP?centerF:centerS;
+      const root=degree===0,col=palette[degree];
+      svg.append(svgEl('circle',{cx:x,cy:y,r:isP?20:13,fill:root?'#f8fbff':'#0a1118',stroke:col,'stroke-width':root?4:2.4}));
+      svg.append(svgEl('text',{x,y,fill:root?'#071016':col,'font-size':isP?18:10,'font-weight':1000,'text-anchor':'middle','dominant-baseline':'middle'},key.scale[degree]));
+    }
+  }
+
 
   const noteAt=(stringIndex,fret)=>engine.noteAt(stringIndex,fret);
   function degreeFor(pc){const diff=mod(pc-rootPC());if(diff===0)return 'root';if(pc===thirdPC())return 'third';if(diff===2)return 'second';if(diff===5)return 'fourth';if(diff===7)return 'fifth';if(diff===9)return 'sixth';if(diff===10||diff===11)return 'seventh';return null}
