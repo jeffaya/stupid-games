@@ -60,6 +60,7 @@
     if(tagline&&home.taglineHtml)tagline.innerHTML=home.taglineHtml;
     setText('[data-go="practice"] small',home.practiceDescription);
     setText('[data-go="fretmap"] small',home.mapDescription);
+    setText('[data-go="circle"] small',home.circleDescription);
     setText('[data-go="quiz"] small',home.quizDescription);
 
     const instrumentLabel=(instrument?.label||branding.instrumentName||'instrument').toLowerCase();

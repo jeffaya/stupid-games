@@ -2,7 +2,7 @@ window.FRETBOARD_PRODUCTS=window.FRETBOARD_PRODUCTS||{};
 window.FRETBOARD_PRODUCTS.guitar={
   id:'guitar-fretboard-hero',instrument:'guitar',name:'Guitar Fretboard Hero',shareEmoji:'🎸',url:'https://guitar-fretboard-hero.seignemorte.com',
   branding:{name:'Guitar Fretboard Hero',instrumentName:'Guitar',heroWords:['GUITAR','FRETBOARD','HERO']},
-  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads & chords in every key',mapDescription:'Every note. One neck.',quizDescription:'Prove you know the neck. No excuses.'},
+  home:{taglineHtml:'SEE IT <span>•</span> LEARN IT <span>•</span> PLAY IT',practiceDescription:'Pentatonics, triads & chords in every key',mapDescription:'Every note. One neck.',circleDescription:'Keys, chords & harmonic relationships',quizDescription:'Prove you know the neck. No excuses.'},
   seo:{
     title:'Guitar Fretboard Hero — Learn Guitar Fretboard Notes, Pentatonic Scales, Triads & Chords',
     description:'Learn the guitar fretboard with interactive note maps, major and minor pentatonic positions, triads, CAGED chord shapes and a 60-second fretboard quiz. Free, mobile-first and no account required.',
@@ -14,7 +14,7 @@ window.FRETBOARD_PRODUCTS.guitar={
     twitterTitle:'Guitar Fretboard Hero — Learn the Guitar Fretboard',
     twitterDescription:'Interactive guitar fretboard notes, pentatonic positions, triads, CAGED chords and a fast fretboard quiz. Free and no account required.',
     structuredDescription:'Free interactive guitar fretboard learning tool with note mapping, major and minor pentatonic positions, triads, CAGED chord shapes and a timed fretboard quiz.',
-    featureList:['Interactive guitar fretboard note map','Major and minor pentatonic positions','Triad visualization','CAGED chord shapes','60-second fretboard quiz','Mobile and tablet friendly']
+    featureList:['Interactive guitar fretboard note map','Major and minor pentatonic positions','Triad visualization','CAGED chord shapes','Circle of Fifths and key harmony','60-second fretboard quiz','Mobile and tablet friendly']
   },
   seoByInstrument:{
     'guitar-12':{
@@ -27,7 +27,7 @@ window.FRETBOARD_PRODUCTS.guitar={
       twitterTitle:'Guitar Fretboard Hero — 12-String Guitar Trainer',
       twitterDescription:'Interactive 12-string guitar fretboard notes, pentatonic positions, triads, CAGED chords and quiz.',
       structuredDescription:'Free interactive 12-string guitar fretboard trainer with six paired courses, note mapping, pentatonic positions, triads, CAGED chord shapes and quizzes.',
-      featureList:['12 physical strings in six courses','12-string guitar note map','Major and minor pentatonic positions','Triad visualization','CAGED chord shapes','60-second fretboard quiz']
+      featureList:['12 physical strings in six courses','12-string guitar note map','Major and minor pentatonic positions','Triad visualization','CAGED chord shapes','Circle of Fifths and key harmony','60-second fretboard quiz']
     }
   },
   pwa:{manifest:'manifests/guitar.webmanifest',name:'Guitar Fretboard Hero',shortName:'Fretboard Hero',description:'Free interactive guitar fretboard trainer for pentatonic scales, triads, chords, note mapping and quizzes.'},
