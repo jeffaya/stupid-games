@@ -22,7 +22,7 @@
       window.FRETBOARD_ACTIVE_PRODUCT=product;window.FRETBOARD_ACTIVE_INSTRUMENT=instrument;
       document.documentElement.dataset.instrument=config.instrument;
       window.ProductShell.apply(product,instrument);
-      await load('./app.js?v=10.4.3');
+      await load('./app.js?v=10.4.6');
     }catch(err){fail(err);}
   })();
 })();
