@@ -149,8 +149,15 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Common Progressions includes a live example translated from Roman numerals to the actual chords of the selected key.
 - No changes to Circle theory, fretboard engines, instrument profiles, Practice, Map or Quiz.
 
-## V10.5.3 — Shared degree/chord component
+## V10.5.4 — Shared degree/chord component
 
 - Diatonic Chords and Common Progressions now reuse the same degree/chord visual component.
 - Common Progressions displays both the Roman-numeral degree and its actual chord for the selected key, while preserving the pink progression arrows.
 - No changes to Circle theory, fretboard rendering, responsive drawer behavior, Practice, Map, or Quiz.
+
+## V10.5.4 — Circle structural integration
+- Circle now uses the exact shared application topbar contract; no Circle-specific header positioning.
+- The theory panel (Selected Key, Key Signature, Major Scale, Diatonic Chords, Common Progressions) always remains normal page content.
+- On compact layouts only the Circle key selector moves into the right-hand drawer; the educational content never becomes a menu.
+- Desktop keeps Circle selector + theory side by side, with the fretboard below.
+- Existing tooltips and shared degree/chord component are preserved.
