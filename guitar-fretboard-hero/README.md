@@ -112,3 +112,10 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Fixed Back alignment by making Back, title and contextual hamburger real cells of the same header grid; removed absolute positioning from those header items.
 - Practice keeps the simplified key title and active-mode context line.
 
+
+
+### V10.4.8
+- Moved each screen context into `section-heading` as a semantic `<small>` immediately after the title `<strong>`.
+- Reordered the mobile header DOM to Back | section heading | Menu so the title is structurally centered between both controls.
+- Replaced the custom inline Back SVG with the existing lightweight icon treatment and forced the Back glyph to white.
+- Preserved the V9.3/V10.4.5 adaptive controls behavior: buttons → progressive selects → right-side hamburger only when required.
