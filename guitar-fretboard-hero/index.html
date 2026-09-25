@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=10.4.7">
+  <link rel="stylesheet" href="./styles.css?v=10.4.8">
   <script id="productStructuredData" type="application/ld+json">{"@context":"https://schema.org","@type":["VideoGame","WebApplication"],"name":"Fretboard Hero","description":"Interactive fretboard trainer."}</script>
 </head>
 <body>
@@ -75,11 +75,10 @@
 
     <section id="practice" class="screen practice-screen" aria-label="Practice">
       <header class="topbar">
-        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><svg class="back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5 8.5 12l7 7"/></svg></button>
+        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><span class="back-icon icon-arrow-left" aria-hidden="true">←</span></button>
+        <div class="section-heading" aria-live="polite"><strong id="practiceTitle">A MINOR</strong><small id="practiceFormula" class="screen-context">PENTATONIC</small></div>
         <button id="practiceMenuBtn" class="icon-btn mobile-menu-btn" aria-label="Open practice menu" aria-expanded="false"><span></span><span></span><span></span></button>
-        <div class="section-heading" aria-live="polite"><strong id="practiceTitle">A MINOR</strong></div>
 </header>
-      <div id="practiceFormula" class="screen-context">PENTATONIC</div>
       <div id="practiceDrawer" class="responsive-drawer" aria-hidden="true">
         <div class="drawer-head"><strong>PRACTICE SETUP</strong><button id="practiceMenuClose" class="icon-btn" aria-label="Close menu">×</button></div>
       <section class="control-panel">
@@ -110,11 +109,10 @@
 
     <section id="fretmap" class="screen fretmap-screen" aria-label="Fretboard Map">
       <header class="topbar">
-        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><svg class="back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5 8.5 12l7 7"/></svg></button>
+        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><span class="back-icon icon-arrow-left" aria-hidden="true">←</span></button>
+        <div class="section-heading"><strong>FRETBOARD MAP</strong><small class="screen-context">EVERY NOTE • ONE NECK</small></div>
         <button id="mapMenuBtn" class="icon-btn mobile-menu-btn" aria-label="Open map menu" aria-expanded="false"><span></span><span></span><span></span></button>
-        <div class="section-heading"><strong>FRETBOARD MAP</strong></div>
 </header>
-      <div class="screen-context">EVERY NOTE • ONE NECK</div>
       <div id="mapDrawer" class="responsive-drawer" aria-hidden="true">
         <div class="drawer-head"><strong>FRETBOARD MAP</strong><button id="mapMenuClose" class="icon-btn" aria-label="Close menu">×</button></div>
         <div class="control-panel">
@@ -129,10 +127,10 @@
 
     <section id="quiz" class="screen quiz-screen" aria-label="Quiz">
       <header class="topbar">
-        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><svg class="back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5 8.5 12l7 7"/></svg></button>
-        <div class="section-heading"><strong>FRETBOARD QUIZ</strong></div>
+        <button class="icon-btn nav-back" data-go="home" aria-label="Back home"><span class="back-icon icon-arrow-left" aria-hidden="true">←</span></button>
+        <div class="section-heading"><strong>FRETBOARD QUIZ</strong><small class="screen-context">KNOW THE NECK • OWN THE NECK</small></div>
+        <span class="topbar-spacer" aria-hidden="true"></span>
 </header>
-      <div class="screen-context">KNOW THE NECK • OWN THE NECK</div>
       <div class="quiz-hud" aria-label="Quiz status">
         <div class="hud-stat hud-score"><span>SCORE</span><strong id="scoreCount">0</strong><em id="scoreGain" aria-live="polite"></em></div>
         <div class="hud-stat hud-combo"><span>STREAK</span><strong id="comboWrap">×<b id="comboCount">1</b></strong></div>
@@ -181,7 +179,7 @@
     </div>
   </div>
 
-  <script src="./bootstrap.js?v=10.4.7" defer></script>
+  <script src="./bootstrap.js?v=10.4.8" defer></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 </body>
