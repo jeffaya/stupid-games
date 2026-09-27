@@ -167,3 +167,16 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - A wrong answer still resets the multiplier to ×1; no extra penalty was added.
 - Rank thresholds are unchanged so the new scoring curve can be evaluated before recalibrating the ladder.
 - The score curve is product-configurable and shared by Guitar, Bass and Ukulele.
+
+## V10.5.6 — Progressive Quiz Neck
+
+- Quiz fret range now expands from successful answers rather than the multiplier.
+- 0–4 correct: frets 0–5; 5–9: 0–7; 10–14: 0–9; 15–19: 0–12; 20+: 0–15.
+- The question remains random inside the currently unlocked neck area.
+- Keeps the V10.5.5 multiplier scoring unchanged.
+## V10.5.7 — Fret number readability
+- Shared Fretboard Core: fret numbers are larger, heavier and high-contrast across Practice, Fretboard Map, Circle of Fifths and Quiz.
+- Added compact dark badges behind fret labels for immediate recognition on mobile and desktop.
+- Fret 12 is emphasized as the main octave landmark.
+- Fretboard geometry, note positions, strings and inlays are unchanged.
+

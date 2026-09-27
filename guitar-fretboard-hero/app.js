@@ -277,7 +277,12 @@
       const actualFret=fretOffset===0?f:(fretOffset+f-1);
       if(fretOffset===0?(f===0||[3,5,7,9,12,15,17,19,21].includes(f)):(f>0&&[3,5,7,9,12,15,17,19,21].includes(actualFret))){
         const lp=fretOffset===0&&f===0?fretPos(0):(fretPos(Math.max(0,f-1))+fretPos(f))/2;
-        svg.append(svgEl('text',isP?{x:18,y:lp+5,fill:'#8fa2b0','font-size':14,'font-weight':800,'text-anchor':'middle'}:{x:lp,y:H-14,fill:'#8fa2b0','font-size':14,'font-weight':800,'text-anchor':'middle'},String(actualFret)));
+        const isOctave=actualFret===12;
+        const label=String(actualFret),fontSize=isP?(isOctave?18:16):(isOctave?17:15);
+        const labelX=isP?20:lp,labelY=isP?lp:(H-16);
+        const padX=label.length>1?10:8,padY=isOctave?10:9;
+        svg.append(svgEl('rect',{x:labelX-padX,y:labelY-padY,width:padX*2,height:padY*2,rx:7,fill:'#071016',stroke:isOctave?'#27d7ff':'#6d8290','stroke-width':isOctave?1.4:.8,opacity:.94}));
+        svg.append(svgEl('text',{x:labelX,y:labelY+1,fill:isOctave?'#f8fbff':'#dce9f0','font-size':fontSize,'font-weight':1000,'text-anchor':'middle','dominant-baseline':'middle'},label));
       }
     }
     // Standard markers: singles are centred between D/G. At fret 12, the two markers
@@ -420,11 +425,7 @@
   const QUIZ_DURATION_MS=product.quiz?.durationMs??QuizEngine.DURATION_MS,QUIZ_BASE_POINTS=product.quiz?.basePoints??QuizEngine.BASE_POINTS,QUIZ_SCORE_TABLE=product.quiz?.scoreTable??QuizEngine.DEFAULT_SCORE_TABLE,QUIZ_MAX_MULTIPLIER=product.quiz?.maxMultiplier??QuizEngine.MAX_MULTIPLIER,QUIZ_MAX_FRET=product.quiz?.maxFret??15;
   const quizSeconds=()=>Math.round(QUIZ_DURATION_MS/1000);
   const QUIZ_RANKS=product.ranks||[];
-  const QUIZ_WINDOWS=product.quiz?.windows||QuizEngine.defaultWindows(QUIZ_MAX_FRET,QUIZ_MAX_MULTIPLIER);
-  function pickQuizWindow(multiplier){
-    const choices=QUIZ_WINDOWS[multiplier]||QUIZ_WINDOWS[1],total=choices.reduce((n,x)=>n+x.w,0);let r=Math.random()*total;
-    for(const x of choices){r-=x.w;if(r<=0)return x.range.slice()}return choices[0].range.slice();
-  }
+  function pickQuizWindow(correct=0){return QuizEngine.progressionWindow(correct,QUIZ_MAX_FRET)}
   function quizRank(score){
     return QuizEngine.rankFor(score,QUIZ_RANKS);
   }
@@ -464,7 +465,7 @@
   function targetPC(q){const r=PC[q.root];return q.target==='root'?r:q.target==='third'?mod(r+intervals[q.quality].third):mod(r+7)}
   function nextQuestion(){
     const qz=state.quiz;if(!qz||qz.finished)return;if(performance.now()>=qz.endsAt){finishQuiz();return}
-    const questionMultiplier=Math.max(1,Math.min(QUIZ_MAX_MULTIPLIER,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(questionMultiplier);qz.questionId++;qz.locked=false;qz.inputEnabledAt=performance.now()+120;
+    const questionMultiplier=Math.max(1,Math.min(QUIZ_MAX_MULTIPLIER,Number(qz.multiplier)||1));qz.current=randomQuestion(questionMultiplier);if(questionMultiplier<3)qz.current.target='root';qz.current.multiplierAtStart=questionMultiplier;qz.current.window=pickQuizWindow(qz.correct);qz.questionId++;qz.locked=false;qz.inputEnabledAt=performance.now()+120;
     const chordEl=$('#quizChord');chordEl.textContent=`${qz.current.root} ${qz.current.quality.toUpperCase()}`;
     const lab=qz.current.target==='root'?'ROOT':qz.current.target==='third'?(qz.current.quality==='minor'?'♭3RD':'3RD'):'5TH';
     $('#quizPrompt').innerHTML=`Find the <strong>${lab}</strong>`;const targetEl=$('#quizPrompt strong');
