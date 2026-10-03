@@ -180,3 +180,8 @@ The product names remain Guitar Fretboard Hero, Bass Fretboard Hero and Ukulele 
 - Fret 12 is emphasized as the main octave landmark.
 - Fretboard geometry, note positions, strings and inlays are unchanged.
 
+
+
+## V10.5.8 — Quiz relevant quality
+- Quiz no longer generates or displays MAJOR/MINOR for ROOT and 5TH questions because those targets are quality-independent.
+- MAJOR/MINOR is generated and displayed only for 3RD questions, where it changes the answer (3 vs flat 3).
